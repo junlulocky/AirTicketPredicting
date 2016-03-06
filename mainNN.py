@@ -290,6 +290,7 @@ def evaluateOneRouteForMultipleTimes(filePrefix="BCN_BUD"):
     return avgPrice
 
 if __name__ == "__main__":
+    # evaluate one route for 100 times to get the average price
     evaluateOneRouteForMultipleTimes(routes[0])
 
 
