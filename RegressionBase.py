@@ -1,5 +1,6 @@
 # system library
 import numpy as np
+import json
 
 # user-library
 import load_data
@@ -92,6 +93,8 @@ class RegressionBase(object):
         self.y_test_price = self.y_test_price.reshape((self.y_test_price.shape[0], 1))
 
     def Standardization(self):
+        # feature 10: minimum price so far; feature 11: maximum price so far
+        # feature 12: current price
         scaled = preprocessing.scale(self.X_train[:, 10:13])
         self.X_train[:, 10:13] = scaled
 
@@ -194,7 +197,6 @@ class RegressionBase(object):
         np.save('inputReg/X_test', X_test)
         np.save('inputReg/y_test', y_test)
         np.save('inputReg/y_test_price', y_test_price)
-
 
     def getMinimumPreviousPrice(self, departureDate, state, datas):
         """
@@ -303,5 +305,106 @@ class RegressionBase(object):
             length_test.append(len(datas))
             print departureDate
             print datas
+
+
+    def evaluateOneRoute(self, filePrefix):
+        """
+        Evaluate one route for one time
+        :param filePrefix: route
+        :return: average price
+        """
+        self.training()
+        self.predict()
+
+        X_test = self.X_test
+        y_pred = self.y_pred
+        y_test_price = self.y_test_price
+        y_buy = np.zeros(shape=(y_pred.shape[0], y_pred.shape[1]))
+        y_buy[np.where((y_test_price<y_pred)==True)[0], :] = 1  # to indicate whether buy or not
+
+        # feature 0~7: flight number dummy variables
+        # feature 8: departure date; feature 9: observed date state;
+        # feature 10: minimum price; feature 11: maximum price
+        # feature 12: current price;
+        # fearure 13: prediction(buy or wait); feature 14: current price
+        evalMatrix = np.concatenate((X_test, y_buy, y_test_price), axis=1)
+
+        # route index
+        flightNum = self.routes.index(filePrefix)
+
+        evalMatrix = evalMatrix[np.where(evalMatrix[:, flightNum]==1)[0], :]
+
+        # group by the feature 8: departure date
+        departureDates = np.unique(evalMatrix[:, 8])
+
+        departureLen = len(departureDates)
+        latestBuyDate = 7 # define the latest buy date state
+        totalPrice = 0
+        for departureDate in departureDates:
+            state = latestBuyDate  # update the state for every departure date evaluation
+            global isFound # indicate whether some entries is predicted to be buy
+            isFound = 0
+            for i in range(evalMatrix.shape[0]):
+                # if no entry is buy, then buy the latest one
+                if evalMatrix[i, 8] == departureDate and evalMatrix[i, 9] == latestBuyDate:
+                    latestPrice = evalMatrix[i, 14]
+                # if many entries is buy, then buy the first one
+                if evalMatrix[i, 8] == departureDate and evalMatrix[i, 9] >= state and evalMatrix[i, 13] == 1:
+                    isFound = 1
+                    state = evalMatrix[i, 9]
+                    price = evalMatrix[i, 14]
+
+            if isFound == 1:
+                totalPrice += price
+            else:
+                totalPrice += latestPrice
+
+        avgPrice = totalPrice * 1.0 / departureLen
+        print "One Time avg price: {}".format(avgPrice)
+        return avgPrice
+
+    def getBestAndWorstAndRandomPrice(self, filePrefix):
+        """
+        If you want to get the maximum and minimum price from the stored json file, use this function
+        :param filePrefix: route prefix
+        :return: maximum and minimum price dictionary
+        """
+        with open('results/data_NNlearing_minimumPrice_{:}.json'.format(filePrefix), 'r') as infile:
+            minimumPrice = json.load(infile)
+        with open('results/data_NNlearing_maximumPrice_{:}.json'.format(filePrefix), 'r') as infile:
+            maximumPrice = json.load(infile)
+        with open('randomPrice/randomPrice_{:}.json'.format(filePrefix), 'r') as infile:
+            randomPrice = json.load(infile)
+
+        return minimumPrice, maximumPrice, randomPrice
+
+    def evaluateOneRouteForMultipleTimes(self, filePrefix):
+        """
+        Rune the evaluation multiple times(here 100), to get the avarage performance
+        :param filePrefix: route
+        :return: average price
+        """
+        # route index
+        flightNum = self.routes.index(filePrefix)
+
+        # get the maximum, minimum, and randomly picked prices
+        minimumPrice, maximumPrice, randomPrice = self.getBestAndWorstAndRandomPrice(filePrefix)
+        minimumPrice = sum(minimumPrice.values()) * 1.0 / len(minimumPrice) * self.currency[flightNum]
+        maximumPrice = sum(maximumPrice.values()) * 1.0 / len(maximumPrice) * self.currency[flightNum]
+        randomPrice = randomPrice * self.currency[flightNum]
+
+        totalPrice = 0
+        for i in range(20):
+            np.random.seed(i*i) # do not forget to set seed for the weight initialization
+            price = self.evaluateOneRoute(filePrefix)
+            totalPrice += price
+
+        avgPrice = totalPrice * 1.0 / 20
+
+        print "20 times avg price: {}".format(avgPrice)
+        print "Minimum price: {}".format(minimumPrice)
+        print "Maximum price: {}".format(maximumPrice)
+        print "Random price: {}".format(randomPrice)
+        return avgPrice
 
 
