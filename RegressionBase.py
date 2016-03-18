@@ -267,7 +267,7 @@ class RegressionBase(object):
             datas = X_test[indexs, :]
             length_test.append(len(datas))
             print departureDate
-            print datas[:, 3:8]
+            print datas[:, 2:7]
 
     def visualizeTrainData(self, filePrefix):
         """
@@ -307,7 +307,7 @@ class RegressionBase(object):
             print datas
 
 
-    def evaluateOneRoute(self, filePrefix):
+    def evaluateOneRoute(self, filePrefix, priceTolerance=0):
         """
         Evaluate one route for one time
         :param filePrefix: route
@@ -319,8 +319,9 @@ class RegressionBase(object):
         X_test = self.X_test
         y_pred = self.y_pred
         y_test_price = self.y_test_price
+        y_pred = y_pred.reshape((y_pred.shape[0], 1))
         y_buy = np.zeros(shape=(y_pred.shape[0], y_pred.shape[1]))
-        y_buy[np.where((y_test_price<y_pred)==True)[0], :] = 1  # to indicate whether buy or not
+        y_buy[np.where((y_test_price<y_pred+priceTolerance)==True)[0], :] = 1  # to indicate whether buy or not
 
         # feature 0~7: flight number dummy variables
         # feature 8: departure date; feature 9: observed date state;
@@ -378,7 +379,7 @@ class RegressionBase(object):
 
         return minimumPrice, maximumPrice, randomPrice
 
-    def evaluateOneRouteForMultipleTimes(self, filePrefix):
+    def evaluateOneRouteForMultipleTimes(self, filePrefix, priceTolerance=0):
         """
         Rune the evaluation multiple times(here 100), to get the avarage performance
         :param filePrefix: route
@@ -396,7 +397,7 @@ class RegressionBase(object):
         totalPrice = 0
         for i in range(20):
             np.random.seed(i*i) # do not forget to set seed for the weight initialization
-            price = self.evaluateOneRoute(filePrefix)
+            price = self.evaluateOneRoute(filePrefix, priceTolerance)
             totalPrice += price
 
         avgPrice = totalPrice * 1.0 / 20
