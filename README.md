@@ -1,2 +1,2 @@
-# Machine-for-Air-Ticket-Predicting-Ongoing-
+# Machine-for-Air-Ticket-Predicting
 This project is still ongoing.
