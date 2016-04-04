@@ -7,7 +7,7 @@ from ClassificationDecisionTree import ClassificationDecisionTree
 
 
 def mainDecisionTreeClf():
-    clf = ClassificationDecisionTree()
+    clf = ClassificationDecisionTree(0) # 1 for train, 0 for test
 
     for i in range(8):
         print "Route: {}".format(i)

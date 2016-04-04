@@ -12,13 +12,13 @@ from sklearn.tree import DecisionTreeRegressor
 
 
 class RegressionDecisionTree(RegressionBase.RegressionBase):
-    def __init__(self):
-        super(RegressionDecisionTree, self).__init__()
+    def __init__(self, isTrain):
+        super(RegressionDecisionTree, self).__init__(isTrain)
         # data preprocessing
         #self.dataPreprocessing()
 
         # Create linear regression object
-        self.model = DecisionTreeRegressor(max_depth=6)
+        self.model = DecisionTreeRegressor(max_depth=2)
 
     def dataPreprocessing(self):
         # due to the observation, standization does not help the optimization.

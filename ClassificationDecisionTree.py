@@ -11,12 +11,12 @@ from sklearn.tree import DecisionTreeClassifier
 
 
 class ClassificationDecisionTree(ClassficationBase.ClassificationBase):
-    def __init__(self):
-        super(ClassificationDecisionTree, self).__init__()
+    def __init__(self, isTrain):
+        super(ClassificationDecisionTree, self).__init__(isTrain)
         # data preprocessing
         self.dataPreprocessing()
 
-        self.clf = DecisionTreeClassifier(max_depth=50)
+        self.clf = DecisionTreeClassifier(max_depth=5)
 
 
 

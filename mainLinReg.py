@@ -6,11 +6,13 @@ from RegressionLinReg import RegressionLinReg
 
 
 
-def mainLin():
-    reg = RegressionLinReg()
-    reg.evaluateOneRouteForMultipleTimes(reg.routes[7])
-    #reg.visualizePrediction(reg.routes[2])
+def mainLinReg():
+    reg = RegressionLinReg(1) # 1 for train, 0 for test
+    for i in range(8):
+        print "Route: {}".format(i)
+        reg.evaluateOneRouteForMultipleTimes(reg.routes[i], 5)
+    #reg.visualizePrediction(reg.routes[0])
 
 
 if __name__ == "__main__":
-    mainLin()
+    mainLinReg()

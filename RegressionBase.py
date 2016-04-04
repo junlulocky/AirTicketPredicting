@@ -14,7 +14,9 @@ from sklearn import preprocessing
 
 class RegressionBase(object):
 
-    def __init__(self):
+    def __init__(self, isTrain):
+        # indicate it is train data or not
+        self.isTrain = isTrain
         # route prefix
         self.routes = ["BCN_BUD",  # route 1
                       "BUD_BCN",  # route 2
@@ -46,10 +48,22 @@ class RegressionBase(object):
         self.y_train_price = np.load('inputReg/y_train_price.npy')
 
         # load test datasets
-        self.X_test = np.load('inputReg/X_test.npy')
-        self.y_test = np.load('inputReg/y_test.npy')
-        self.y_test_price = np.load('inputReg/y_test_price.npy')
-        self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
+        if isTrain:
+            self.X_test = np.load('inputReg/X_train.npy')
+            self.y_test = np.load('inputReg/y_train.npy')
+            self.y_test_price = np.load('inputReg/y_train_price.npy')
+            self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
+
+            # choose the dates whose departureDate-queryDate gaps is larger than 20
+            self.y_test = self.y_test[np.where(self.X_test[:, 8]>20)[0], :]
+            self.y_test_price = self.y_test_price[np.where(self.X_test[:, 8]>20)[0], :]
+            self.y_pred = self.y_pred[np.where(self.X_test[:, 8]>20)[0], :]
+            self.X_test = self.X_test[np.where(self.X_test[:, 8]>20)[0], :]
+        else:
+            self.X_test = np.load('inputReg/X_test.npy')
+            self.y_test = np.load('inputReg/y_test.npy')
+            self.y_test_price = np.load('inputReg/y_test_price.npy')
+            self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
 
     def priceNormalize(self):
         """
@@ -267,6 +281,7 @@ class RegressionBase(object):
             datas = X_test[indexs, :]
             length_test.append(len(datas))
             print departureDate
+            print "[minimum price, maximum price, current price, output, prediction]"
             print datas[:, 2:7]
 
     def visualizeTrainData(self, filePrefix):
@@ -325,7 +340,7 @@ class RegressionBase(object):
 
         # feature 0~7: flight number dummy variables
         # feature 8: departure date; feature 9: observed date state;
-        # feature 10: minimum price; feature 11: maximum price
+        # feature 10: minimum price; feature 11: maximum price;
         # feature 12: current price;
         # fearure 13: prediction(buy or wait); feature 14: current price
         evalMatrix = np.concatenate((X_test, y_buy, y_test_price), axis=1)
@@ -357,8 +372,10 @@ class RegressionBase(object):
 
             if isFound == 1:
                 totalPrice += price
+                #print "departure date: {}, price: {}".format(departureDate, price)
             else:
                 totalPrice += latestPrice
+                #print "departure date: {}, lastprice: {}".format(departureDate, latestPrice)
 
         avgPrice = totalPrice * 1.0 / departureLen
         print "One Time avg price: {}".format(avgPrice)
@@ -374,14 +391,18 @@ class RegressionBase(object):
             minimumPrice = json.load(infile)
         with open('results/data_NNlearing_maximumPrice_{:}.json'.format(filePrefix), 'r') as infile:
             maximumPrice = json.load(infile)
-        with open('randomPrice/randomPrice_{:}.json'.format(filePrefix), 'r') as infile:
-            randomPrice = json.load(infile)
+        if self.isTrain:
+            with open('random_train/randomPrice_{:}.json'.format(filePrefix), 'r') as infile:
+                randomPrice = json.load(infile)
+        else:
+            with open('random_test/randomPrice_{:}.json'.format(filePrefix), 'r') as infile:
+                randomPrice = json.load(infile)
 
         return minimumPrice, maximumPrice, randomPrice
 
     def evaluateOneRouteForMultipleTimes(self, filePrefix, priceTolerance=0):
         """
-        Rune the evaluation multiple times(here 100), to get the avarage performance
+        Run the evaluation multiple times(here 100), to get the average performance
         :param filePrefix: route
         :return: average price
         """

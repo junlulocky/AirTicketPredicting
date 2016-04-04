@@ -6,13 +6,13 @@ from RegressionNN import RegressionNN
 
 
 
-def mainNN():
-    nn = RegressionNN()
-    #nn.visualizeTrainData(nn.routes[0])
-    #nn.evaluateOneRouteForMultipleTimes(nn.routes[1])
-    nn.evaluateOneRouteForMultipleTimes(nn.routes[2])
-    nn.visualizePrediction(nn.routes[2])
+def mainNNReg():
+    nn = RegressionNN(True) # true for train, false for test
+    for i in range(8):
+        print "Route: {}".format(i)
+        nn.evaluateOneRouteForMultipleTimes(nn.routes[i])
+    #nn.visualizePrediction(nn.routes[1])
 
 
 if __name__ == "__main__":
-    mainNN()
+    mainNNReg()

@@ -14,7 +14,9 @@ from sklearn import preprocessing
 
 class ClassificationBase(object):
 
-    def __init__(self):
+    def __init__(self, isTrain):
+        # indicate it is train data or not
+        self.isTrain = isTrain
         # route prefix
         self.routes = ["BCN_BUD",  # route 1
                       "BUD_BCN",  # route 2
@@ -24,6 +26,40 @@ class ClassificationBase(object):
                       "OTP_CRL",  # route 6
                       "SKP_MLH",  # route 7
                       "SKP_MMX"]  # route 8
+        # random price list
+        self.randomPrices_train = [68.4391315136,
+                             67.4260645161,
+                             93.2808545727,
+                             77.4751720047,
+                             75.0340018399,
+                             73.9964736451,
+                             105.280932384,
+                             97.1720369004]
+        self.randomPrices_test = [55.4820634921,
+                                  57.8067301587,
+                                  23.152037037,
+                                  33.3727319588,
+                                  35.3032044199,
+                                  41.1180555556,
+                                  56.3433402062,
+                                  60.2546519337]
+        # minimum price list
+        self.minPrices_train = [44.4344444444,
+                               38.9605925926,
+                               68.6566666667,
+                               49.6566666667,
+                               48.2691891892,
+                               47.0833333333,
+                               68.982,
+                               63.1279459459]
+        self.minPrices_test = [32.370952381,
+                               29.3775238095,
+                               11.3788888889,
+                               16.5284615385,
+                               18.6184615385,
+                               14.6111111111,
+                               21.5127692308,
+                               25.8050769231]
         # for currency change
         self.currency = [1,      # route 1 - Euro
                          0.0032, # route 2 - Hungarian Forint
@@ -48,10 +84,22 @@ class ClassificationBase(object):
         #self.X_train, self.y_train = self.dealingUnbalancedData(self.X_train, self.y_train)
 
         # load test datasets
-        self.X_test = np.load('inputClf/X_test.npy')
-        self.y_test = np.load('inputClf/y_test.npy')
-        self.y_test_price = np.load('inputClf/y_test_price.npy')
-        self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
+        if isTrain:
+            self.X_test = np.load('inputClf/X_train.npy')
+            self.y_test = np.load('inputClf/y_train.npy')
+            self.y_test_price = np.load('inputClf/y_train_price.npy')
+            self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
+
+            # choose the dates whose departureDate-queryDate gaps is larger than 20
+            self.y_test = self.y_test[np.where(self.X_test[:, 8]>20)[0], :]
+            self.y_test_price = self.y_test_price[np.where(self.X_test[:, 8]>20)[0], :]
+            self.y_pred = self.y_pred[np.where(self.X_test[:, 8]>20)[0], :]
+            self.X_test = self.X_test[np.where(self.X_test[:, 8]>20)[0], :]
+        else:
+            self.X_test = np.load('inputClf/X_test.npy')
+            self.y_test = np.load('inputClf/y_test.npy')
+            self.y_test_price = np.load('inputClf/y_test_price.npy')
+            self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
 
     def priceNormalize(self):
         """
@@ -415,7 +463,7 @@ class ClassificationBase(object):
             minimumPrice = json.load(infile)
         with open('results/data_NNlearing_maximumPrice_{:}.json'.format(filePrefix), 'r') as infile:
             maximumPrice = json.load(infile)
-        with open('randomPrice/randomPrice_{:}.json'.format(filePrefix), 'r') as infile:
+        with open('random_train/randomPrice_{:}.json'.format(filePrefix), 'r') as infile:
             randomPrice = json.load(infile)
 
         return minimumPrice, maximumPrice, randomPrice
@@ -443,9 +491,28 @@ class ClassificationBase(object):
 
         avgPrice = totalPrice * 1.0 / 20
 
-        print "20 times avg price: {}".format(avgPrice)
-        print "Minimum price: {}".format(minimumPrice)
-        print "Maximum price: {}".format(maximumPrice)
-        print "Random price: {}".format(randomPrice)
+        if self.isTrain:
+            print "20 times avg price: {}".format(avgPrice)
+            print "Minimum price: {}".format(self.minPrices_train[flightNum])
+            print "Random price: {}".format(self.randomPrices_train[flightNum])
+            performance = (self.randomPrices_train[flightNum] - avgPrice) / self.randomPrices_train[flightNum] * 100
+            print "Performance: {}".format(performance)
+            maxPerformance = (self.randomPrices_train[flightNum] - self.minPrices_train[flightNum]) / self.randomPrices_train[flightNum] * 100
+            print "Max Performance: {}".format(maxPerformance)
+            normalizedPefor = performance / maxPerformance * 100
+            print "Normalized Performance: {}".format(normalizedPefor)
+        else:
+            print "20 times avg price: {}".format(avgPrice)
+            print "Minimum price: {}".format(self.minPrices_test[flightNum])
+            print "Random price: {}".format(self.randomPrices_test[flightNum])
+            performance = (self.randomPrices_test[flightNum] - avgPrice) / self.randomPrices_test[flightNum] * 100
+            print "Performance: {}".format(performance)
+            maxPerformance = (self.randomPrices_test[flightNum] - self.minPrices_test[flightNum]) / self.randomPrices_test[flightNum] * 100
+            print "Max Performance: {}".format(maxPerformance)
+            normalizedPefor = performance / maxPerformance * 100
+            print "Normalized Performance: {}".format(normalizedPefor)
+        #print "Minimum price: {}".format(minimumPrice)
+        #print "Maximum price: {}".format(maximumPrice)
+        #print "Random price: {}".format(randomPrice)
         return avgPrice
 

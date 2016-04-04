@@ -11,8 +11,8 @@ from sklearn import linear_model
 
 
 class RegressionLinReg(RegressionBase.RegressionBase):
-    def __init__(self):
-        super(RegressionLinReg, self).__init__()
+    def __init__(self, isTrain):
+        super(RegressionLinReg, self).__init__(isTrain)
         # data preprocessing
         #self.dataPreprocessing()
 
@@ -26,7 +26,7 @@ class RegressionLinReg(RegressionBase.RegressionBase):
         pass
 
     def training(self):
-        # train the NN model
+        # train the linear regression model
         self.regr.fit(self.X_train, self.y_train)
 
     def predict(self):

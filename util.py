@@ -2,9 +2,15 @@
 from datetime import datetime
 import random
 import json
+from numpy import *
+import math
+import numpy as np
 
 # import user-library
 import load_data
+
+
+
 
 routes = ["BCN_BUD",  # route 1
           "BUD_BCN",  # route 2
@@ -54,7 +60,7 @@ def getPrice(price):
 
 def pickRandomTicket(filePrefix="BCN_BUD", dataset="large data set"):
     """
-    pick 100 tickets randomly for one route
+    pick 50 tickets randomly for one route
     """
 
     # get the total departure date length in this route
@@ -81,8 +87,96 @@ def pickRandomTicket(filePrefix="BCN_BUD", dataset="large data set"):
 def getRandomTicketPriceForAllRoutes():
     for route in routes:
         avgPrice = pickRandomTicket(route)
-        with open('results/randomPrice_{:}.json'.format(route), 'w') as outfile:
+        with open('randomPrice/randomPrice_{:}.json'.format(route), 'w') as outfile:
             json.dump(avgPrice, outfile)
 
+
+def pickRandomTicketByNumpy(flightNum):
+    evalMatrix = np.load('inputReg/X_test.npy')
+    # take the departure date 20 days after the first observed date
+    evalMatrix = evalMatrix[np.where(evalMatrix[:, 8]>20)[0], :]
+    # take one route
+    evalMatrix = evalMatrix[np.where(evalMatrix[:, flightNum]==1)[0], :]
+
+    totalPrice = 0;
+    len = 0;
+    departureDates = np.unique(evalMatrix[:, 8])
+    for departureDate in departureDates:
+        tmpMatrix = evalMatrix[np.where(evalMatrix[:, 8]==departureDate)[0], :]
+        tmpMatrix = tmpMatrix[:, 12]
+        if tmpMatrix.shape[0] > 30:
+            np.random.shuffle(tmpMatrix)
+            tmpMatrix = tmpMatrix.reshape((tmpMatrix.shape[0], 1))
+            totalPrice += np.sum(tmpMatrix[0:30, :])
+            len += 30
+        else:
+            totalPrice += np.sum(tmpMatrix)
+            len += tmpMatrix.shape[0]
+
+    avgPrice = totalPrice * 1.0 / len
+    return avgPrice
+
+
+
+
+def getRandomTicketPriceForAllRoutesByNumpy():
+    for route in range(8):
+        avgPrice = pickRandomTicketByNumpy(route)
+        print avgPrice
+        #with open('randomPrice/randomPrice_{:}.json'.format(route), 'w') as outfile:
+            #json.dump(avgPrice, outfile)
+
+
+def pickMinTicketByNumpy(flightNum):
+    evalMatrix = np.load('inputReg/X_train.npy')
+    # take the departure date 20 days after the first observed date
+    evalMatrix = evalMatrix[np.where(evalMatrix[:, 8]>20)[0], :]
+    # take one route
+    evalMatrix = evalMatrix[np.where(evalMatrix[:, flightNum]==1)[0], :]
+
+    totalPrice = 0;
+    len = 0;
+    departureDates = np.unique(evalMatrix[:, 8])
+    for departureDate in departureDates:
+        tmpMatrix = evalMatrix[np.where(evalMatrix[:, 8]==departureDate)[0], :]
+        tmpMatrix = tmpMatrix[:, 12]
+        tmpMatrix = tmpMatrix.reshape((tmpMatrix.shape[0], 1))
+        totalPrice += tmpMatrix.max()
+
+    avgPrice = totalPrice * 1.0 / departureDates.shape[0]
+    return avgPrice
+
+
+
+
+def getMinTicketPriceForAllRoutesByNumpy():
+    for route in range(8):
+        avgPrice = pickMinTicketByNumpy(route)
+        print avgPrice
+        #with open('randomPrice/randomPrice_{:}.json'.format(route), 'w') as outfile:
+            #json.dump(avgPrice, outfile)
+
+
+
+
+def norm_pdf_multivariate(x, mu, sigma):
+    size = len(x)
+    if size == len(mu) and (size, size) == sigma.shape:
+        det = linalg.det(sigma)
+        if det == 0:
+            raise NameError("The covariance matrix can't be singular")
+
+        norm_const = 1.0/ ( math.pow((2*pi),float(size)/2) * math.pow(det,1.0/2) )
+        x_mu = matrix(x - mu)
+        inv = sigma.I
+        result = math.pow(math.e, -0.5 * (x_mu * inv * x_mu.T))
+        return norm_const * result
+    else:
+        raise NameError("The dimensions of the input don't match")
+
+
+
+
 if __name__ == "__main__":
-    getRandomTicketPriceForAllRoutes()
+    getRandomTicketPriceForAllRoutesByNumpy()
+    pass
