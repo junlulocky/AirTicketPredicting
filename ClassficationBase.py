@@ -9,6 +9,7 @@ import util
 # third-party library
 from sklearn.utils import shuffle
 from sklearn import preprocessing
+from sklearn import cross_validation
 
 
 
@@ -60,6 +61,27 @@ class ClassificationBase(object):
                                14.6111111111,
                                21.5127692308,
                                25.8050769231]
+
+        # maximum price list
+        self.maxPrices_train = [115.915925926,
+                                126.782814815,
+                                144.212222222,
+                                129.656666667,
+                                141.252972973,
+                                149.972222222,
+                                174.402,
+                                160.91172973
+                                ]
+
+        self.maxPrices_test = [126.656666667,
+                               168.95847619,
+                               93.6011111111,
+                               90.5669230769,
+                               101.233846154,
+                               198.361111111,
+                               154.505076923,
+                               208.020461538]
+
         # for currency change
         self.currency = [1,      # route 1 - Euro
                          0.0032, # route 2 - Hungarian Forint
@@ -95,6 +117,22 @@ class ClassificationBase(object):
             self.y_test_price = self.y_test_price[np.where(self.X_test[:, 8]>20)[0], :]
             self.y_pred = self.y_pred[np.where(self.X_test[:, 8]>20)[0], :]
             self.X_test = self.X_test[np.where(self.X_test[:, 8]>20)[0], :]
+
+            """
+            # split train and validation set
+            tmpMatrix = np.concatenate((self.X_test, self.y_test_price, self.y_pred), axis=1)
+            trainMatrix, testMatrix, self.y_train, self.y_test = cross_validation.train_test_split(
+                tmpMatrix, self.y_test, test_size=0.4, random_state=0)
+            self.X_train = trainMatrix[:, 0:12]
+            self.y_train_price = trainMatrix[:, 12]
+            self.y_train_price = self.y_train_price.reshape((self.y_train_price.shape[0], 1))
+            #self.y_pred = trainMatrix[:, 13]
+
+            self.X_test = testMatrix[:, 0:12]
+            self.y_test_price = testMatrix[:, 12]
+            self.y_test_price = self.y_test_price.reshape((self.y_test_price.shape[0], 1))
+            self.y_pred = testMatrix[:, 13]
+            """
         else:
             self.X_test = np.load('inputClf/X_test.npy')
             self.y_test = np.load('inputClf/y_test.npy')
@@ -483,34 +521,43 @@ class ClassificationBase(object):
         maximumPrice = sum(maximumPrice.values()) * 1.0 / len(maximumPrice) * self.currency[flightNum]
         randomPrice = randomPrice * self.currency[flightNum]
 
+        timesToRun = 1 # if it is neural network, please change this number to 20 or more
         totalPrice = 0
-        for i in range(20):
+        for i in range(timesToRun):
             np.random.seed(i*i) # do not forget to set seed for the weight initialization
             price = self.evaluateOneRoute(filePrefix)
             totalPrice += price
 
-        avgPrice = totalPrice * 1.0 / 20
+        avgPrice = totalPrice * 1.0 / timesToRun
 
         if self.isTrain:
-            print "20 times avg price: {}".format(avgPrice)
-            print "Minimum price: {}".format(self.minPrices_train[flightNum])
-            print "Random price: {}".format(self.randomPrices_train[flightNum])
+            #print "20 times avg price: {}".format(avgPrice)
+            print "TRAIN:"
+            print "minimumPrice: {}".format(self.minPrices_train[flightNum])
+            print "maximumPrice: {}".format(self.maxPrices_train[flightNum])
+            print "randomPrice: {}".format(self.randomPrices_train[flightNum])
+            print "avgPredPrice: {}".format(avgPrice)
+
             performance = (self.randomPrices_train[flightNum] - avgPrice) / self.randomPrices_train[flightNum] * 100
-            print "Performance: {}".format(performance)
+            print "Performance: {}%".format(round(performance,2))
             maxPerformance = (self.randomPrices_train[flightNum] - self.minPrices_train[flightNum]) / self.randomPrices_train[flightNum] * 100
-            print "Max Performance: {}".format(maxPerformance)
+            print "Max Perfor: {}%".format(round(maxPerformance,2))
             normalizedPefor = performance / maxPerformance * 100
-            print "Normalized Performance: {}".format(normalizedPefor)
+            print "Normalized perfor: {}%".format(round(normalizedPefor,2))
         else:
-            print "20 times avg price: {}".format(avgPrice)
-            print "Minimum price: {}".format(self.minPrices_test[flightNum])
-            print "Random price: {}".format(self.randomPrices_test[flightNum])
+            #print "20 times avg price: {}".format(avgPrice)
+            print "TEST:"
+            print "minimumPrice: {}".format(self.minPrices_test[flightNum])
+            print "maximumPrice: {}".format(self.maxPrices_test[flightNum])
+            print "randomPrice: {}".format(self.randomPrices_test[flightNum])
+            print "avgPredPrice: {}".format(avgPrice)
+
             performance = (self.randomPrices_test[flightNum] - avgPrice) / self.randomPrices_test[flightNum] * 100
-            print "Performance: {}".format(performance)
+            print "Performance: {}%".format(round(performance,2))
             maxPerformance = (self.randomPrices_test[flightNum] - self.minPrices_test[flightNum]) / self.randomPrices_test[flightNum] * 100
-            print "Max Performance: {}".format(maxPerformance)
+            print "Max Perfor: {}%".format(round(maxPerformance,2))
             normalizedPefor = performance / maxPerformance * 100
-            print "Normalized Performance: {}".format(normalizedPefor)
+            print "Normalized perfor: {}%".format(round(normalizedPefor,2))
         #print "Minimum price: {}".format(minimumPrice)
         #print "Maximum price: {}".format(maximumPrice)
         #print "Random price: {}".format(randomPrice)
