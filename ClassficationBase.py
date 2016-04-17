@@ -10,14 +10,17 @@ import util
 from sklearn.utils import shuffle
 from sklearn import preprocessing
 from sklearn import cross_validation
+from sklearn.cluster import KMeans
+from sklearn.mixture import GMM
 
 
 
 class ClassificationBase(object):
 
-    def __init__(self, isTrain):
+    def __init__(self, isTrain, isOutlierRemoval=0):
         # indicate it is train data or not
         self.isTrain = isTrain
+        self.isOutlierRemoval = isOutlierRemoval
         # route prefix
         self.routes = ["BCN_BUD",  # route 1
                       "BUD_BCN",  # route 2
@@ -98,9 +101,14 @@ class ClassificationBase(object):
         # feature 10: minimum price; feature 11: maximum price
         # output: prediction(buy or wait); output_price: price
         # load training datasets
-        self.X_train = np.load('inputClf/X_train.npy')
-        self.y_train = np.load('inputClf/y_train.npy')
-        self.y_train_price = np.load('inputClf/y_train_price.npy')
+        if isOutlierRemoval:
+            self.X_train = np.load('inputClf_GMMOutlierRemoval/X_train.npy')
+            self.y_train = np.load('inputClf_GMMOutlierRemoval/y_train.npy')
+            self.y_train_price = np.load('inputClf_GMMOutlierRemoval/y_train_price.npy')
+        else:
+            self.X_train = np.load('inputClf/X_train.npy')
+            self.y_train = np.load('inputClf/y_train.npy')
+            self.y_train_price = np.load('inputClf/y_train_price.npy')
 
         # deal with unbalanced data
         #self.X_train, self.y_train = self.dealingUnbalancedData(self.X_train, self.y_train)
@@ -561,5 +569,94 @@ class ClassificationBase(object):
         #print "Minimum price: {}".format(minimumPrice)
         #print "Maximum price: {}".format(maximumPrice)
         #print "Random price: {}".format(randomPrice)
-        return avgPrice
 
+        return (performance, normalizedPefor)
+
+
+def kmeansRemovingOutlierForClassifier():
+    """
+    use k-means to do outlier removal
+    :return: NA
+    """
+    # load data
+    X_train = np.load('inputClf/X_train.npy')
+    y_train = np.load('inputClf/y_train.npy')
+    y_train_price = np.load('inputClf/y_train_price.npy')
+
+    # cluster initializing
+    X_train1 = X_train[np.where(y_train==0)[0], :]
+    X_train2 = X_train[np.where(y_train==1)[0], :]
+    cluster1 = KMeans(init='random', n_clusters=1, random_state=0).fit(X_train1)
+    cluster1 = cluster1.cluster_centers_
+    cluster2 = KMeans(init='random', n_clusters=1, random_state=0).fit(X_train2)
+    cluster2 = cluster2.cluster_centers_
+    clusters = np.concatenate((cluster1, cluster2), axis=0)
+
+
+    y_pred = KMeans(init='random', n_clusters=2, random_state=2).fit_predict(X_train)
+    y_pred = y_pred.reshape((y_pred.shape[0], 1))
+    y_pred = y_pred
+    tmp = np.concatenate((y_train, y_pred), axis=1)
+
+    sam = y_train == y_pred
+    print "# total: {}".format(y_train.shape[0])
+    print "# datas left: {}".format(np.sum(sam))
+    # Keep 63.62% data.
+    print "Keep {}% data.".format(round(np.sum(sam)*100.0/y_train.shape[0], 2))
+
+
+    print tmp[0:22, :]
+    print np.where(y_train==y_pred)[0]
+    # keep the data which are not outliers
+    X_train = X_train[np.where(y_train==y_pred)[0], :]
+    y_train_price = y_train_price[np.where(y_train==y_pred)[0], :]
+    y_train = y_train[np.where(y_train==y_pred)[0], :]
+    np.save('inputClf_KMeansOutlierRemoval/X_train', X_train)
+    np.save('inputClf_KMeansOutlierRemoval/y_train', y_train)
+    np.save('inputClf_KMeansOutlierRemoval/y_train_price', y_train_price)
+
+def gmmRemovingOutlierForClassifier():
+    """
+    use GMM model to remove outlier
+    :return: NA
+    """
+    # load data
+    X_train = np.load('inputClf/X_train.npy')
+    y_train = np.load('inputClf/y_train.npy')
+    y_train_price = np.load('inputClf/y_train_price.npy')
+
+    # classifier initialize
+    classifier = GMM(n_components=2,covariance_type='full', init_params='wmc', n_iter=20)
+
+    # cluster initializing
+    X_train1 = X_train[np.where(y_train==0)[0], :]
+    X_train2 = X_train[np.where(y_train==1)[0], :]
+    cluster1 = KMeans(init='random', n_clusters=1, random_state=0).fit(X_train1)
+    cluster1 = cluster1.cluster_centers_
+    cluster2 = KMeans(init='random', n_clusters=1, random_state=0).fit(X_train2)
+    cluster2 = cluster2.cluster_centers_
+    clusters = np.concatenate((cluster1, cluster2), axis=0)
+
+    classifier.means_ = clusters
+
+    # Train the other parameters using the EM algorithm.
+    classifier.fit(X_train)
+
+    # predict
+    y_train_pred = classifier.predict(X_train)
+    train_accuracy = np.mean(y_train_pred.ravel() == y_train.ravel()) * 100
+    print "Keep {}% data.".format(train_accuracy)
+
+
+    # keep the data which are not outliers
+    y_train_pred = y_train_pred.reshape((y_train_pred.shape[0], 1))
+    X_train = X_train[np.where(y_train==y_train_pred)[0], :]
+    y_train_price = y_train_price[np.where(y_train==y_train_pred)[0], :]
+    y_train = y_train[np.where(y_train==y_train_pred)[0], :]
+    np.save('inputClf_GMMOutlierRemoval/X_train', X_train)
+    np.save('inputClf_GMMOutlierRemoval/y_train', y_train)
+    np.save('inputClf_GMMOutlierRemoval/y_train_price', y_train_price)
+
+if __name__ == "__main__":
+    gmmRemovingOutlierForClassifier()
+    pass
