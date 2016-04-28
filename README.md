@@ -2,7 +2,7 @@
 This project is still ongoing.
 
 ##Instructions on the codes#
-Any theory about this project, please refer to my report.
+Any theory about this project, please refer to my report. If you want to keep track of the result performance, please refer to the "Performance Record.xlsx" file.
 
 I implemented many kinds of classifiers and regressors on this project in python. 
 
@@ -58,4 +58,11 @@ The outline of files and directories is below.
 |-qlearn.py # q learning class
 |-mainQLearning.py # test for qlearning
 
+```
+
+###Others
+```
+|-random_test # random price picked by test dataset
+|-random_train # random priced picked by train dataset
+|-input_raw # the raw input without price normalized and so on
 ```
