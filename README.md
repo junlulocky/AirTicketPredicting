@@ -1,13 +1,14 @@
 # Machine Learning for Air Ticket Predicting
 This project is still ongoing.
 
-#Instructions on the codes#
+##Instructions on the codes#
 Any theory about this project, please refer to my report.
 
 I implemented many kinds of classifiers and regressors on this project in python. 
 
 The outline of files and directories is below.
 
+###Classification
 ```
 |-inputClf # the input for classification method
 |-inputClf_GMMOutlierRemoval # the input for classification method with ourlier removal by EM
@@ -27,7 +28,10 @@ The outline of files and directories is below.
 |-mainLogisticReg.py
 |-mainNNClf.py
 |-mainSVMClf.py
-  
+```
+
+###Regression
+```  
 |-inputReg # input for regression methods
 # Regression methods
 |-RegressionBase.py # The base class of the regression objects
@@ -45,7 +49,10 @@ The outline of files and directories is below.
 |-mainLinReg.py
 |-mainNNReg.py
 |-mainSVMReg.py
+```
 
+###Aritificial Intelligence
+```
 # Artificial Intelligence methods
 |-inputQLearning # input for qlearning method
 |-qlearn.py # q learning class
