@@ -506,11 +506,11 @@ class ClassificationBase(object):
         :param filePrefix: route prefix
         :return: maximum and minimum price dictionary
         """
-        with open('results/data_NNlearing_minimumPrice_{:}.json'.format(filePrefix), 'r') as infile:
+        with open('../results/data_NNlearing_minimumPrice_{:}.json'.format(filePrefix), 'r') as infile:
             minimumPrice = json.load(infile)
-        with open('results/data_NNlearing_maximumPrice_{:}.json'.format(filePrefix), 'r') as infile:
+        with open('../results/data_NNlearing_maximumPrice_{:}.json'.format(filePrefix), 'r') as infile:
             maximumPrice = json.load(infile)
-        with open('random_train/randomPrice_{:}.json'.format(filePrefix), 'r') as infile:
+        with open('../random_train/randomPrice_{:}.json'.format(filePrefix), 'r') as infile:
             randomPrice = json.load(infile)
 
         return minimumPrice, maximumPrice, randomPrice
