@@ -26,6 +26,63 @@ class RegressionBase(object):
                       "OTP_CRL",  # route 6
                       "SKP_MLH",  # route 7
                       "SKP_MMX"]  # route 8
+
+
+        # random price list
+        self.randomPrices_train = [68.4391315136,
+                             67.4260645161,
+                             93.2808545727,
+                             77.4751720047,
+                             75.0340018399,
+                             73.9964736451,
+                             105.280932384,
+                             97.1720369004]
+        self.randomPrices_test = [55.4820634921,
+                                  57.8067301587,
+                                  23.152037037,
+                                  33.3727319588,
+                                  35.3032044199,
+                                  41.1180555556,
+                                  56.3433402062,
+                                  60.2546519337]
+        # minimum price list
+        self.minPrices_train = [44.4344444444,
+                               38.9605925926,
+                               68.6566666667,
+                               49.6566666667,
+                               48.2691891892,
+                               47.0833333333,
+                               68.982,
+                               63.1279459459]
+        self.minPrices_test = [32.370952381,
+                               29.3775238095,
+                               11.3788888889,
+                               16.5284615385,
+                               18.6184615385,
+                               14.6111111111,
+                               21.5127692308,
+                               25.8050769231]
+
+        # maximum price list
+        self.maxPrices_train = [115.915925926,
+                                126.782814815,
+                                144.212222222,
+                                129.656666667,
+                                141.252972973,
+                                149.972222222,
+                                174.402,
+                                160.91172973
+                                ]
+
+        self.maxPrices_test = [126.656666667,
+                               168.95847619,
+                               93.6011111111,
+                               90.5669230769,
+                               101.233846154,
+                               198.361111111,
+                               154.505076923,
+                               208.020461538]
+
         # for currency change
         self.currency = [1,      # route 1 - Euro
                          0.0032, # route 2 - Hungarian Forint
@@ -332,9 +389,9 @@ class RegressionBase(object):
         self.predict()
 
         X_test = self.X_test
-        y_pred = self.y_pred
+        #y_pred = self.y_pred
         y_test_price = self.y_test_price
-        y_pred = y_pred.reshape((y_pred.shape[0], 1))
+        y_pred = self.y_pred.reshape((self.y_pred.shape[0], 1))
         y_buy = np.zeros(shape=(y_pred.shape[0], y_pred.shape[1]))
         y_buy[np.where((y_test_price<y_pred+priceTolerance)==True)[0], :] = 1  # to indicate whether buy or not
 
@@ -415,18 +472,50 @@ class RegressionBase(object):
         maximumPrice = sum(maximumPrice.values()) * 1.0 / len(maximumPrice) * self.currency[flightNum]
         randomPrice = randomPrice * self.currency[flightNum]
 
+        timesToRun = 1 # if it is neural network, please change this number to 20 or more
         totalPrice = 0
-        for i in range(20):
+        for i in range(timesToRun):
             np.random.seed(i*i) # do not forget to set seed for the weight initialization
             price = self.evaluateOneRoute(filePrefix, priceTolerance)
             totalPrice += price
 
-        avgPrice = totalPrice * 1.0 / 20
+        avgPrice = totalPrice * 1.0 / timesToRun
 
+        """
         print "20 times avg price: {}".format(avgPrice)
         print "Minimum price: {}".format(minimumPrice)
         print "Maximum price: {}".format(maximumPrice)
         print "Random price: {}".format(randomPrice)
         return avgPrice
+        """
+        if self.isTrain:
+            #print "20 times avg price: {}".format(avgPrice)
+            print "TRAIN:"
+            print "minimumPrice: {}".format(self.minPrices_train[flightNum])
+            print "maximumPrice: {}".format(self.maxPrices_train[flightNum])
+            print "randomPrice: {}".format(self.randomPrices_train[flightNum])
+            print "avgPredPrice: {}".format(avgPrice)
 
+            performance = (self.randomPrices_train[flightNum] - avgPrice) / self.randomPrices_train[flightNum] * 100
+            print "Performance: {}%".format(round(performance,2))
+            maxPerformance = (self.randomPrices_train[flightNum] - self.minPrices_train[flightNum]) / self.randomPrices_train[flightNum] * 100
+            print "Max Perfor: {}%".format(round(maxPerformance,2))
+            normalizedPefor = performance / maxPerformance * 100
+            print "Normalized perfor: {}%".format(round(normalizedPefor,2))
+        else:
+            #print "20 times avg price: {}".format(avgPrice)
+            print "TEST:"
+            print "minimumPrice: {}".format(self.minPrices_test[flightNum])
+            print "maximumPrice: {}".format(self.maxPrices_test[flightNum])
+            print "randomPrice: {}".format(self.randomPrices_test[flightNum])
+            print "avgPredPrice: {}".format(avgPrice)
+
+            performance = (self.randomPrices_test[flightNum] - avgPrice) / self.randomPrices_test[flightNum] * 100
+            print "Performance: {}%".format(round(performance,2))
+            maxPerformance = (self.randomPrices_test[flightNum] - self.minPrices_test[flightNum]) / self.randomPrices_test[flightNum] * 100
+            print "Max Perfor: {}%".format(round(maxPerformance,2))
+            normalizedPefor = performance / maxPerformance * 100
+            print "Normalized perfor: {}%".format(round(normalizedPefor,2))
+
+        return (performance, normalizedPefor)
 

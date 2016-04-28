@@ -147,6 +147,7 @@ class ClassificationBase(object):
             self.y_test_price = np.load('inputClf/y_test_price.npy')
             self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
 
+
     def priceNormalize(self):
         """
         Different routes have different units for the price, normalize it as Euro.
@@ -279,7 +280,7 @@ class ClassificationBase(object):
                 # keep price info
                 y_price = [util.getPrice(data["MinimumPrice"])]
 
-                if int(departureDate) < 20160115: # choose date before "20160201" as training data
+                if int(departureDate) < 20160115: # choose date before "20160115" as training data
                     X_train = np.concatenate((X_train, [x_i]), axis=0)
                     y_train = np.concatenate((y_train, [y_i]), axis=0)
                     y_train_price = np.concatenate((y_train_price, [y_price]), axis=0)

@@ -21,7 +21,7 @@ class RegressionKNN(RegressionBase.RegressionBase):
         # 'uniform' assigns uniform weights to each neighbor
         # 'distance' assigns weights proportional to the inverse of the distance from the query point
         # default metric is euclidean distance
-        self.regr = neighbors.KNeighborsRegressor(15, weights='uniform')
+        self.regr = neighbors.KNeighborsRegressor(5, weights='uniform')
 
     def dataPreprocessing(self):
         # due to the observation, standization does not help the optimization.

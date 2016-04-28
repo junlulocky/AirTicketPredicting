@@ -6,8 +6,10 @@ from numpy import *
 import math
 import numpy as np
 
+
 # import user-library
 import load_data
+
 
 
 
@@ -160,6 +162,14 @@ def getMinTicketPriceForAllRoutesByNumpy():
 
 
 def norm_pdf_multivariate(x, mu, sigma):
+    """
+    multivariate gaussian pdf
+    :param x: input variable
+    :param mu: mean variables
+    :param sigma: variance matrix
+    :return:
+    """
+
     size = len(x)
     if size == len(mu) and (size, size) == sigma.shape:
         det = linalg.det(sigma)
@@ -178,5 +188,9 @@ def norm_pdf_multivariate(x, mu, sigma):
 
 
 if __name__ == "__main__":
-    getRandomTicketPriceForAllRoutesByNumpy()
+    train = np.load('inputClf_KMeansSOutlierRemoval/X_train.npy')
+    test = np.load('inputClf/X_train.npy')
+    print train.shape
+    print test.shape
+    print test.shape[0] - train.shape[0]
     pass

@@ -66,6 +66,7 @@ def load_data_with_prefix_and_dataset(filePrefix="BCN_BUD", dataset="large data 
                         datas_with_specific_date = json.load(fp)
                         # add observed data
                         for data in datas_with_specific_date:
+                            #"Date" is the departure date, "ObservedDate" is the observed date
                             data["ObservedDate"] = date.replace("-", "")
                             data["State"] = util.days_between(data["Date"], data["ObservedDate"]) - 1
                         data_decoded += datas_with_specific_date # do not use append function
@@ -111,7 +112,7 @@ def get_departure_len(filePrefix="BCN_BUD", dataset="large data set"):
     return len(departureDates)
 
 
-def load_data_QLearning(departureIndex, filePrefix="BCN_BUD", dataset="large data set"):
+def load_data_with_departureIndex(departureIndex, filePrefix="BCN_BUD", dataset="large data set"):
     """
     Given the departureIndex, return the dataset with specific departure date in the chosen dataset.
     """
@@ -146,10 +147,34 @@ def load_data_QLearning(departureIndex, filePrefix="BCN_BUD", dataset="large dat
 
     return specificDatas
 
+def load_data_with_departureDate(departureDate, filePrefix="BCN_BUD", dataset="large data set"):
+    """
+    Given the departureIndex, return the dataset with specific departure date in the chosen dataset.
+    """
+    datas = load_data_with_prefix_and_dataset(filePrefix, dataset)
+
+    print "Evaluating departure date " + departureDate + "..."
+
+    """
+    # remove duplicate observedDate-departureDate pair
+    observedDates = []
+    [observedDates.append(data["ObservedDate"]) for data in datas if data["Date"]==departureDate]
+    observedDates = util.remove_duplicates(observedDates)
+    states = len(observedDates)
+    #print states
+    """
+
+
+    specificDatas = []
+    specificDatas = [data for data in datas if data["Date"]==departureDate]
+
+    return specificDatas
+
+
 def getMinimumPrice(datas):
     """
     Given the dataset, return the minimum price in the dataset
-    :param datas: input dataset(in QLearning, it should have same departure date)
+    :param datas: input dataset(in QLearning and Neural Nets, it should have same departure date)
     :return: minimum price in the dataset
     """
     minimumPrice = util.getPrice(datas[0]["MinimumPrice"]) # in our json data files, MinimumPrice means the price in that day
@@ -159,6 +184,35 @@ def getMinimumPrice(datas):
     minimumPrice = minimumPrice
 
     return minimumPrice
+
+def getOptimalState(datas):
+    """
+    Given the dataset, return the state correspongding to minimum price in the dataset
+    :param datas: input dataset(in QLearning and Neural Nets, it should have same departure date)
+    :return: minimum price state in the dataset
+    """
+    optimalState = 0
+    minimumPrice = util.getPrice(datas[0]["MinimumPrice"]) # in our json data files, MinimumPrice means the price in that day
+    for data in datas:
+        price = util.getPrice(data["MinimumPrice"])
+        state = data["State"]
+        optimalState = state if price<minimumPrice else optimalState
+        minimumPrice = price if price<minimumPrice else minimumPrice
+
+    return optimalState
+
+def getMaximumPrice(datas):
+    """
+    Given the dataset, return the maximum price in the dataset
+    :param datas: input dataset(in QLearning and Neural Nets, it should have same departure date)
+    :return: maximum price in the dataset
+    """
+    maximumPrice = util.getPrice(datas[0]["MinimumPrice"]) # in our json data files, MinimumPrice means the price in that day
+    for data in datas:
+        price = util.getPrice(data["MinimumPrice"])
+        maximumPrice = price if price>maximumPrice else maximumPrice
+
+    return maximumPrice
 
 def getChosenPrice(state, datas):
     """
@@ -173,8 +227,7 @@ def getChosenPrice(state, datas):
 
 
 if __name__ == "__main__":
-    datas = load_data_QLearning()
-    print len(datas)
+    pass
 
 
 

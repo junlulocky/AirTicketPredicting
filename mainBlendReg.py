@@ -2,19 +2,19 @@
 import numpy as np
 
 # user-library
-from RegressionKNN import RegressionKNN
+from RegressionBlending import RegressionBlending
 
 
 
-def mainLinReg():
+def mainBlendReg():
 
 
-    isTrain = 0 # 1 for train, 0 for test
+    isTrain = 1 # 1 for train, 0 for test
 
     performance = 0
     normalizedPerformance = 0
     priceTolerance = 5
-    reg = RegressionKNN(isTrain)
+    reg = RegressionBlending(isTrain)
     for i in range(8):
         print "Route: {}".format(i)
         [perfor, normaPefor] = reg.evaluateOneRouteForMultipleTimes(reg.routes[i], priceTolerance)
@@ -29,5 +29,6 @@ def mainLinReg():
     print "Average Normalized Performance: {}%".format(normalizedPerformance)
 
 
+
 if __name__ == "__main__":
-    mainLinReg()
+    mainBlendReg()

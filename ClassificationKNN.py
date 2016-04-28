@@ -11,8 +11,8 @@ from sklearn import neighbors
 
 
 class ClassificationKNN(ClassficationBase.ClassificationBase):
-    def __init__(self, isTrain):
-        super(ClassificationKNN, self).__init__(isTrain)
+    def __init__(self, isTrain, isOutlierRemoval=0):
+        super(ClassificationKNN, self).__init__(isTrain, isOutlierRemoval)
         # data preprocessing
         self.dataPreprocessing()
 

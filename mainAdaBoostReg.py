@@ -2,31 +2,28 @@
 import numpy as np
 
 # user-library
-from RegressionKNN import RegressionKNN
+from RegressionAdaBoost import RegressionAdaBoost
 
 
 
 def mainLinReg():
-
-
-    isTrain = 0 # 1 for train, 0 for test
+    reg = RegressionAdaBoost(0) # 1 for train, 0 for test
 
     performance = 0
     normalizedPerformance = 0
-    priceTolerance = 5
-    reg = RegressionKNN(isTrain)
     for i in range(8):
         print "Route: {}".format(i)
-        [perfor, normaPefor] = reg.evaluateOneRouteForMultipleTimes(reg.routes[i], priceTolerance)
+        [perfor, normaPefor] = reg.evaluateOneRouteForMultipleTimes(reg.routes[i], 5)
         performance += perfor
         normalizedPerformance += normaPefor
 
     performance = round(performance/8, 2)
     normalizedPerformance = round(normalizedPerformance/8, 2)
 
-
-    print "\nAverage Performance: {}%".format(performance)
+    print "Average Performance: {}%".format(performance)
     print "Average Normalized Performance: {}%".format(normalizedPerformance)
+
+    #reg.visualizePrediction(reg.routes[3])
 
 
 if __name__ == "__main__":
