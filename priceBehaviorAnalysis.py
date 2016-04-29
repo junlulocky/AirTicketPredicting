@@ -1,11 +1,7 @@
 # system library
 import numpy as np
 import pandas as pd
-from datetime import datetime
-from matplotlib.dates import DayLocator, HourLocator, DateFormatter, drange
-from numpy import arange
 from matplotlib.dates import MONDAY
-from matplotlib.finance import quotes_historical_yahoo_ochl
 from matplotlib.dates import MonthLocator, WeekdayLocator, DateFormatter
 
 

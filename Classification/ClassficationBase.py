@@ -450,8 +450,9 @@ class ClassificationBase(object):
         self.predict()
         #X_test, y_pred = self.predict()
         X_test = self.X_test
-        y_pred = self.y_pred
-        y_pred = y_pred.reshape((y_pred.shape[0], 1))
+        #y_pred = self.y_pred
+        #y_pred = y_pred.reshape((y_pred.shape[0], 1))
+        y_pred = self.y_pred.reshape((self.y_pred.shape[0], 1))
         y_test_price = self.y_test_price #np.load('inputClf/y_test_price.npy')
         """
         y_price = np.empty(shape=(0, 1))
