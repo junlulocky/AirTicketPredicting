@@ -16,11 +16,12 @@ import lasagne
 from lasagne import layers
 from lasagne.updates import nesterov_momentum
 from nolearn.lasagne import NeuralNet
+from sklearn.linear_model import Perceptron
 
 
-class ClassificationBlending(ClassficationBase.ClassificationBase):
+class ClassificationUniformBlending(ClassficationBase.ClassificationBase):
     def __init__(self, isTrain, isOutlierRemoval=0):
-        super(ClassificationBlending, self).__init__(isTrain, isOutlierRemoval)
+        super(ClassificationUniformBlending, self).__init__(isTrain, isOutlierRemoval)
         # data preprocessing
         self.dataPreprocessing()
 
@@ -66,6 +67,9 @@ class ClassificationBlending(ClassficationBase.ClassificationBase):
                         verbose=0,
                         )
 
+        # create PLA object
+        self.pla = Perceptron()
+
 
 
     def dataPreprocessing(self):
@@ -84,6 +88,7 @@ class ClassificationBlending(ClassficationBase.ClassificationBase):
         self.knn.fit(self.X_train, self.y_train.ravel())
         self.decisiontree.fit(self.X_train, self.y_train)
         self.net1.fit(self.X_train, self.y_train)
+        self.pla.fit(self.X_train, self.y_train.ravel())
 
     def predict(self):
         # predict the test data
@@ -103,7 +108,6 @@ class ClassificationBlending(ClassficationBase.ClassificationBase):
                 # predict the test data
         y_pred_train = self.net1.predict(self.X_train)
         y_pred5 = self.net1.predict(self.X_test)
-
         # 1 for buy, 0 for wait
         median = np.median(y_pred_train)
         mean = np.mean(y_pred_train)
@@ -111,9 +115,28 @@ class ClassificationBlending(ClassficationBase.ClassificationBase):
         y_pred5[y_pred5<median] = 0
         y_pred5 = y_pred5.reshape((y_pred5.shape[0], 1))
 
+        y_pred6 = self.pla.predict(self.X_test)
+        y_pred6 = y_pred6.reshape((y_pred6.shape[0], 1))
+
         # predict the blending output
         self.y_pred = (y_pred1+y_pred2+y_pred3+y_pred4+y_pred5)/5
         self.y_pred[self.y_pred >= 0.5] = 1
         self.y_pred[self.y_pred < 0.5] = 0
+
+        # print the error rate
+        e1 = 1 - np.sum(self.y_test == y_pred1) * 1.0 / y_pred1.shape[0]
+        e2 = 1 - np.sum(self.y_test == y_pred2) * 1.0 / y_pred2.shape[0]
+        e3 = 1 - np.sum(self.y_test == y_pred3) * 1.0 / y_pred3.shape[0]
+        e4 = 1 - np.sum(self.y_test == y_pred4) * 1.0 / y_pred4.shape[0]
+        e5 = 1 - np.sum(self.y_test == y_pred5) * 1.0 / y_pred5.shape[0]
+        e6 = 1 - np.sum(self.y_test == y_pred6) * 1.0 / y_pred6.shape[0]
+        err = 1 - np.sum(self.y_test == self.y_pred) * 1.0 / self.y_pred.shape[0]
+        print "Log Reg err = {}".format(e1)
+        print "Ada err = {}".format(e2)
+        print "KNN err = {}".format(e3)
+        print "DT eRR = {}".format(e4)
+        print "NN err = {}".format(e5)
+        print "PLA err = {}".format(e6)
+        print "Uniform error = {}".format(err)
 
 

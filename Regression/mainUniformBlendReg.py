@@ -2,7 +2,7 @@
 import numpy as np
 
 # user-library
-from RegressionBlending import RegressionBlending
+from RegressionUniformBlending import RegressionUniformBlending
 
 
 
@@ -14,7 +14,7 @@ def mainBlendReg():
     performance = 0
     normalizedPerformance = 0
     priceTolerance = 5
-    reg = RegressionBlending(isTrain)
+    reg = RegressionUniformBlending(isTrain)
     for i in range(8):
         print "Route: {}".format(i)
         [perfor, normaPefor] = reg.evaluateOneRouteForMultipleTimes(reg.routes[i], priceTolerance)

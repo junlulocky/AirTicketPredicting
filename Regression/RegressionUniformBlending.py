@@ -18,9 +18,9 @@ from sklearn.ensemble import AdaBoostRegressor
 
 
 
-class RegressionBlending(RegressionBase.RegressionBase):
+class RegressionUniformBlending(RegressionBase.RegressionBase):
     def __init__(self, isTrain):
-        super(RegressionBlending, self).__init__(isTrain)
+        super(RegressionUniformBlending, self).__init__(isTrain)
         # data preprocessing
         #self.dataPreprocessing()
 

@@ -446,8 +446,7 @@ class ClassificationBase(object):
         :param filePrefix: route
         :return: average price
         """
-        self.training()
-        self.predict()
+
         #X_test, y_pred = self.predict()
         X_test = self.X_test
         #y_pred = self.y_pred
@@ -522,6 +521,11 @@ class ClassificationBase(object):
         :param filePrefix: route
         :return: average price
         """
+
+        # fit and predict
+        self.training()
+        self.predict()
+
         # route index
         flightNum = self.routes.index(filePrefix)
 
