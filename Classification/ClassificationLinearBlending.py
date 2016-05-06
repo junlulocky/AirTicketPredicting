@@ -17,6 +17,7 @@ from sklearn import neighbors
 from sklearn import linear_model
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 import lasagne
 from lasagne import layers

@@ -20,6 +20,9 @@ class ClassificationRandomForest(ClassficationBase.ClassificationBase):
         # data preprocessing
         self.dataPreprocessing()
 
+        # define the random forest object
+        self.clf = RandomForestClassifier(max_features='sqrt', n_estimators=32, max_depth=58)
+
 
     def parameterChoosing(self):
         # Set the parameters by cross-validation
@@ -54,8 +57,13 @@ class ClassificationRandomForest(ClassficationBase.ClassificationBase):
 
     def training(self):
         # train the K Nearest Neighbors model
-        self.svc.fit(self.X_train, self.y_train.ravel())
+        self.clf.fit(self.X_train, self.y_train.ravel())
 
     def predict(self):
         # predict the test data
-        self.y_pred = self.svc.predict(self.X_test)
+        self.y_pred = self.clf.predict(self.X_test)
+
+        # print the error rate
+        self.y_pred = self.y_pred.reshape((self.y_pred.shape[0], 1))
+        err = 1 - np.sum(self.y_test == self.y_pred) * 1.0 / self.y_pred.shape[0]
+        print "Error rate: {}".format(err)

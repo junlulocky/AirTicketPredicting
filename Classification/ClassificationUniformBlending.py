@@ -11,6 +11,7 @@ from sklearn import neighbors
 from sklearn import linear_model
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 import lasagne
 from lasagne import layers
@@ -70,6 +71,10 @@ class ClassificationUniformBlending(ClassficationBase.ClassificationBase):
         # create PLA object
         self.pla = Perceptron()
 
+        # create random forest object
+        self.rf = RandomForestClassifier(max_features='sqrt', n_estimators=32, max_depth=58)
+
+
 
 
     def dataPreprocessing(self):
@@ -89,6 +94,7 @@ class ClassificationUniformBlending(ClassficationBase.ClassificationBase):
         self.decisiontree.fit(self.X_train, self.y_train)
         self.net1.fit(self.X_train, self.y_train)
         self.pla.fit(self.X_train, self.y_train.ravel())
+        self.rf.fit(self.X_train, self.y_train.ravel())
 
     def predict(self):
         # predict the test data
@@ -118,8 +124,11 @@ class ClassificationUniformBlending(ClassficationBase.ClassificationBase):
         y_pred6 = self.pla.predict(self.X_test)
         y_pred6 = y_pred6.reshape((y_pred6.shape[0], 1))
 
+        y_pred7 = self.rf.predict(self.X_test)
+        y_pred7 = y_pred7.reshape((y_pred7.shape[0], 1))
+
         # predict the blending output
-        self.y_pred = (y_pred1+y_pred2+y_pred3+y_pred4+y_pred5)/5
+        self.y_pred = (y_pred1+y_pred2+y_pred3+y_pred4+y_pred5 + y_pred7)/6
         self.y_pred[self.y_pred >= 0.5] = 1
         self.y_pred[self.y_pred < 0.5] = 0
 
@@ -130,6 +139,7 @@ class ClassificationUniformBlending(ClassficationBase.ClassificationBase):
         e4 = 1 - np.sum(self.y_test == y_pred4) * 1.0 / y_pred4.shape[0]
         e5 = 1 - np.sum(self.y_test == y_pred5) * 1.0 / y_pred5.shape[0]
         e6 = 1 - np.sum(self.y_test == y_pred6) * 1.0 / y_pred6.shape[0]
+        e7 = 1 - np.sum(self.y_test == y_pred7) * 1.0 / y_pred7.shape[0]
         err = 1 - np.sum(self.y_test == self.y_pred) * 1.0 / self.y_pred.shape[0]
         print "Log Reg err = {}".format(e1)
         print "Ada err = {}".format(e2)
@@ -137,6 +147,7 @@ class ClassificationUniformBlending(ClassficationBase.ClassificationBase):
         print "DT eRR = {}".format(e4)
         print "NN err = {}".format(e5)
         print "PLA err = {}".format(e6)
+        print "RandomForest err = {}".format(e7)
         print "Uniform error = {}".format(err)
 
 

@@ -2,19 +2,20 @@
 import numpy as np
 
 # user-library
-from ClassificationRandomForest import ClassificationRandomForest
+from RegressionGaussianProcess import RegressionGaussianProcess
 
 
-def mainRandomForest():
-    isTrain = 0 # 1 for train, 0 for test
-    isOutlierRemoval = 0 # 1 for outlier removal, 0 otherwise
+
+def mainGP():
+    isTrain = 1 # 1 for train, 0 for test
 
     performance = 0
     normalizedPerformance = 0
-    clf = ClassificationRandomForest(isTrain)
+    priceTolerance = 5
+    reg = RegressionGaussianProcess(isTrain)
     for i in range(8):
         print "Route: {}".format(i)
-        [perfor, normaPefor] = clf.evaluateOneRouteForMultipleTimes(clf.routes[i])
+        [perfor, normaPefor] = reg.evaluateOneRouteForMultipleTimes(reg.routes[i], priceTolerance)
         performance += perfor
         normalizedPerformance += normaPefor
 
@@ -27,6 +28,4 @@ def mainRandomForest():
 
 
 if __name__ == "__main__":
-    mainRandomForest()
-    #clf = ClassificationRandomForest(1)
-    #clf.parameterChoosing()
+    mainGP()

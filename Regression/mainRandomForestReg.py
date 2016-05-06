@@ -2,19 +2,20 @@
 import numpy as np
 
 # user-library
-from ClassificationRandomForest import ClassificationRandomForest
+from RegressionRandomForest import RegressionRandomForest
 
 
-def mainRandomForest():
-    isTrain = 0 # 1 for train, 0 for test
-    isOutlierRemoval = 0 # 1 for outlier removal, 0 otherwise
+
+def mainRandomForestReg():
+    isTrain = 1 # 1 for train, 0 for test
 
     performance = 0
     normalizedPerformance = 0
-    clf = ClassificationRandomForest(isTrain)
+    priceTolerance = 5
+    reg = RegressionRandomForest(isTrain)
     for i in range(8):
         print "Route: {}".format(i)
-        [perfor, normaPefor] = clf.evaluateOneRouteForMultipleTimes(clf.routes[i])
+        [perfor, normaPefor] = reg.evaluateOneRouteForMultipleTimes(reg.routes[i], priceTolerance)
         performance += perfor
         normalizedPerformance += normaPefor
 
@@ -26,7 +27,8 @@ def mainRandomForest():
     print "Average Normalized Performance: {}%".format(normalizedPerformance)
 
 
+
 if __name__ == "__main__":
-    mainRandomForest()
-    #clf = ClassificationRandomForest(1)
-    #clf.parameterChoosing()
+    mainRandomForestReg()
+    # reg = RegressionRandomForest(1)# 1 for train, 0 for test
+    # reg.parameterChoosing()

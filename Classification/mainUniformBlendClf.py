@@ -6,7 +6,7 @@ from ClassificationUniformBlending import ClassificationUniformBlending
 
 
 def mainDecisionTreeClf():
-    isTrain = 0 # 1 for train, 0 for test
+    isTrain = 1 # 1 for train, 0 for test
     isOutlierRemoval = 0 # 1 for outlier removal, 0 otherwise
 
     performance = 0
