@@ -7,25 +7,22 @@ from RegressionNN import RegressionNN
 
 
 def mainNNReg():
+    """
+    Evaluate routes
+    """
     isTrain = 0 # 1 for train, 0 for test
     isNN = 1 # indicate it is neural network
 
-    performance = 0
-    normalizedPerformance = 0
-    priceTolerance = 5
-    reg = RegressionNN(isTrain, isNN)
-    for i in range(8):
-        print "Route: {}".format(i)
-        [perfor, normaPefor] = reg.evaluateOneRouteForMultipleTimes(reg.routes[i], priceTolerance)
-        performance += perfor
-        normalizedPerformance += normaPefor
-
-    performance = round(performance/8, 2)
-    normalizedPerformance = round(normalizedPerformance/8, 2)
+    reg = RegressionNN(isTrain,isNN)
+    reg.evaluateAllRroutes()
 
 
-    print "\nAverage Performance: {}%".format(performance)
-    print "Average Normalized Performance: {}%".format(normalizedPerformance)
+    """
+    # You can also evaluate the routes separately.
+    reg = RegressionRandomForest(isTrain)
+    [perfor, normaPefor] = clf.evaluateOneRouteForMultipleTimes(clf.routes[i])
+    clf.visualizePrediction(clf.routes[i])
+    """
 
 
 if __name__ == "__main__":

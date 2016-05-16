@@ -15,6 +15,8 @@ from sklearn import linear_model
 from sklearn import neighbors
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import AdaBoostRegressor
+from sklearn.grid_search import GridSearchCV
+from sklearn.metrics import mean_squared_error
 
 
 
@@ -107,6 +109,10 @@ class RegressionUniformBlending(RegressionBase.RegressionBase):
         y_pred5 = y_pred5.reshape((y_pred5.shape[0], 1))
 
         self.y_pred = (y_pred1+y_pred2+y_pred3+y_pred4+y_pred5)/5
+
+        # print MSE
+        mse = mean_squared_error(self.y_pred, self.y_test)
+        print "MSE: {}".format(mse)
 
 
 

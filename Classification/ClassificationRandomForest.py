@@ -22,7 +22,7 @@ class ClassificationRandomForest(ClassficationBase.ClassificationBase):
 
         # define the random forest object
         # self.clf = RandomForestClassifier(max_features='sqrt', n_estimators=32, max_depth=58)
-        self.clf = RandomForestClassifier(max_features='log2', n_estimators=34, max_depth=57)
+        self.clf = RandomForestClassifier(max_features='log2', n_estimators=20, max_depth=30)
 
 
     def parameterChoosing(self):

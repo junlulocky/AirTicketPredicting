@@ -14,8 +14,8 @@ from sklearn.metrics import classification_report
 
 
 class ClassificationAdaBoost(ClassficationBase.ClassificationBase):
-    def __init__(self, isTrain):
-        super(ClassificationAdaBoost, self).__init__(isTrain)
+    def __init__(self, isTrain, isOutlierRemoval):
+        super(ClassificationAdaBoost, self).__init__(isTrain, isOutlierRemoval)
         # data preprocessing
         self.dataPreprocessing()
 

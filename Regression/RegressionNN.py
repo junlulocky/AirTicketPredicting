@@ -11,6 +11,8 @@ from lasagne import layers
 from lasagne.updates import nesterov_momentum
 from nolearn.lasagne import NeuralNet
 from nolearn.lasagne import TrainSplit
+from sklearn.grid_search import GridSearchCV
+from sklearn.metrics import mean_squared_error
 
 
 
@@ -65,3 +67,7 @@ class RegressionNN(RegressionBase.RegressionBase):
     def predict(self):
         # predict the test data
         self.y_pred = self.net1.predict(self.X_test)
+
+        # print MSE
+        mse = mean_squared_error(self.y_pred, self.y_test)
+        print "MSE: {}".format(mse)

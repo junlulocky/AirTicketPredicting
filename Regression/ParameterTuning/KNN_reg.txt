@@ -1,0 +1,403 @@
+/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 "/Users/locky1218/lockyEPFL/Slides/17. Semester Project/Code Ticket Predicting/Regression/mainKNNReg.py"
+Best parameters set found on development set:
+
+{'n_neighbors': 86, 'weights': 'distance'}
+Grid scores on development set:
+
+-169.524 (+/-175.860) for {'n_neighbors': 2, 'weights': 'uniform'}
+
+-170.651 (+/-177.557) for {'n_neighbors': 2, 'weights': 'distance'}
+
+-159.687 (+/-163.169) for {'n_neighbors': 3, 'weights': 'uniform'}
+
+-160.396 (+/-163.470) for {'n_neighbors': 3, 'weights': 'distance'}
+
+-153.081 (+/-153.273) for {'n_neighbors': 4, 'weights': 'uniform'}
+
+-153.607 (+/-153.123) for {'n_neighbors': 4, 'weights': 'distance'}
+
+-144.907 (+/-138.129) for {'n_neighbors': 5, 'weights': 'uniform'}
+
+-145.365 (+/-138.160) for {'n_neighbors': 5, 'weights': 'distance'}
+
+-139.687 (+/-128.184) for {'n_neighbors': 6, 'weights': 'uniform'}
+
+-139.996 (+/-128.676) for {'n_neighbors': 6, 'weights': 'distance'}
+
+-136.565 (+/-125.973) for {'n_neighbors': 7, 'weights': 'uniform'}
+
+-136.697 (+/-125.960) for {'n_neighbors': 7, 'weights': 'distance'}
+
+-134.503 (+/-122.628) for {'n_neighbors': 8, 'weights': 'uniform'}
+
+-134.332 (+/-122.440) for {'n_neighbors': 8, 'weights': 'distance'}
+
+-133.411 (+/-124.092) for {'n_neighbors': 9, 'weights': 'uniform'}
+
+-133.037 (+/-123.338) for {'n_neighbors': 9, 'weights': 'distance'}
+
+-131.846 (+/-120.690) for {'n_neighbors': 10, 'weights': 'uniform'}
+
+-131.370 (+/-120.585) for {'n_neighbors': 10, 'weights': 'distance'}
+
+-131.494 (+/-121.921) for {'n_neighbors': 11, 'weights': 'uniform'}
+
+-130.595 (+/-121.337) for {'n_neighbors': 11, 'weights': 'distance'}
+
+-131.008 (+/-123.240) for {'n_neighbors': 12, 'weights': 'uniform'}
+
+-129.784 (+/-122.001) for {'n_neighbors': 12, 'weights': 'distance'}
+
+-130.776 (+/-124.713) for {'n_neighbors': 13, 'weights': 'uniform'}
+
+-129.232 (+/-122.905) for {'n_neighbors': 13, 'weights': 'distance'}
+
+-130.095 (+/-123.219) for {'n_neighbors': 14, 'weights': 'uniform'}
+
+-128.349 (+/-121.494) for {'n_neighbors': 14, 'weights': 'distance'}
+
+-129.443 (+/-123.395) for {'n_neighbors': 15, 'weights': 'uniform'}
+
+-127.503 (+/-121.394) for {'n_neighbors': 15, 'weights': 'distance'}
+
+-128.655 (+/-122.162) for {'n_neighbors': 16, 'weights': 'uniform'}
+
+-126.521 (+/-120.112) for {'n_neighbors': 16, 'weights': 'distance'}
+
+-128.498 (+/-121.429) for {'n_neighbors': 17, 'weights': 'uniform'}
+
+-126.069 (+/-119.123) for {'n_neighbors': 17, 'weights': 'distance'}
+
+-128.394 (+/-120.696) for {'n_neighbors': 18, 'weights': 'uniform'}
+
+-125.686 (+/-118.084) for {'n_neighbors': 18, 'weights': 'distance'}
+
+-128.903 (+/-121.351) for {'n_neighbors': 19, 'weights': 'uniform'}
+
+-125.905 (+/-118.482) for {'n_neighbors': 19, 'weights': 'distance'}
+
+-128.786 (+/-121.876) for {'n_neighbors': 20, 'weights': 'uniform'}
+
+-125.657 (+/-118.846) for {'n_neighbors': 20, 'weights': 'distance'}
+
+-128.384 (+/-120.826) for {'n_neighbors': 21, 'weights': 'uniform'}
+
+-125.218 (+/-118.109) for {'n_neighbors': 21, 'weights': 'distance'}
+
+-128.031 (+/-120.005) for {'n_neighbors': 22, 'weights': 'uniform'}
+
+-124.748 (+/-117.374) for {'n_neighbors': 22, 'weights': 'distance'}
+
+-127.477 (+/-119.026) for {'n_neighbors': 23, 'weights': 'uniform'}
+
+-124.100 (+/-116.526) for {'n_neighbors': 23, 'weights': 'distance'}
+
+-126.694 (+/-117.140) for {'n_neighbors': 24, 'weights': 'uniform'}
+
+-123.293 (+/-114.964) for {'n_neighbors': 24, 'weights': 'distance'}
+
+-126.320 (+/-116.502) for {'n_neighbors': 25, 'weights': 'uniform'}
+
+-122.791 (+/-114.215) for {'n_neighbors': 25, 'weights': 'distance'}
+
+-125.855 (+/-115.095) for {'n_neighbors': 26, 'weights': 'uniform'}
+
+-122.265 (+/-113.060) for {'n_neighbors': 26, 'weights': 'distance'}
+
+-125.509 (+/-114.732) for {'n_neighbors': 27, 'weights': 'uniform'}
+
+-121.835 (+/-112.586) for {'n_neighbors': 27, 'weights': 'distance'}
+
+-125.197 (+/-114.378) for {'n_neighbors': 28, 'weights': 'uniform'}
+
+-121.447 (+/-112.165) for {'n_neighbors': 28, 'weights': 'distance'}
+
+-124.902 (+/-113.764) for {'n_neighbors': 29, 'weights': 'uniform'}
+
+-121.083 (+/-111.618) for {'n_neighbors': 29, 'weights': 'distance'}
+
+-124.939 (+/-113.962) for {'n_neighbors': 30, 'weights': 'uniform'}
+
+-120.994 (+/-111.606) for {'n_neighbors': 30, 'weights': 'distance'}
+
+-124.510 (+/-113.381) for {'n_neighbors': 31, 'weights': 'uniform'}
+
+-120.546 (+/-111.025) for {'n_neighbors': 31, 'weights': 'distance'}
+
+-124.155 (+/-113.075) for {'n_neighbors': 32, 'weights': 'uniform'}
+
+-120.150 (+/-110.682) for {'n_neighbors': 32, 'weights': 'distance'}
+
+-123.922 (+/-112.747) for {'n_neighbors': 33, 'weights': 'uniform'}
+
+-119.899 (+/-110.369) for {'n_neighbors': 33, 'weights': 'distance'}
+
+-123.815 (+/-112.546) for {'n_neighbors': 34, 'weights': 'uniform'}
+
+-119.753 (+/-110.166) for {'n_neighbors': 34, 'weights': 'distance'}
+
+-123.663 (+/-112.948) for {'n_neighbors': 35, 'weights': 'uniform'}
+
+-119.565 (+/-110.366) for {'n_neighbors': 35, 'weights': 'distance'}
+
+-123.331 (+/-112.673) for {'n_neighbors': 36, 'weights': 'uniform'}
+
+-119.260 (+/-110.060) for {'n_neighbors': 36, 'weights': 'distance'}
+
+-123.059 (+/-112.407) for {'n_neighbors': 37, 'weights': 'uniform'}
+
+-119.035 (+/-109.833) for {'n_neighbors': 37, 'weights': 'distance'}
+
+-122.748 (+/-111.992) for {'n_neighbors': 38, 'weights': 'uniform'}
+
+-118.797 (+/-109.504) for {'n_neighbors': 38, 'weights': 'distance'}
+
+-122.268 (+/-111.303) for {'n_neighbors': 39, 'weights': 'uniform'}
+
+-118.452 (+/-109.089) for {'n_neighbors': 39, 'weights': 'distance'}
+
+-121.887 (+/-110.733) for {'n_neighbors': 40, 'weights': 'uniform'}
+
+-118.126 (+/-108.663) for {'n_neighbors': 40, 'weights': 'distance'}
+
+-121.571 (+/-110.151) for {'n_neighbors': 41, 'weights': 'uniform'}
+
+-117.862 (+/-108.231) for {'n_neighbors': 41, 'weights': 'distance'}
+
+-121.336 (+/-109.921) for {'n_neighbors': 42, 'weights': 'uniform'}
+
+-117.665 (+/-108.013) for {'n_neighbors': 42, 'weights': 'distance'}
+
+-121.066 (+/-109.695) for {'n_neighbors': 43, 'weights': 'uniform'}
+
+-117.435 (+/-107.811) for {'n_neighbors': 43, 'weights': 'distance'}
+
+-120.725 (+/-109.235) for {'n_neighbors': 44, 'weights': 'uniform'}
+
+-117.156 (+/-107.398) for {'n_neighbors': 44, 'weights': 'distance'}
+
+-120.408 (+/-108.607) for {'n_neighbors': 45, 'weights': 'uniform'}
+
+-116.880 (+/-106.867) for {'n_neighbors': 45, 'weights': 'distance'}
+
+-120.093 (+/-107.770) for {'n_neighbors': 46, 'weights': 'uniform'}
+
+-116.611 (+/-106.242) for {'n_neighbors': 46, 'weights': 'distance'}
+
+-120.019 (+/-107.692) for {'n_neighbors': 47, 'weights': 'uniform'}
+
+-116.529 (+/-106.146) for {'n_neighbors': 47, 'weights': 'distance'}
+
+-119.946 (+/-107.589) for {'n_neighbors': 48, 'weights': 'uniform'}
+
+-116.464 (+/-106.030) for {'n_neighbors': 48, 'weights': 'distance'}
+
+-119.772 (+/-107.350) for {'n_neighbors': 49, 'weights': 'uniform'}
+
+-116.321 (+/-105.890) for {'n_neighbors': 49, 'weights': 'distance'}
+
+-119.691 (+/-107.253) for {'n_neighbors': 50, 'weights': 'uniform'}
+
+-116.243 (+/-105.833) for {'n_neighbors': 50, 'weights': 'distance'}
+
+-119.687 (+/-107.491) for {'n_neighbors': 51, 'weights': 'uniform'}
+
+-116.234 (+/-106.044) for {'n_neighbors': 51, 'weights': 'distance'}
+
+-119.713 (+/-107.639) for {'n_neighbors': 52, 'weights': 'uniform'}
+
+-116.233 (+/-106.165) for {'n_neighbors': 52, 'weights': 'distance'}
+
+-119.591 (+/-107.336) for {'n_neighbors': 53, 'weights': 'uniform'}
+
+-116.102 (+/-105.887) for {'n_neighbors': 53, 'weights': 'distance'}
+
+-119.555 (+/-107.360) for {'n_neighbors': 54, 'weights': 'uniform'}
+
+-116.054 (+/-105.931) for {'n_neighbors': 54, 'weights': 'distance'}
+
+-119.370 (+/-107.183) for {'n_neighbors': 55, 'weights': 'uniform'}
+
+-115.901 (+/-105.860) for {'n_neighbors': 55, 'weights': 'distance'}
+
+-119.182 (+/-106.989) for {'n_neighbors': 56, 'weights': 'uniform'}
+
+-115.734 (+/-105.720) for {'n_neighbors': 56, 'weights': 'distance'}
+
+-118.997 (+/-106.864) for {'n_neighbors': 57, 'weights': 'uniform'}
+
+-115.585 (+/-105.670) for {'n_neighbors': 57, 'weights': 'distance'}
+
+-118.870 (+/-106.558) for {'n_neighbors': 58, 'weights': 'uniform'}
+
+-115.475 (+/-105.466) for {'n_neighbors': 58, 'weights': 'distance'}
+
+-118.670 (+/-106.114) for {'n_neighbors': 59, 'weights': 'uniform'}
+
+-115.298 (+/-105.086) for {'n_neighbors': 59, 'weights': 'distance'}
+
+-118.539 (+/-105.788) for {'n_neighbors': 60, 'weights': 'uniform'}
+
+-115.183 (+/-104.833) for {'n_neighbors': 60, 'weights': 'distance'}
+
+-118.481 (+/-105.602) for {'n_neighbors': 61, 'weights': 'uniform'}
+
+-115.113 (+/-104.682) for {'n_neighbors': 61, 'weights': 'distance'}
+
+-118.444 (+/-105.467) for {'n_neighbors': 62, 'weights': 'uniform'}
+
+-115.067 (+/-104.602) for {'n_neighbors': 62, 'weights': 'distance'}
+
+-118.399 (+/-105.291) for {'n_neighbors': 63, 'weights': 'uniform'}
+
+-115.016 (+/-104.485) for {'n_neighbors': 63, 'weights': 'distance'}
+
+-118.288 (+/-105.052) for {'n_neighbors': 64, 'weights': 'uniform'}
+
+-114.934 (+/-104.333) for {'n_neighbors': 64, 'weights': 'distance'}
+
+-118.205 (+/-104.747) for {'n_neighbors': 65, 'weights': 'uniform'}
+
+-114.881 (+/-104.145) for {'n_neighbors': 65, 'weights': 'distance'}
+
+-118.085 (+/-104.352) for {'n_neighbors': 66, 'weights': 'uniform'}
+
+-114.786 (+/-103.864) for {'n_neighbors': 66, 'weights': 'distance'}
+
+-118.099 (+/-104.306) for {'n_neighbors': 67, 'weights': 'uniform'}
+
+-114.793 (+/-103.871) for {'n_neighbors': 67, 'weights': 'distance'}
+
+-118.076 (+/-104.198) for {'n_neighbors': 68, 'weights': 'uniform'}
+
+-114.765 (+/-103.808) for {'n_neighbors': 68, 'weights': 'distance'}
+
+-118.045 (+/-104.214) for {'n_neighbors': 69, 'weights': 'uniform'}
+
+-114.723 (+/-103.797) for {'n_neighbors': 69, 'weights': 'distance'}
+
+-118.035 (+/-104.336) for {'n_neighbors': 70, 'weights': 'uniform'}
+
+-114.711 (+/-103.886) for {'n_neighbors': 70, 'weights': 'distance'}
+
+-117.905 (+/-104.035) for {'n_neighbors': 71, 'weights': 'uniform'}
+
+-114.592 (+/-103.638) for {'n_neighbors': 71, 'weights': 'distance'}
+
+-117.836 (+/-103.815) for {'n_neighbors': 72, 'weights': 'uniform'}
+
+-114.523 (+/-103.435) for {'n_neighbors': 72, 'weights': 'distance'}
+
+-117.745 (+/-103.633) for {'n_neighbors': 73, 'weights': 'uniform'}
+
+-114.455 (+/-103.291) for {'n_neighbors': 73, 'weights': 'distance'}
+
+-117.613 (+/-103.431) for {'n_neighbors': 74, 'weights': 'uniform'}
+
+-114.340 (+/-103.098) for {'n_neighbors': 74, 'weights': 'distance'}
+
+-117.569 (+/-103.442) for {'n_neighbors': 75, 'weights': 'uniform'}
+
+-114.282 (+/-103.054) for {'n_neighbors': 75, 'weights': 'distance'}
+
+-117.486 (+/-103.307) for {'n_neighbors': 76, 'weights': 'uniform'}
+
+-114.207 (+/-102.928) for {'n_neighbors': 76, 'weights': 'distance'}
+
+-117.487 (+/-103.451) for {'n_neighbors': 77, 'weights': 'uniform'}
+
+-114.195 (+/-102.993) for {'n_neighbors': 77, 'weights': 'distance'}
+
+-117.432 (+/-103.380) for {'n_neighbors': 78, 'weights': 'uniform'}
+
+-114.155 (+/-102.923) for {'n_neighbors': 78, 'weights': 'distance'}
+
+-117.343 (+/-103.227) for {'n_neighbors': 79, 'weights': 'uniform'}
+
+-114.090 (+/-102.782) for {'n_neighbors': 79, 'weights': 'distance'}
+
+-117.365 (+/-103.252) for {'n_neighbors': 80, 'weights': 'uniform'}
+
+-114.103 (+/-102.787) for {'n_neighbors': 80, 'weights': 'distance'}
+
+-117.403 (+/-103.241) for {'n_neighbors': 81, 'weights': 'uniform'}
+
+-114.120 (+/-102.783) for {'n_neighbors': 81, 'weights': 'distance'}
+
+-117.377 (+/-103.235) for {'n_neighbors': 82, 'weights': 'uniform'}
+
+-114.086 (+/-102.763) for {'n_neighbors': 82, 'weights': 'distance'}
+
+-117.332 (+/-103.109) for {'n_neighbors': 83, 'weights': 'uniform'}
+
+-114.048 (+/-102.647) for {'n_neighbors': 83, 'weights': 'distance'}
+
+-117.300 (+/-103.199) for {'n_neighbors': 84, 'weights': 'uniform'}
+
+-114.019 (+/-102.686) for {'n_neighbors': 84, 'weights': 'distance'}
+
+-117.316 (+/-103.196) for {'n_neighbors': 85, 'weights': 'uniform'}
+
+-114.017 (+/-102.674) for {'n_neighbors': 85, 'weights': 'distance'}
+
+-117.324 (+/-103.205) for {'n_neighbors': 86, 'weights': 'uniform'}
+
+-114.007 (+/-102.674) for {'n_neighbors': 86, 'weights': 'distance'}
+
+-117.356 (+/-103.229) for {'n_neighbors': 87, 'weights': 'uniform'}
+
+-114.015 (+/-102.674) for {'n_neighbors': 87, 'weights': 'distance'}
+
+-117.420 (+/-103.185) for {'n_neighbors': 88, 'weights': 'uniform'}
+
+-114.045 (+/-102.596) for {'n_neighbors': 88, 'weights': 'distance'}
+
+-117.402 (+/-102.974) for {'n_neighbors': 89, 'weights': 'uniform'}
+
+-114.011 (+/-102.426) for {'n_neighbors': 89, 'weights': 'distance'}
+
+-117.446 (+/-102.949) for {'n_neighbors': 90, 'weights': 'uniform'}
+
+-114.035 (+/-102.400) for {'n_neighbors': 90, 'weights': 'distance'}
+
+-117.536 (+/-103.126) for {'n_neighbors': 91, 'weights': 'uniform'}
+
+-114.080 (+/-102.515) for {'n_neighbors': 91, 'weights': 'distance'}
+
+-117.626 (+/-103.197) for {'n_neighbors': 92, 'weights': 'uniform'}
+
+-114.126 (+/-102.551) for {'n_neighbors': 92, 'weights': 'distance'}
+
+-117.638 (+/-103.017) for {'n_neighbors': 93, 'weights': 'uniform'}
+
+-114.112 (+/-102.389) for {'n_neighbors': 93, 'weights': 'distance'}
+
+-117.671 (+/-103.033) for {'n_neighbors': 94, 'weights': 'uniform'}
+
+-114.117 (+/-102.385) for {'n_neighbors': 94, 'weights': 'distance'}
+
+-117.833 (+/-103.288) for {'n_neighbors': 95, 'weights': 'uniform'}
+
+-114.217 (+/-102.546) for {'n_neighbors': 95, 'weights': 'distance'}
+
+-117.983 (+/-103.581) for {'n_neighbors': 96, 'weights': 'uniform'}
+
+-114.305 (+/-102.728) for {'n_neighbors': 96, 'weights': 'distance'}
+
+-118.092 (+/-103.711) for {'n_neighbors': 97, 'weights': 'uniform'}
+
+-114.369 (+/-102.809) for {'n_neighbors': 97, 'weights': 'distance'}
+
+-118.172 (+/-103.992) for {'n_neighbors': 98, 'weights': 'uniform'}
+
+-114.410 (+/-102.995) for {'n_neighbors': 98, 'weights': 'distance'}
+
+-118.298 (+/-104.175) for {'n_neighbors': 99, 'weights': 'uniform'}
+
+-114.484 (+/-103.096) for {'n_neighbors': 99, 'weights': 'distance'}
+
+make_scorer(mean_squared_error, greater_is_better=False)
+MSE for test data set:
+0.0
+
+Process finished with exit code 0

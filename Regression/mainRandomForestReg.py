@@ -5,30 +5,39 @@ import numpy as np
 from RegressionRandomForest import RegressionRandomForest
 
 
-
 def mainRandomForestReg():
-    isTrain = 1 # 1 for train, 0 for test
+    """
+    Evaluate routes
+    """
+    isTrain = 0 # 1 for train, 0 for test
 
-    performance = 0
-    normalizedPerformance = 0
-    priceTolerance = 5
     reg = RegressionRandomForest(isTrain)
-    for i in range(8):
-        print "Route: {}".format(i)
-        [perfor, normaPefor] = reg.evaluateOneRouteForMultipleTimes(reg.routes[i], priceTolerance)
-        performance += perfor
-        normalizedPerformance += normaPefor
-
-    performance = round(performance/8, 2)
-    normalizedPerformance = round(normalizedPerformance/8, 2)
+    reg.evaluateAllRroutes()
 
 
-    print "\nAverage Performance: {}%".format(performance)
-    print "Average Normalized Performance: {}%".format(normalizedPerformance)
+    """
+    # You can also evaluate the routes separately.
+    reg = RegressionRandomForest(isTrain)
+    [perfor, normaPefor] = clf.evaluateOneRouteForMultipleTimes(clf.routes[i])
+    clf.visualizePrediction(clf.routes[i])
+    """
+
+def mainHyperparameter():
+    """
+    Parameter tuning
+    """
+    reg = RegressionRandomForest(1)
+    reg.parameterChoosing()
+
+
+def main(isParameterTuning=0):
+    if isParameterTuning:
+        mainHyperparameter()
+    else:
+        mainRandomForestReg()
 
 
 
 if __name__ == "__main__":
-    mainRandomForestReg()
-    # reg = RegressionRandomForest(1)# 1 for train, 0 for test
-    # reg.parameterChoosing()
+    isParameterTuning = 0 # 1 for parameter tuning, 0 for evaluate routes
+    main(isParameterTuning)

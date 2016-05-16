@@ -7,6 +7,8 @@ import RegressionBase
 
 # third-party library
 from sklearn import gaussian_process
+from sklearn.grid_search import GridSearchCV
+from sklearn.metrics import mean_squared_error
 
 
 class RegressionGaussianProcess(RegressionBase.RegressionBase):
@@ -31,3 +33,7 @@ class RegressionGaussianProcess(RegressionBase.RegressionBase):
     def predict(self):
         # predict the test data
         self.y_pred, sigma2_pred = self.gp.predict(self.X_test, eval_MSE=True)
+
+        # print MSE
+        mse = mean_squared_error(self.y_pred, self.y_test)
+        print "MSE: {}".format(mse)

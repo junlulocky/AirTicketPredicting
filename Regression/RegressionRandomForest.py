@@ -8,7 +8,7 @@ import RegressionBase
 # third-party library
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.grid_search import GridSearchCV
-from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_squared_error
 
 
 
@@ -19,7 +19,7 @@ class RegressionRandomForest(RegressionBase.RegressionBase):
         #self.dataPreprocessing()
 
         # Create linear regression object
-        self.model = RandomForestRegressor(max_features=None, n_estimators=21, max_depth=55)
+        self.model = RandomForestRegressor(max_features='sqrt', n_estimators=32, max_depth=39)
 
     def parameterChoosing(self):
         #Set the parameters by cross-validation
@@ -29,7 +29,7 @@ class RegressionRandomForest(RegressionBase.RegressionBase):
                              }
                             ]
 
-        clf = GridSearchCV(RandomForestRegressor(n_estimators=30), tuned_parameters, cv=5, scoring='mean_absolute_error')
+        clf = GridSearchCV(RandomForestRegressor(n_estimators=30), tuned_parameters, cv=5, scoring='mean_squared_error')
         clf.fit(self.X_train, self.y_train.ravel())
 
         print "Best parameters set found on development set:\n"
@@ -41,7 +41,7 @@ class RegressionRandomForest(RegressionBase.RegressionBase):
 
         print "MSE for test data set:\n"
         y_true, y_pred = self.y_test, clf.predict(self.X_test)
-        print mean_absolute_error(y_true, y_pred)
+        print mean_squared_error(y_true, y_pred)
 
     def dataPreprocessing(self):
         # due to the observation, standization does not help the optimization.
@@ -58,4 +58,5 @@ class RegressionRandomForest(RegressionBase.RegressionBase):
         self.y_pred = self.model.predict(self.X_test)
 
         # print MSE
-        print mean_absolute_error(self.y_test, self.y_pred)
+        mse = mean_squared_error(self.y_pred, self.y_test)
+        print "MSE: {}".format(mse)

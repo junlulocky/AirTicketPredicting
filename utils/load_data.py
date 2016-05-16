@@ -869,13 +869,13 @@ def visualizeData_for_SpecificClassification(filePrefix, isTrain=True, routes=ro
     example: visualizeData_for_SpecificClassification(routes_specific[1], routes_specific)
     """
     if isTrain:
-        X_train = np.load('inputSpecificClf/X_train.npy')
-        y_train = np.load('inputSpecificClf/y_train.npy')
-        y_train_price = np.load('inputSpecificClf/y_train_price.npy')
+        X_train = np.load('inputClf_small/X_train.npy')
+        y_train = np.load('inputClf_small/y_train.npy')
+        y_train_price = np.load('inputClf_small/y_train_price.npy')
     else:
-        X_train = np.load('inputSpecificClf/X_test.npy')
-        y_train = np.load('inputSpecificClf/y_test.npy')
-        y_train_price = np.load('inputSpecificClf/y_test_price.npy')
+        X_train = np.load('inputClf_small/X_test.npy')
+        y_train = np.load('inputClf_small/y_test.npy')
+        y_train_price = np.load('inputClf_small/y_test_price.npy')
 
     # route index
     flightNum = routes.index(filePrefix)
@@ -921,9 +921,9 @@ def visualizeTrainData_for_GeneralClassification(filePrefix, routes):
     :return: NA
     example: visualizeTrainData_for_General(routes_general[1], routes_general)
     """
-    X_train = np.load('inputGeneralClf/X_train.npy')
-    y_train = np.load('inputGeneralClf/y_train.npy')
-    y_train_price = np.load('inputGeneralClf/y_train_price.npy')
+    X_train = np.load('inputGeneralClf_small/X_train.npy')
+    y_train = np.load('inputGeneralClf_small/y_train.npy')
+    y_train_price = np.load('inputGeneralClf_small/y_train_price.npy')
 
 
     # route index
@@ -1120,6 +1120,28 @@ def testClf():
     print y_test.shape
     print y_test_price.shape
 
+def getGeneralRoutesSmall():
+    """
+    get the general routes, make the departure date period the same as test data set
+    :return:
+    """
+    # normalize feature 14, feature 15, feature 17
+    # feature 0~11: flight number dummy variables
+    # feature 12: departure date; feature 13: observed date state;
+    # feature 14: minimum price; feature 15: maximum price
+    # fearure 16: prediction(buy or wait); feature 17: price
+    X_train = np.load('inputGeneralClf/X_train.npy')
+    y_train = np.load('inputGeneralClf/y_train.npy')
+    y_train_price = np.load('inputGeneralClf/y_train_price.npy')
+
+    y_train = y_train[np.where((X_train[:,12]>=67) & (X_train[:,12]<=102))[0], :]
+    y_train_price = y_train_price[np.where((X_train[:,12]>=67) & (X_train[:,12]<=102))[0], :]
+    X_train = X_train[np.where((X_train[:,12]>=67) & (X_train[:,12]<=102))[0], :]
+
+    np.save('inputGeneralClf_small/X_train', X_train)
+    np.save('inputGeneralClf_small/y_train', y_train)
+    np.save('inputGeneralClf_small/y_train_price', y_train_price)
+
 
 if __name__ == "__main__":
     # load_for_classification('small data set', routes_general)
@@ -1139,24 +1161,26 @@ if __name__ == "__main__":
     STEP 2: get the data for the classification problem
     """
     #priceNormalize_for_Specific()
+    #priceNormalize_for_General()
 
     """
     STEP 3: get the data for the regression problem
     """
-    getRegressionOutput_for_SpecificTrain()
-    getRegressionOutput_for_SpecificTest()
+    #getRegressionOutput_for_SpecificTrain()
+    #getRegressionOutput_for_SpecificTest()
 
     """
     STEP 4: visualize the data set for classification problem
     """
-    #isTrain = 0
-    #visualizeData_for_SpecificClassification(routes_specific[7], isTrain, routes_specific)
+    isTrain = 0
+    #visualizeData_for_SpecificClassification(routes_specific[1], isTrain, routes_specific)
+    visualizeTrainData_for_GeneralClassification(routes_general[11], routes_general)
     #testClf()
 
     """
     STEP 5: visualize the data set, but you can do this step at the classification object
     """
-    visualizeTrainData_for_SpecificRegression(routes_general[1], routes_general)
+    #visualizeTrainData_for_SpecificRegression(routes_general[1], routes_general)
 
 
 

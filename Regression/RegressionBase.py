@@ -28,7 +28,9 @@ class RegressionBase(object):
                       "SKP_MLH",  # route 7
                       "SKP_MMX"]  # route 8
 
-
+        """
+        For the small data set, the datas are from functions in util
+        """
         # random price list
         self.randomPrices_train = [68.4391315136,
                              67.4260645161,
@@ -101,15 +103,15 @@ class RegressionBase(object):
         # feature 12: current price
         # output: prediction(buy or wait); output_price: price
         # load training datasets
-        self.X_train = np.load('inputSpecificReg2/X_train.npy')
-        self.y_train = np.load('inputSpecificReg2/y_train.npy')
-        self.y_train_price = np.load('inputSpecificReg2/y_train_price.npy')
+        self.X_train = np.load('inputReg_small/X_train.npy')
+        self.y_train = np.load('inputReg_small/y_train.npy')
+        self.y_train_price = np.load('inputReg_small/y_train_price.npy')
 
         # load test datasets
         if isTrain:
-            self.X_test = np.load('inputSpecificReg2/X_train.npy')
-            self.y_test = np.load('inputSpecificReg2/y_train.npy')
-            self.y_test_price = np.load('inputSpecificReg2/y_train_price.npy')
+            self.X_test = np.load('inputReg_small/X_train.npy')
+            self.y_test = np.load('inputReg_small/y_train.npy')
+            self.y_test_price = np.load('inputReg_small/y_train_price.npy')
             self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
 
             # choose the dates whose departureDate-queryDate gaps is larger than 20
@@ -118,18 +120,18 @@ class RegressionBase(object):
             self.y_pred = self.y_pred[np.where(self.X_test[:, 8]>20)[0], :]
             self.X_test = self.X_test[np.where(self.X_test[:, 8]>20)[0], :]
         else:
-            self.X_test = np.load('inputSpecificReg2/X_test.npy')
-            self.y_test = np.load('inputSpecificReg2/y_test.npy')
-            self.y_test_price = np.load('inputSpecificReg2/y_test_price.npy')
+            self.X_test = np.load('inputReg_small/X_test.npy')
+            self.y_test = np.load('inputReg_small/y_test.npy')
+            self.y_test_price = np.load('inputReg_small/y_test_price.npy')
 
-            """
-            TODO:
-               Keep only the entries that the observed date is
-               no longer than 100 days before the departure
-            """
-            self.y_test = self.y_test[np.where(self.X_test[:,9]<=100)[0], :]
-            self.y_test_price = self.y_test_price[np.where(self.X_test[:,9]<=100)[0], :]
-            self.X_test = self.X_test[np.where(self.X_test[:,9]<=100)[0], :]
+            # """
+            # TODO:
+            #    Keep only the entries that the observed date is
+            #    no longer than 100 days before the departure
+            # """
+            # self.y_test = self.y_test[np.where(self.X_test[:,9]<=100)[0], :]
+            # self.y_test_price = self.y_test_price[np.where(self.X_test[:,9]<=100)[0], :]
+            # self.X_test = self.X_test[np.where(self.X_test[:,9]<=100)[0], :]
 
             self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
 
@@ -447,29 +449,13 @@ class RegressionBase(object):
         print "One Time avg price: {}".format(avgPrice)
         return avgPrice
 
-    def getBestAndWorstAndRandomPrice(self, filePrefix):
+
+
+    def evaluateOneRouteForMultipleTimes(self, filePrefix, priceTolerance=0, timesToRun=1):
         """
-        If you want to get the maximum and minimum price from the stored json file, use this function
+        Rune the evaluation for the given route and run it multiple times(e.g. 100), to get the avarage performance
         :param filePrefix: route prefix
-        :return: maximum and minimum price dictionary
-        """
-        with open('../results/data_NNlearing_minimumPrice_{:}.json'.format(filePrefix), 'r') as infile:
-            minimumPrice = json.load(infile)
-        with open('../results/data_NNlearing_maximumPrice_{:}.json'.format(filePrefix), 'r') as infile:
-            maximumPrice = json.load(infile)
-        if self.isTrain:
-            with open('../random_train/randomPrice_{:}.json'.format(filePrefix), 'r') as infile:
-                randomPrice = json.load(infile)
-        else:
-            with open('../random_test/randomPrice_{:}.json'.format(filePrefix), 'r') as infile:
-                randomPrice = json.load(infile)
-
-        return minimumPrice, maximumPrice, randomPrice
-
-    def evaluateOneRouteForMultipleTimes(self, filePrefix, priceTolerance=0):
-        """
-        Run the evaluation multiple times(here 100), to get the average performance
-        :param filePrefix: route
+        :param timesToRun: the times to run the evaluation, and get the average.
         :return: average price
         """
         # perform fit and predict
@@ -480,11 +466,6 @@ class RegressionBase(object):
         # route index
         flightNum = self.routes.index(filePrefix)
 
-        # get the maximum, minimum, and randomly picked prices
-        minimumPrice, maximumPrice, randomPrice = self.getBestAndWorstAndRandomPrice(filePrefix)
-        minimumPrice = sum(minimumPrice.values()) * 1.0 / len(minimumPrice) * self.currency[flightNum]
-        maximumPrice = sum(maximumPrice.values()) * 1.0 / len(maximumPrice) * self.currency[flightNum]
-        randomPrice = randomPrice * self.currency[flightNum]
 
         timesToRun = 1 # if it is neural network, please change this number to 20 or more
         if self.isNN:
@@ -497,18 +478,6 @@ class RegressionBase(object):
 
         avgPrice = totalPrice * 1.0 / timesToRun
 
-
-        """
-        Just use it one time
-        """
-        self.minPrices_train = util.getMinPriceForSpecific_train()
-        self.minPrices_test = util.getMinPriceForSpecific_test()
-
-        self.randomPrices_train = util.getRandomPriceForSpecific_train()
-        self.randomPrices_test = util.getRandomPriceForSpecific_test()
-
-        self.maxPrices_train = util.getMaxPriceForSpecific_train()
-        self.maxPrices_test = util.getMaxPriceForSpecific_test()
 
         """
         print "20 times avg price: {}".format(avgPrice)
@@ -547,4 +516,34 @@ class RegressionBase(object):
             print "Normalized perfor: {}%".format(round(normalizedPefor,2))
 
         return (performance, normalizedPefor)
+
+    def evaluateAllRroutes(self):
+        """
+        Evaluate all the routes, print the performance for every route
+        and the average performance for all the routes.
+        """
+        isTrain = 1 # 1 for train, 0 for test
+
+        performance = 0
+        normalizedPerformance = 0
+        priceTolerance = 5 # price to be tolerated
+
+        normPerforms = []
+        for i in range(8):
+            print "Route: {}".format(i)
+            [perfor, normaPerfor] = self.evaluateOneRouteForMultipleTimes(self.routes[i], priceTolerance)
+            normPerforms.append(normaPerfor)
+            performance += perfor
+            normalizedPerformance += normaPerfor
+
+        performance = round(performance/8, 2)
+        normalizedPerformance = round(normalizedPerformance/8, 2)
+
+        if self.isTrain:
+            print "\nTRAIN:"
+        else:
+            print "\nTEST:"
+        print "Average Performance: {}%".format(performance)
+        print "Average Normalized Performance: {}%".format(normalizedPerformance)
+        print "Normalized Performance Variance: {}".format(np.var(normPerforms))
 

@@ -5,26 +5,39 @@ import numpy as np
 from RegressionAdaBoost import RegressionAdaBoost
 
 
+def mainAdaBoostReg():
+    """
+    Evaluate routes
+    """
+    isTrain = 0 # 1 for train, 0 for test
 
-def mainLinReg():
-    reg = RegressionAdaBoost(0) # 1 for train, 0 for test
+    reg = RegressionAdaBoost(isTrain)
+    reg.evaluateAllRroutes()
 
-    performance = 0
-    normalizedPerformance = 0
-    for i in range(8):
-        print "Route: {}".format(i)
-        [perfor, normaPefor] = reg.evaluateOneRouteForMultipleTimes(reg.routes[i], 5)
-        performance += perfor
-        normalizedPerformance += normaPefor
 
-    performance = round(performance/8, 2)
-    normalizedPerformance = round(normalizedPerformance/8, 2)
+    """
+    # You can also evaluate the routes separately.
+    reg = RegressionRandomForest(isTrain)
+    [perfor, normaPefor] = clf.evaluateOneRouteForMultipleTimes(clf.routes[i])
+    clf.visualizePrediction(clf.routes[i])
+    """
 
-    print "Average Performance: {}%".format(performance)
-    print "Average Normalized Performance: {}%".format(normalizedPerformance)
+def mainHyperparameter():
+    """
+    Parameter tuning
+    """
+    reg = RegressionAdaBoost(1)
+    reg.parameterChoosing()
 
-    #reg.visualizePrediction(reg.routes[3])
+
+def main(isParameterTuning=0):
+    if isParameterTuning:
+        mainHyperparameter()
+    else:
+        mainAdaBoostReg()
+
 
 
 if __name__ == "__main__":
-    mainLinReg()
+    isParameterTuning = 1 # 1 for parameter tuning, 0 for evaluate routes
+    main(isParameterTuning)

@@ -509,6 +509,11 @@ class ClassificationBase(object):
         :return: average price
         """
 
+        if self.isNN:
+            # if it is nn, then run multiple times
+            self.training()
+            self.predict()
+
         #X_test, y_pred = self.predict()
         X_test = self.X_test
         #y_pred = self.y_pred
@@ -648,11 +653,13 @@ class ClassificationBase(object):
         performance = 0
         normalizedPerformance = 0
 
+        normPerforms = []
         for i in range(8):
             print "Route: {}".format(i)
-            [perfor, normaPefor] = self.evaluateOneRouteForMultipleTimes(self.routes[i])
+            [perfor, normaPerfor] = self.evaluateOneRouteForMultipleTimes(self.routes[i])
+            normPerforms.append(normaPerfor)
             performance += perfor
-            normalizedPerformance += normaPefor
+            normalizedPerformance += normaPerfor
 
         performance = round(performance/8, 2)
         normalizedPerformance = round(normalizedPerformance/8, 2)
@@ -663,6 +670,7 @@ class ClassificationBase(object):
             print "\nTEST:"
         print "Average Performance: {}%".format(performance)
         print "Average Normalized Performance: {}%".format(normalizedPerformance)
+        print "Normalized Performance Variance: {}".format(np.var(normPerforms))
 
 
 

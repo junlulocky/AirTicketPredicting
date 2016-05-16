@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 
 # user-library
 import qlearn
-import load_data
-import log
+from utils import load_data
+from utils import log
 
 routes = ["BCN_BUD",  # route 1
       "BUD_BCN",  # route 2
@@ -500,9 +500,11 @@ if __name__ == "__main__":
     performance = 0
     normalizedPerformance = 0
     isTrain = 0 # 1 for train; 0 for test
+    normPerforms = []
     for i in range(8):
         print "Route: {}".format(i)
         [perfor, normaPefor] = MainTestOneRoute(routes[i], isTrain)
+        normPerforms.append(normaPefor)
         performance += perfor
         normalizedPerformance += normaPefor
 
@@ -511,6 +513,7 @@ if __name__ == "__main__":
 
     print "\nAverage Performance: {}%".format(performance)
     print "Average Normalized Performance: {}%".format(normalizedPerformance)
+    print "Normalized Performance Variance: {}".format(np.var(normPerforms))
 
 
 

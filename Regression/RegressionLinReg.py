@@ -7,6 +7,8 @@ import RegressionBase
 
 # third-party library
 from sklearn import linear_model
+from sklearn.grid_search import GridSearchCV
+from sklearn.metrics import mean_squared_error
 
 
 
@@ -32,3 +34,7 @@ class RegressionLinReg(RegressionBase.RegressionBase):
     def predict(self):
         # predict the test data
         self.y_pred = self.regr.predict(self.X_test)
+
+        # print MSE
+        mse = mean_squared_error(self.y_pred, self.y_test)
+        print "MSE: {}".format(mse)

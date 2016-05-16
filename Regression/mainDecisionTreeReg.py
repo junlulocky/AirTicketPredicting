@@ -5,17 +5,39 @@ import numpy as np
 from RegressionDecisionTree import RegressionDecisionTree
 
 
-
 def mainDecisionTreeReg():
-    reg = RegressionDecisionTree(1)# 1 for train, 0 for test
+    """
+    Evaluate routes
+    """
+    isTrain = 1 # 1 for train, 0 for test
 
-    for i in range(8):
-        print "Route: {}".format(i)
-        reg.evaluateOneRouteForMultipleTimes(reg.routes[i], 5)
+    reg = RegressionDecisionTree(isTrain)
+    reg.evaluateAllRroutes()
 
-    #reg.evaluateOneRouteForMultipleTimes(reg.routes[7], 7)
-    #reg.visualizePrediction(reg.routes[7])
+
+    """
+    # You can also evaluate the routes separately.
+    reg = RegressionRandomForest(isTrain)
+    [perfor, normaPefor] = clf.evaluateOneRouteForMultipleTimes(clf.routes[i])
+    clf.visualizePrediction(clf.routes[i])
+    """
+
+def mainHyperparameter():
+    """
+    Parameter tuning
+    """
+    reg = RegressionDecisionTree(1)
+    reg.parameterChoosing()
+
+
+def main(isParameterTuning=0):
+    if isParameterTuning:
+        mainHyperparameter()
+    else:
+        mainDecisionTreeReg()
+
 
 
 if __name__ == "__main__":
-    mainDecisionTreeReg()
+    isParameterTuning = 0 # 1 for parameter tuning, 0 for evaluate routes
+    main(isParameterTuning)

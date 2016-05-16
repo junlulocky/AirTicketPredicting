@@ -1,14 +1,19 @@
 # Machine Learning for Air Ticket Predicting
-This project is still ongoing.
 
 ##Instructions on the codes#
 Any theory about this project, please refer to my report. If you want to keep track of the result performance, please refer to the "Performance Record.xlsx" file.
 
 I implemented many kinds of classifiers and regressors on this project in python.
 
-The outline of files and directories is below.
+And the features I used in classification and regression is described in the report.
+
+The package I used during the project is described in requirements.txt
+
+
+##Code Structure
 
 ###Classification
+Use Classification to predict
 ```
 |-inputClf_small # the input for classification method
 |-inputClf_GMMOutlierRemoval # the input for classification method with ourlier removal by EM
@@ -40,6 +45,7 @@ The outline of files and directories is below.
 ```
 
 ###Regression
+Use regression to predict.
 ```  
 |-inputReg # input for regression methods
 # Regression methods
@@ -65,12 +71,20 @@ The outline of files and directories is below.
 ```
 
 ###Aritificial Intelligence
+Use Artificial Intelligence to predict, here mainly Q-Learning.
 ```
 # Artificial Intelligence methods
 |-inputQLearning # input for qlearning method
 |-qlearn.py # q learning class
 |-mainQLearning.py # test for qlearning
 
+```
+
+###GeneralizeMode
+It is used to generalize the methods to new routes.
+```
+|-HmmClassifier.py
+|-mainHMM.py
 ```
 
 ###Others

@@ -87,7 +87,7 @@ def pickRandomTicket(filePrefix="BCN_BUD", dataset="large data set"):
     return avgPrice
 
 def getRandomTicketPriceForAllRoutes():
-    for route in routes:
+    for route in routes_specific:
         avgPrice = pickRandomTicket(route)
         with open('randomPrice/randomPrice_{:}.json'.format(route), 'w') as outfile:
             json.dump(avgPrice, outfile)
@@ -264,6 +264,39 @@ def getMinPriceForSpecific_test():
         minPrices.append(avgPrice)
     return minPrices
 
+def getMinPriceForGeneral():
+    """
+    Get the minimum price for the general routes
+    :return:
+    """
+    #print "TEST:"
+    minPrices = []
+    for flightNum in range(12):
+        # feature 0~11: flight number dummy variables
+        # feature 12: departure date; feature 3: observed date state;
+        # feature 14: minimum price; feature 15: maximum price
+        # fearure 16: current price;
+        evalMatrix = np.load('inputGeneralClf_small/X_train.npy')
+        y_train_price = np.load('inputGeneralClf_small/y_train_price.npy')
+        evalMatrix = np.concatenate((evalMatrix, y_train_price), axis=1)
+
+        # take the departure date 20 days after the first observed date
+        evalMatrix = evalMatrix[np.where(evalMatrix[:, 12]>20)[0], :]
+        # take one route
+        evalMatrix = evalMatrix[np.where(evalMatrix[:, flightNum]==1)[0], :]
+
+        totalPrice = 0;
+        departureDates = np.unique(evalMatrix[:, 12])
+        for departureDate in departureDates:
+            tmpMatrix = evalMatrix[np.where(evalMatrix[:, 12]==departureDate)[0], :]
+            tmpMatrix = tmpMatrix[:, 16]
+            tmpMatrix = tmpMatrix.reshape((tmpMatrix.shape[0], 1))
+            totalPrice += tmpMatrix.min()
+
+        avgPrice = totalPrice * 1.0 / departureDates.shape[0]
+        minPrices.append(avgPrice)
+    return minPrices
+
 """
 Get the maximum price for the specific routes
 """
@@ -326,6 +359,39 @@ def getMaxPriceForSpecific_test():
         for departureDate in departureDates:
             tmpMatrix = evalMatrix[np.where(evalMatrix[:, 8]==departureDate)[0], :]
             tmpMatrix = tmpMatrix[:, 12]
+            tmpMatrix = tmpMatrix.reshape((tmpMatrix.shape[0], 1))
+            totalPrice += tmpMatrix.max()
+
+        avgPrice = totalPrice * 1.0 / departureDates.shape[0]
+        maxPrices.append(avgPrice)
+    return maxPrices
+
+def getMaxPriceForGeneral():
+    """
+    Get the minimum price for the general routes
+    :return:
+    """
+    #print "TEST:"
+    maxPrices = []
+    for flightNum in range(12):
+        # feature 0~11: flight number dummy variables
+        # feature 12: departure date; feature 3: observed date state;
+        # feature 14: minimum price; feature 15: maximum price
+        # fearure 16: current price;
+        evalMatrix = np.load('inputGeneralClf_small/X_train.npy')
+        y_train_price = np.load('inputGeneralClf_small/y_train_price.npy')
+        evalMatrix = np.concatenate((evalMatrix, y_train_price), axis=1)
+
+        # take the departure date 20 days after the first observed date
+        evalMatrix = evalMatrix[np.where(evalMatrix[:, 12]>20)[0], :]
+        # take one route
+        evalMatrix = evalMatrix[np.where(evalMatrix[:, flightNum]==1)[0], :]
+
+        totalPrice = 0;
+        departureDates = np.unique(evalMatrix[:, 12])
+        for departureDate in departureDates:
+            tmpMatrix = evalMatrix[np.where(evalMatrix[:, 12]==departureDate)[0], :]
+            tmpMatrix = tmpMatrix[:, 16]
             tmpMatrix = tmpMatrix.reshape((tmpMatrix.shape[0], 1))
             totalPrice += tmpMatrix.max()
 
@@ -408,21 +474,17 @@ def getRandomPriceForSpecific_test():
 
     return randomPrices
 
-"""
-Get the minimum price for the general routes
-"""
-def getMinPriceForGeneral():
-    """
-    Get the minimum price for the general routes
-    :return:
-    """
-    minPrices = []
+def getRandomPriceForGeneral():
+    #print "TEST"
+    randomPrices = []
     for flightNum in range(12):
         # feature 0~11: flight number dummy variables
         # feature 12: departure date; feature 13: observed date state;
         # feature 14: minimum price; feature 15: maximum price
         # fearure 16: current price;
-        evalMatrix = np.load('inputGeneralReg/X_train.npy')
+        evalMatrix = np.load('inputGeneralClf_small/X_train.npy')
+        y_train_price = np.load('inputGeneralClf_small/y_train_price.npy')
+        evalMatrix = np.concatenate((evalMatrix, y_train_price), axis=1)
 
         # take the departure date 20 days after the first observed date
         evalMatrix = evalMatrix[np.where(evalMatrix[:, 12]>20)[0], :]
@@ -430,16 +492,24 @@ def getMinPriceForGeneral():
         evalMatrix = evalMatrix[np.where(evalMatrix[:, flightNum]==1)[0], :]
 
         totalPrice = 0;
+        len = 0;
         departureDates = np.unique(evalMatrix[:, 12])
         for departureDate in departureDates:
             tmpMatrix = evalMatrix[np.where(evalMatrix[:, 12]==departureDate)[0], :]
             tmpMatrix = tmpMatrix[:, 16]
-            tmpMatrix = tmpMatrix.reshape((tmpMatrix.shape[0], 1))
-            totalPrice += tmpMatrix.min()
+            if tmpMatrix.shape[0] > 30:
+                np.random.shuffle(tmpMatrix)
+                tmpMatrix = tmpMatrix.reshape((tmpMatrix.shape[0], 1))
+                totalPrice += np.sum(tmpMatrix[0:30, :])
+                len += 30
+            else:
+                totalPrice += np.sum(tmpMatrix)
+                len += tmpMatrix.shape[0]
+        avgPrice = totalPrice * 1.0 / len
+        randomPrices.append(avgPrice)
 
-        avgPrice = totalPrice * 1.0 / departureDates.shape[0]
-        minPrices.append(avgPrice)
-    print minPrices
+    return randomPrices
+
 
 
 
@@ -455,3 +525,7 @@ if __name__ == "__main__":
     getMinPriceForSpecific_test()
     getRandomPriceForSpecific_test()
     getMaxPriceForSpecific_test()
+
+    print getMinPriceForGeneral()
+    print getRandomPriceForGeneral()
+    print getMaxPriceForGeneral()
