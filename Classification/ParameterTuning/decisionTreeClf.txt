@@ -1,0 +1,365 @@
+/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 "/Users/locky1218/lockyEPFL/Slides/17. Semester Project/Code Ticket Predicting/Classification/mainDecisionTreeClf.py"
+Best parameters set found on development set:
+
+{'max_features': 'log2', 'max_depth': 45}
+Grid scores on development set:
+
+0.655 (+/-0.083) for {'max_features': 'sqrt', 'max_depth': 2}
+
+0.660 (+/-0.154) for {'max_features': 'log2', 'max_depth': 2}
+
+0.717 (+/-0.014) for {'max_features': None, 'max_depth': 2}
+
+0.662 (+/-0.047) for {'max_features': 'sqrt', 'max_depth': 3}
+
+0.673 (+/-0.055) for {'max_features': 'log2', 'max_depth': 3}
+
+0.720 (+/-0.007) for {'max_features': None, 'max_depth': 3}
+
+0.695 (+/-0.026) for {'max_features': 'sqrt', 'max_depth': 4}
+
+0.715 (+/-0.048) for {'max_features': 'log2', 'max_depth': 4}
+
+0.746 (+/-0.057) for {'max_features': None, 'max_depth': 4}
+
+0.692 (+/-0.071) for {'max_features': 'sqrt', 'max_depth': 5}
+
+0.704 (+/-0.043) for {'max_features': 'log2', 'max_depth': 5}
+
+0.733 (+/-0.017) for {'max_features': None, 'max_depth': 5}
+
+0.735 (+/-0.031) for {'max_features': 'sqrt', 'max_depth': 6}
+
+0.727 (+/-0.043) for {'max_features': 'log2', 'max_depth': 6}
+
+0.762 (+/-0.023) for {'max_features': None, 'max_depth': 6}
+
+0.729 (+/-0.020) for {'max_features': 'sqrt', 'max_depth': 7}
+
+0.736 (+/-0.033) for {'max_features': 'log2', 'max_depth': 7}
+
+0.781 (+/-0.017) for {'max_features': None, 'max_depth': 7}
+
+0.756 (+/-0.026) for {'max_features': 'sqrt', 'max_depth': 8}
+
+0.752 (+/-0.022) for {'max_features': 'log2', 'max_depth': 8}
+
+0.790 (+/-0.022) for {'max_features': None, 'max_depth': 8}
+
+0.780 (+/-0.034) for {'max_features': 'sqrt', 'max_depth': 9}
+
+0.784 (+/-0.015) for {'max_features': 'log2', 'max_depth': 9}
+
+0.817 (+/-0.016) for {'max_features': None, 'max_depth': 9}
+
+0.801 (+/-0.024) for {'max_features': 'sqrt', 'max_depth': 10}
+
+0.790 (+/-0.013) for {'max_features': 'log2', 'max_depth': 10}
+
+0.837 (+/-0.023) for {'max_features': None, 'max_depth': 10}
+
+0.807 (+/-0.010) for {'max_features': 'sqrt', 'max_depth': 11}
+
+0.817 (+/-0.020) for {'max_features': 'log2', 'max_depth': 11}
+
+0.854 (+/-0.036) for {'max_features': None, 'max_depth': 11}
+
+0.854 (+/-0.027) for {'max_features': 'sqrt', 'max_depth': 12}
+
+0.848 (+/-0.046) for {'max_features': 'log2', 'max_depth': 12}
+
+0.871 (+/-0.030) for {'max_features': None, 'max_depth': 12}
+
+0.848 (+/-0.057) for {'max_features': 'sqrt', 'max_depth': 13}
+
+0.861 (+/-0.028) for {'max_features': 'log2', 'max_depth': 13}
+
+0.888 (+/-0.031) for {'max_features': None, 'max_depth': 13}
+
+0.861 (+/-0.023) for {'max_features': 'sqrt', 'max_depth': 14}
+
+0.888 (+/-0.033) for {'max_features': 'log2', 'max_depth': 14}
+
+0.907 (+/-0.027) for {'max_features': None, 'max_depth': 14}
+
+0.908 (+/-0.032) for {'max_features': 'sqrt', 'max_depth': 15}
+
+0.900 (+/-0.040) for {'max_features': 'log2', 'max_depth': 15}
+
+0.917 (+/-0.025) for {'max_features': None, 'max_depth': 15}
+
+0.920 (+/-0.061) for {'max_features': 'sqrt', 'max_depth': 16}
+
+0.925 (+/-0.035) for {'max_features': 'log2', 'max_depth': 16}
+
+0.930 (+/-0.027) for {'max_features': None, 'max_depth': 16}
+
+0.941 (+/-0.028) for {'max_features': 'sqrt', 'max_depth': 17}
+
+0.947 (+/-0.023) for {'max_features': 'log2', 'max_depth': 17}
+
+0.942 (+/-0.027) for {'max_features': None, 'max_depth': 17}
+
+0.942 (+/-0.057) for {'max_features': 'sqrt', 'max_depth': 18}
+
+0.958 (+/-0.027) for {'max_features': 'log2', 'max_depth': 18}
+
+0.950 (+/-0.026) for {'max_features': None, 'max_depth': 18}
+
+0.948 (+/-0.040) for {'max_features': 'sqrt', 'max_depth': 19}
+
+0.967 (+/-0.029) for {'max_features': 'log2', 'max_depth': 19}
+
+0.959 (+/-0.020) for {'max_features': None, 'max_depth': 19}
+
+0.964 (+/-0.026) for {'max_features': 'sqrt', 'max_depth': 20}
+
+0.977 (+/-0.014) for {'max_features': 'log2', 'max_depth': 20}
+
+0.964 (+/-0.021) for {'max_features': None, 'max_depth': 20}
+
+0.978 (+/-0.011) for {'max_features': 'sqrt', 'max_depth': 21}
+
+0.968 (+/-0.026) for {'max_features': 'log2', 'max_depth': 21}
+
+0.968 (+/-0.018) for {'max_features': None, 'max_depth': 21}
+
+0.973 (+/-0.009) for {'max_features': 'sqrt', 'max_depth': 22}
+
+0.985 (+/-0.003) for {'max_features': 'log2', 'max_depth': 22}
+
+0.973 (+/-0.016) for {'max_features': None, 'max_depth': 22}
+
+0.982 (+/-0.005) for {'max_features': 'sqrt', 'max_depth': 23}
+
+0.979 (+/-0.011) for {'max_features': 'log2', 'max_depth': 23}
+
+0.977 (+/-0.012) for {'max_features': None, 'max_depth': 23}
+
+0.985 (+/-0.006) for {'max_features': 'sqrt', 'max_depth': 24}
+
+0.982 (+/-0.006) for {'max_features': 'log2', 'max_depth': 24}
+
+0.979 (+/-0.010) for {'max_features': None, 'max_depth': 24}
+
+0.984 (+/-0.005) for {'max_features': 'sqrt', 'max_depth': 25}
+
+0.986 (+/-0.005) for {'max_features': 'log2', 'max_depth': 25}
+
+0.981 (+/-0.008) for {'max_features': None, 'max_depth': 25}
+
+0.986 (+/-0.002) for {'max_features': 'sqrt', 'max_depth': 26}
+
+0.986 (+/-0.005) for {'max_features': 'log2', 'max_depth': 26}
+
+0.982 (+/-0.006) for {'max_features': None, 'max_depth': 26}
+
+0.987 (+/-0.005) for {'max_features': 'sqrt', 'max_depth': 27}
+
+0.985 (+/-0.004) for {'max_features': 'log2', 'max_depth': 27}
+
+0.984 (+/-0.005) for {'max_features': None, 'max_depth': 27}
+
+0.985 (+/-0.004) for {'max_features': 'sqrt', 'max_depth': 28}
+
+0.985 (+/-0.004) for {'max_features': 'log2', 'max_depth': 28}
+
+0.984 (+/-0.004) for {'max_features': None, 'max_depth': 28}
+
+0.986 (+/-0.004) for {'max_features': 'sqrt', 'max_depth': 29}
+
+0.986 (+/-0.003) for {'max_features': 'log2', 'max_depth': 29}
+
+0.984 (+/-0.004) for {'max_features': None, 'max_depth': 29}
+
+0.986 (+/-0.002) for {'max_features': 'sqrt', 'max_depth': 30}
+
+0.987 (+/-0.004) for {'max_features': 'log2', 'max_depth': 30}
+
+0.985 (+/-0.003) for {'max_features': None, 'max_depth': 30}
+
+0.986 (+/-0.002) for {'max_features': 'sqrt', 'max_depth': 31}
+
+0.986 (+/-0.003) for {'max_features': 'log2', 'max_depth': 31}
+
+0.985 (+/-0.002) for {'max_features': None, 'max_depth': 31}
+
+0.986 (+/-0.003) for {'max_features': 'sqrt', 'max_depth': 32}
+
+0.986 (+/-0.004) for {'max_features': 'log2', 'max_depth': 32}
+
+0.985 (+/-0.002) for {'max_features': None, 'max_depth': 32}
+
+0.986 (+/-0.002) for {'max_features': 'sqrt', 'max_depth': 33}
+
+0.985 (+/-0.005) for {'max_features': 'log2', 'max_depth': 33}
+
+0.985 (+/-0.001) for {'max_features': None, 'max_depth': 33}
+
+0.987 (+/-0.003) for {'max_features': 'sqrt', 'max_depth': 34}
+
+0.987 (+/-0.003) for {'max_features': 'log2', 'max_depth': 34}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 34}
+
+0.986 (+/-0.002) for {'max_features': 'sqrt', 'max_depth': 35}
+
+0.987 (+/-0.003) for {'max_features': 'log2', 'max_depth': 35}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 35}
+
+0.986 (+/-0.002) for {'max_features': 'sqrt', 'max_depth': 36}
+
+0.987 (+/-0.004) for {'max_features': 'log2', 'max_depth': 36}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 36}
+
+0.986 (+/-0.003) for {'max_features': 'sqrt', 'max_depth': 37}
+
+0.987 (+/-0.003) for {'max_features': 'log2', 'max_depth': 37}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 37}
+
+0.986 (+/-0.002) for {'max_features': 'sqrt', 'max_depth': 38}
+
+0.986 (+/-0.003) for {'max_features': 'log2', 'max_depth': 38}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 38}
+
+0.986 (+/-0.006) for {'max_features': 'sqrt', 'max_depth': 39}
+
+0.985 (+/-0.004) for {'max_features': 'log2', 'max_depth': 39}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 39}
+
+0.985 (+/-0.004) for {'max_features': 'sqrt', 'max_depth': 40}
+
+0.986 (+/-0.001) for {'max_features': 'log2', 'max_depth': 40}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 40}
+
+0.987 (+/-0.002) for {'max_features': 'sqrt', 'max_depth': 41}
+
+0.986 (+/-0.004) for {'max_features': 'log2', 'max_depth': 41}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 41}
+
+0.986 (+/-0.002) for {'max_features': 'sqrt', 'max_depth': 42}
+
+0.986 (+/-0.003) for {'max_features': 'log2', 'max_depth': 42}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 42}
+
+0.986 (+/-0.003) for {'max_features': 'sqrt', 'max_depth': 43}
+
+0.986 (+/-0.002) for {'max_features': 'log2', 'max_depth': 43}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 43}
+
+0.986 (+/-0.004) for {'max_features': 'sqrt', 'max_depth': 44}
+
+0.986 (+/-0.004) for {'max_features': 'log2', 'max_depth': 44}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 44}
+
+0.986 (+/-0.003) for {'max_features': 'sqrt', 'max_depth': 45}
+
+0.987 (+/-0.004) for {'max_features': 'log2', 'max_depth': 45}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 45}
+
+0.986 (+/-0.004) for {'max_features': 'sqrt', 'max_depth': 46}
+
+0.986 (+/-0.003) for {'max_features': 'log2', 'max_depth': 46}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 46}
+
+0.986 (+/-0.004) for {'max_features': 'sqrt', 'max_depth': 47}
+
+0.986 (+/-0.001) for {'max_features': 'log2', 'max_depth': 47}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 47}
+
+0.986 (+/-0.003) for {'max_features': 'sqrt', 'max_depth': 48}
+
+0.985 (+/-0.003) for {'max_features': 'log2', 'max_depth': 48}
+
+0.985 (+/-0.002) for {'max_features': None, 'max_depth': 48}
+
+0.986 (+/-0.003) for {'max_features': 'sqrt', 'max_depth': 49}
+
+0.985 (+/-0.004) for {'max_features': 'log2', 'max_depth': 49}
+
+0.986 (+/-0.001) for {'max_features': None, 'max_depth': 49}
+
+0.986 (+/-0.003) for {'max_features': 'sqrt', 'max_depth': 50}
+
+0.986 (+/-0.003) for {'max_features': 'log2', 'max_depth': 50}
+
+0.985 (+/-0.002) for {'max_features': None, 'max_depth': 50}
+
+0.986 (+/-0.003) for {'max_features': 'sqrt', 'max_depth': 51}
+
+0.986 (+/-0.004) for {'max_features': 'log2', 'max_depth': 51}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 51}
+
+0.986 (+/-0.004) for {'max_features': 'sqrt', 'max_depth': 52}
+
+0.986 (+/-0.003) for {'max_features': 'log2', 'max_depth': 52}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 52}
+
+0.987 (+/-0.003) for {'max_features': 'sqrt', 'max_depth': 53}
+
+0.986 (+/-0.002) for {'max_features': 'log2', 'max_depth': 53}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 53}
+
+0.986 (+/-0.002) for {'max_features': 'sqrt', 'max_depth': 54}
+
+0.987 (+/-0.003) for {'max_features': 'log2', 'max_depth': 54}
+
+0.986 (+/-0.003) for {'max_features': None, 'max_depth': 54}
+
+0.986 (+/-0.002) for {'max_features': 'sqrt', 'max_depth': 55}
+
+0.987 (+/-0.004) for {'max_features': 'log2', 'max_depth': 55}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 55}
+
+0.987 (+/-0.002) for {'max_features': 'sqrt', 'max_depth': 56}
+
+0.987 (+/-0.003) for {'max_features': 'log2', 'max_depth': 56}
+
+0.986 (+/-0.003) for {'max_features': None, 'max_depth': 56}
+
+0.986 (+/-0.004) for {'max_features': 'sqrt', 'max_depth': 57}
+
+0.986 (+/-0.005) for {'max_features': 'log2', 'max_depth': 57}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 57}
+
+0.986 (+/-0.003) for {'max_features': 'sqrt', 'max_depth': 58}
+
+0.986 (+/-0.003) for {'max_features': 'log2', 'max_depth': 58}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 58}
+
+0.986 (+/-0.003) for {'max_features': 'sqrt', 'max_depth': 59}
+
+0.986 (+/-0.002) for {'max_features': 'log2', 'max_depth': 59}
+
+0.986 (+/-0.002) for {'max_features': None, 'max_depth': 59}
+
+Detailed classification report:
+
+             precision    recall  f1-score   support
+
+        0.0       1.00      1.00      1.00     12181
+        1.0       1.00      1.00      1.00      2593
+
+avg / total       1.00      1.00      1.00     14774
+
+
+Process finished with exit code 0

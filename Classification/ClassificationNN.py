@@ -15,8 +15,8 @@ from nolearn.lasagne import NeuralNet
 
 
 class ClassificationNN(ClassficationBase.ClassificationBase):
-    def __init__(self, isTrain):
-        super(ClassificationNN, self).__init__(isTrain)
+    def __init__(self, isTrain, isOutlierRemoval, isNN=1):
+        super(ClassificationNN, self).__init__(isTrain, isOutlierRemoval, isNN=1)
         # data preprocessing
         self.dataPreprocessing()
 
@@ -77,5 +77,11 @@ class ClassificationNN(ClassficationBase.ClassificationBase):
         #print y_pred.T.tolist()[0]
         #print map(round, y_pred.T.tolist()[0])
         #print len(y_pred.T.tolist())
+
+        # print the error rate
+        self.y_pred = self.y_pred.reshape((self.y_pred.shape[0], 1))
+        err = 1 - np.sum(self.y_test == self.y_pred) * 1.0 / self.y_pred.shape[0]
+        print "Error rate: {}".format(err)
+
         return self.X_test, self.y_pred
 

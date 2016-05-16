@@ -70,5 +70,5 @@ class ClassificationLogReg(ClassficationBase.ClassificationBase):
 
         # print the error rate
         self.y_pred = self.y_pred.reshape((self.y_pred.shape[0], 1))
-        err = 1 - np.sum(self.y_test == self.y_pred) * 1.0 / self.y_pred.shape[0]
+        err = 1 - (np.sum(self.y_test == self.y_pred) * 1.0 / self.y_pred.shape[0])
         print "Error rate: {}".format(err)

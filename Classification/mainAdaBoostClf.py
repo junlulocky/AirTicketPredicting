@@ -5,15 +5,39 @@ import numpy as np
 from ClassificationAdaBoost import ClassificationAdaBoost
 
 
-def mainDecisionTreeClf():
-    clf = ClassificationAdaBoost(0) # 1 for train, 0 for test
+def mainAdaBoostClf():
+    """
+    Evaluate routes
+    """
+    isTrain = 0 # 1 for train, 0 for test
+    isOutlierRemoval = 0 # 1 for outlier removal, 0 otherwise
 
-    for i in range(8):
-        print "Route: {}".format(i)
-        clf.evaluateOneRouteForMultipleTimes(clf.routes[i])
-    #clf.visualizePrediction(clf.routes[1])
+    clf = ClassificationAdaBoost(isTrain, isOutlierRemoval)
+    clf.evaluateAllRroutes()
 
+
+    """
+    # You can also evaluate the routes separately.
+    clf = ClassificationAdaBoost(isTrain, isOutlierRemoval)
+    [perfor, normaPefor] = clf.evaluateOneRouteForMultipleTimes(clf.routes[i])
+    clf.visualizePrediction(clf.routes[i])
+    """
+
+
+def mainHyperparameter():
+    """
+    Parameter tuning
+    """
+    clf = ClassificationAdaBoost(1)
+    clf.parameterChoosing()
+
+def main(isParameterTuning=0):
+    if isParameterTuning:
+        mainHyperparameter()
+    else:
+        mainAdaBoostClf()
 
 
 if __name__ == "__main__":
-    mainDecisionTreeClf()
+    isParameterTuning=1 # 1 for parameter tuning, 0 for evaluate routes
+    main(isParameterTuning)

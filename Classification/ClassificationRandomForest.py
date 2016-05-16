@@ -21,7 +21,8 @@ class ClassificationRandomForest(ClassficationBase.ClassificationBase):
         self.dataPreprocessing()
 
         # define the random forest object
-        self.clf = RandomForestClassifier(max_features='sqrt', n_estimators=32, max_depth=58)
+        # self.clf = RandomForestClassifier(max_features='sqrt', n_estimators=32, max_depth=58)
+        self.clf = RandomForestClassifier(max_features='log2', n_estimators=34, max_depth=57)
 
 
     def parameterChoosing(self):
@@ -64,6 +65,9 @@ class ClassificationRandomForest(ClassficationBase.ClassificationBase):
         self.y_pred = self.clf.predict(self.X_test)
 
         # print the error rate
+        print "total size: {}".format(self.y_test.shape[0])
+        print "y_test: {}".format(np.sum(self.y_test))
+        print "y_pred: {}".format(np.sum(self.y_pred))
         self.y_pred = self.y_pred.reshape((self.y_pred.shape[0], 1))
         err = 1 - np.sum(self.y_test == self.y_pred) * 1.0 / self.y_pred.shape[0]
         print "Error rate: {}".format(err)

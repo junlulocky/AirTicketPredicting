@@ -3,8 +3,8 @@ import numpy as np
 import json
 
 # user-library
-import load_data
-import util
+from utils import load_data
+from utils import util
 
 # third-party library
 from sklearn.utils import shuffle
@@ -14,9 +14,10 @@ from sklearn import preprocessing
 
 class RegressionBase(object):
 
-    def __init__(self, isTrain):
+    def __init__(self, isTrain, isNN=0):
         # indicate it is train data or not
         self.isTrain = isTrain
+        self.isNN = isNN # indicate it is neural network
         # route prefix
         self.routes = ["BCN_BUD",  # route 1
                       "BUD_BCN",  # route 2
@@ -100,15 +101,15 @@ class RegressionBase(object):
         # feature 12: current price
         # output: prediction(buy or wait); output_price: price
         # load training datasets
-        self.X_train = np.load('inputReg/X_train.npy')
-        self.y_train = np.load('inputReg/y_train.npy')
-        self.y_train_price = np.load('inputReg/y_train_price.npy')
+        self.X_train = np.load('inputSpecificReg2/X_train.npy')
+        self.y_train = np.load('inputSpecificReg2/y_train.npy')
+        self.y_train_price = np.load('inputSpecificReg2/y_train_price.npy')
 
         # load test datasets
         if isTrain:
-            self.X_test = np.load('inputReg/X_train.npy')
-            self.y_test = np.load('inputReg/y_train.npy')
-            self.y_test_price = np.load('inputReg/y_train_price.npy')
+            self.X_test = np.load('inputSpecificReg2/X_train.npy')
+            self.y_test = np.load('inputSpecificReg2/y_train.npy')
+            self.y_test_price = np.load('inputSpecificReg2/y_train_price.npy')
             self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
 
             # choose the dates whose departureDate-queryDate gaps is larger than 20
@@ -117,9 +118,19 @@ class RegressionBase(object):
             self.y_pred = self.y_pred[np.where(self.X_test[:, 8]>20)[0], :]
             self.X_test = self.X_test[np.where(self.X_test[:, 8]>20)[0], :]
         else:
-            self.X_test = np.load('inputReg/X_test.npy')
-            self.y_test = np.load('inputReg/y_test.npy')
-            self.y_test_price = np.load('inputReg/y_test_price.npy')
+            self.X_test = np.load('inputSpecificReg2/X_test.npy')
+            self.y_test = np.load('inputSpecificReg2/y_test.npy')
+            self.y_test_price = np.load('inputSpecificReg2/y_test_price.npy')
+
+            """
+            TODO:
+               Keep only the entries that the observed date is
+               no longer than 100 days before the departure
+            """
+            self.y_test = self.y_test[np.where(self.X_test[:,9]<=100)[0], :]
+            self.y_test_price = self.y_test_price[np.where(self.X_test[:,9]<=100)[0], :]
+            self.X_test = self.X_test[np.where(self.X_test[:,9]<=100)[0], :]
+
             self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
 
     def priceNormalize(self):
@@ -409,7 +420,7 @@ class RegressionBase(object):
         departureDates = np.unique(evalMatrix[:, 8])
 
         departureLen = len(departureDates)
-        latestBuyDate = 7 # define the latest buy date state
+        latestBuyDate = 11 # define the latest buy date state
         totalPrice = 0
         for departureDate in departureDates:
             state = latestBuyDate  # update the state for every departure date evaluation
@@ -476,13 +487,28 @@ class RegressionBase(object):
         randomPrice = randomPrice * self.currency[flightNum]
 
         timesToRun = 1 # if it is neural network, please change this number to 20 or more
+        if self.isNN:
+            timesToRun = 20
         totalPrice = 0
         for i in range(timesToRun):
-            np.random.seed(i*i) # do not forget to set seed for the weight initialization
+            np.random.seed(i*i*i) # do not forget to set seed for the weight initialization
             price = self.evaluateOneRoute(filePrefix, priceTolerance)
             totalPrice += price
 
         avgPrice = totalPrice * 1.0 / timesToRun
+
+
+        """
+        Just use it one time
+        """
+        self.minPrices_train = util.getMinPriceForSpecific_train()
+        self.minPrices_test = util.getMinPriceForSpecific_test()
+
+        self.randomPrices_train = util.getRandomPriceForSpecific_train()
+        self.randomPrices_test = util.getRandomPriceForSpecific_test()
+
+        self.maxPrices_train = util.getMaxPriceForSpecific_train()
+        self.maxPrices_test = util.getMaxPriceForSpecific_test()
 
         """
         print "20 times avg price: {}".format(avgPrice)

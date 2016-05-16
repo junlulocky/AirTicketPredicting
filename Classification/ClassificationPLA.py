@@ -21,9 +21,6 @@ class ClassificationPLA(ClassficationBase.ClassificationBase):
         self.clf = Perceptron()
 
 
-
-
-
     def dataPreprocessing(self):
         # deal with unbalanced data
         self.dealingUnbalancedData()

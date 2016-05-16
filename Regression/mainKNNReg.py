@@ -7,8 +7,6 @@ from RegressionKNN import RegressionKNN
 
 
 def mainLinReg():
-
-
     isTrain = 0 # 1 for train, 0 for test
 
     performance = 0

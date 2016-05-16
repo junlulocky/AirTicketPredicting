@@ -1,0 +1,4 @@
+hmmlearn=0.2.0
+numpy>=1.6.2
+lasagne=0.1
+scikit_learn=0.17

@@ -15,8 +15,8 @@ from nolearn.lasagne import TrainSplit
 
 
 class RegressionNN(RegressionBase.RegressionBase):
-    def __init__(self, isTrain):
-        super(RegressionNN, self).__init__(isTrain)
+    def __init__(self, isTrain, isNN):
+        super(RegressionNN, self).__init__(isTrain, isNN)
         # data preprocessing
         #self.dataPreprocessing()
 

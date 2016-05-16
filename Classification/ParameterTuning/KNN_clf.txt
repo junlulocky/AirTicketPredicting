@@ -1,0 +1,249 @@
+/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 "/Users/locky1218/lockyEPFL/Slides/17. Semester Project/Code Ticket Predicting/Classification/mainKNNClf.py"
+Best parameters set found on development set:
+
+{'n_neighbors': 2, 'weights': 'distance'}
+Grid scores on development set:
+
+0.985 (+/-0.003) for {'n_neighbors': 2, 'weights': 'uniform'}
+
+0.985 (+/-0.003) for {'n_neighbors': 2, 'weights': 'distance'}
+
+0.967 (+/-0.006) for {'n_neighbors': 3, 'weights': 'uniform'}
+
+0.976 (+/-0.004) for {'n_neighbors': 3, 'weights': 'distance'}
+
+0.966 (+/-0.005) for {'n_neighbors': 4, 'weights': 'uniform'}
+
+0.974 (+/-0.005) for {'n_neighbors': 4, 'weights': 'distance'}
+
+0.951 (+/-0.006) for {'n_neighbors': 5, 'weights': 'uniform'}
+
+0.970 (+/-0.006) for {'n_neighbors': 5, 'weights': 'distance'}
+
+0.949 (+/-0.005) for {'n_neighbors': 6, 'weights': 'uniform'}
+
+0.967 (+/-0.007) for {'n_neighbors': 6, 'weights': 'distance'}
+
+0.938 (+/-0.003) for {'n_neighbors': 7, 'weights': 'uniform'}
+
+0.964 (+/-0.007) for {'n_neighbors': 7, 'weights': 'distance'}
+
+0.933 (+/-0.004) for {'n_neighbors': 8, 'weights': 'uniform'}
+
+0.962 (+/-0.006) for {'n_neighbors': 8, 'weights': 'distance'}
+
+0.925 (+/-0.005) for {'n_neighbors': 9, 'weights': 'uniform'}
+
+0.961 (+/-0.006) for {'n_neighbors': 9, 'weights': 'distance'}
+
+0.926 (+/-0.004) for {'n_neighbors': 10, 'weights': 'uniform'}
+
+0.960 (+/-0.005) for {'n_neighbors': 10, 'weights': 'distance'}
+
+0.917 (+/-0.004) for {'n_neighbors': 11, 'weights': 'uniform'}
+
+0.960 (+/-0.004) for {'n_neighbors': 11, 'weights': 'distance'}
+
+0.919 (+/-0.004) for {'n_neighbors': 12, 'weights': 'uniform'}
+
+0.958 (+/-0.004) for {'n_neighbors': 12, 'weights': 'distance'}
+
+0.910 (+/-0.004) for {'n_neighbors': 13, 'weights': 'uniform'}
+
+0.957 (+/-0.004) for {'n_neighbors': 13, 'weights': 'distance'}
+
+0.908 (+/-0.005) for {'n_neighbors': 14, 'weights': 'uniform'}
+
+0.956 (+/-0.004) for {'n_neighbors': 14, 'weights': 'distance'}
+
+0.901 (+/-0.004) for {'n_neighbors': 15, 'weights': 'uniform'}
+
+0.954 (+/-0.004) for {'n_neighbors': 15, 'weights': 'distance'}
+
+0.896 (+/-0.006) for {'n_neighbors': 16, 'weights': 'uniform'}
+
+0.953 (+/-0.005) for {'n_neighbors': 16, 'weights': 'distance'}
+
+0.890 (+/-0.005) for {'n_neighbors': 17, 'weights': 'uniform'}
+
+0.952 (+/-0.004) for {'n_neighbors': 17, 'weights': 'distance'}
+
+0.887 (+/-0.005) for {'n_neighbors': 18, 'weights': 'uniform'}
+
+0.951 (+/-0.004) for {'n_neighbors': 18, 'weights': 'distance'}
+
+0.881 (+/-0.006) for {'n_neighbors': 19, 'weights': 'uniform'}
+
+0.951 (+/-0.005) for {'n_neighbors': 19, 'weights': 'distance'}
+
+0.881 (+/-0.007) for {'n_neighbors': 20, 'weights': 'uniform'}
+
+0.951 (+/-0.005) for {'n_neighbors': 20, 'weights': 'distance'}
+
+0.877 (+/-0.006) for {'n_neighbors': 21, 'weights': 'uniform'}
+
+0.950 (+/-0.005) for {'n_neighbors': 21, 'weights': 'distance'}
+
+0.880 (+/-0.008) for {'n_neighbors': 22, 'weights': 'uniform'}
+
+0.949 (+/-0.005) for {'n_neighbors': 22, 'weights': 'distance'}
+
+0.876 (+/-0.007) for {'n_neighbors': 23, 'weights': 'uniform'}
+
+0.949 (+/-0.006) for {'n_neighbors': 23, 'weights': 'distance'}
+
+0.876 (+/-0.008) for {'n_neighbors': 24, 'weights': 'uniform'}
+
+0.949 (+/-0.006) for {'n_neighbors': 24, 'weights': 'distance'}
+
+0.872 (+/-0.008) for {'n_neighbors': 25, 'weights': 'uniform'}
+
+0.948 (+/-0.006) for {'n_neighbors': 25, 'weights': 'distance'}
+
+0.871 (+/-0.009) for {'n_neighbors': 26, 'weights': 'uniform'}
+
+0.948 (+/-0.006) for {'n_neighbors': 26, 'weights': 'distance'}
+
+0.867 (+/-0.007) for {'n_neighbors': 27, 'weights': 'uniform'}
+
+0.947 (+/-0.005) for {'n_neighbors': 27, 'weights': 'distance'}
+
+0.865 (+/-0.007) for {'n_neighbors': 28, 'weights': 'uniform'}
+
+0.947 (+/-0.005) for {'n_neighbors': 28, 'weights': 'distance'}
+
+0.862 (+/-0.006) for {'n_neighbors': 29, 'weights': 'uniform'}
+
+0.947 (+/-0.005) for {'n_neighbors': 29, 'weights': 'distance'}
+
+0.862 (+/-0.007) for {'n_neighbors': 30, 'weights': 'uniform'}
+
+0.946 (+/-0.005) for {'n_neighbors': 30, 'weights': 'distance'}
+
+0.859 (+/-0.006) for {'n_neighbors': 31, 'weights': 'uniform'}
+
+0.946 (+/-0.004) for {'n_neighbors': 31, 'weights': 'distance'}
+
+0.858 (+/-0.006) for {'n_neighbors': 32, 'weights': 'uniform'}
+
+0.945 (+/-0.005) for {'n_neighbors': 32, 'weights': 'distance'}
+
+0.855 (+/-0.005) for {'n_neighbors': 33, 'weights': 'uniform'}
+
+0.945 (+/-0.005) for {'n_neighbors': 33, 'weights': 'distance'}
+
+0.853 (+/-0.007) for {'n_neighbors': 34, 'weights': 'uniform'}
+
+0.944 (+/-0.005) for {'n_neighbors': 34, 'weights': 'distance'}
+
+0.851 (+/-0.007) for {'n_neighbors': 35, 'weights': 'uniform'}
+
+0.944 (+/-0.005) for {'n_neighbors': 35, 'weights': 'distance'}
+
+0.850 (+/-0.007) for {'n_neighbors': 36, 'weights': 'uniform'}
+
+0.944 (+/-0.004) for {'n_neighbors': 36, 'weights': 'distance'}
+
+0.848 (+/-0.006) for {'n_neighbors': 37, 'weights': 'uniform'}
+
+0.944 (+/-0.004) for {'n_neighbors': 37, 'weights': 'distance'}
+
+0.846 (+/-0.006) for {'n_neighbors': 38, 'weights': 'uniform'}
+
+0.943 (+/-0.004) for {'n_neighbors': 38, 'weights': 'distance'}
+
+0.845 (+/-0.007) for {'n_neighbors': 39, 'weights': 'uniform'}
+
+0.943 (+/-0.004) for {'n_neighbors': 39, 'weights': 'distance'}
+
+0.844 (+/-0.009) for {'n_neighbors': 40, 'weights': 'uniform'}
+
+0.942 (+/-0.004) for {'n_neighbors': 40, 'weights': 'distance'}
+
+0.842 (+/-0.007) for {'n_neighbors': 41, 'weights': 'uniform'}
+
+0.942 (+/-0.005) for {'n_neighbors': 41, 'weights': 'distance'}
+
+0.843 (+/-0.007) for {'n_neighbors': 42, 'weights': 'uniform'}
+
+0.942 (+/-0.004) for {'n_neighbors': 42, 'weights': 'distance'}
+
+0.842 (+/-0.010) for {'n_neighbors': 43, 'weights': 'uniform'}
+
+0.942 (+/-0.004) for {'n_neighbors': 43, 'weights': 'distance'}
+
+0.842 (+/-0.010) for {'n_neighbors': 44, 'weights': 'uniform'}
+
+0.941 (+/-0.004) for {'n_neighbors': 44, 'weights': 'distance'}
+
+0.840 (+/-0.009) for {'n_neighbors': 45, 'weights': 'uniform'}
+
+0.940 (+/-0.004) for {'n_neighbors': 45, 'weights': 'distance'}
+
+0.840 (+/-0.008) for {'n_neighbors': 46, 'weights': 'uniform'}
+
+0.940 (+/-0.004) for {'n_neighbors': 46, 'weights': 'distance'}
+
+0.838 (+/-0.007) for {'n_neighbors': 47, 'weights': 'uniform'}
+
+0.940 (+/-0.004) for {'n_neighbors': 47, 'weights': 'distance'}
+
+0.837 (+/-0.007) for {'n_neighbors': 48, 'weights': 'uniform'}
+
+0.940 (+/-0.004) for {'n_neighbors': 48, 'weights': 'distance'}
+
+0.836 (+/-0.008) for {'n_neighbors': 49, 'weights': 'uniform'}
+
+0.939 (+/-0.004) for {'n_neighbors': 49, 'weights': 'distance'}
+
+0.835 (+/-0.007) for {'n_neighbors': 50, 'weights': 'uniform'}
+
+0.939 (+/-0.003) for {'n_neighbors': 50, 'weights': 'distance'}
+
+0.834 (+/-0.008) for {'n_neighbors': 51, 'weights': 'uniform'}
+
+0.939 (+/-0.004) for {'n_neighbors': 51, 'weights': 'distance'}
+
+0.832 (+/-0.007) for {'n_neighbors': 52, 'weights': 'uniform'}
+
+0.939 (+/-0.004) for {'n_neighbors': 52, 'weights': 'distance'}
+
+0.830 (+/-0.009) for {'n_neighbors': 53, 'weights': 'uniform'}
+
+0.939 (+/-0.004) for {'n_neighbors': 53, 'weights': 'distance'}
+
+0.829 (+/-0.011) for {'n_neighbors': 54, 'weights': 'uniform'}
+
+0.938 (+/-0.004) for {'n_neighbors': 54, 'weights': 'distance'}
+
+0.827 (+/-0.012) for {'n_neighbors': 55, 'weights': 'uniform'}
+
+0.938 (+/-0.004) for {'n_neighbors': 55, 'weights': 'distance'}
+
+0.826 (+/-0.009) for {'n_neighbors': 56, 'weights': 'uniform'}
+
+0.938 (+/-0.004) for {'n_neighbors': 56, 'weights': 'distance'}
+
+0.825 (+/-0.010) for {'n_neighbors': 57, 'weights': 'uniform'}
+
+0.938 (+/-0.005) for {'n_neighbors': 57, 'weights': 'distance'}
+
+0.823 (+/-0.009) for {'n_neighbors': 58, 'weights': 'uniform'}
+
+0.937 (+/-0.004) for {'n_neighbors': 58, 'weights': 'distance'}
+
+0.824 (+/-0.008) for {'n_neighbors': 59, 'weights': 'uniform'}
+
+0.937 (+/-0.004) for {'n_neighbors': 59, 'weights': 'distance'}
+
+Detailed classification report:
+
+             precision    recall  f1-score   support
+
+        0.0       1.00      1.00      1.00     12181
+        1.0       1.00      1.00      1.00      2593
+
+avg / total       1.00      1.00      1.00     14774
+
+
+Process finished with exit code 0

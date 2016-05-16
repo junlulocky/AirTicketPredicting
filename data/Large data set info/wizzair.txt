@@ -1,2 +1,0 @@
-https://wizzair.com/en-GB/TimeTable
-The crawling is done every day at 10:00.

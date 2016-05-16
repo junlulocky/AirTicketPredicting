@@ -3,8 +3,8 @@ import numpy as np
 import json
 
 # user-library
-import load_data
-import util
+from utils import load_data
+from utils import util
 
 # third-party library
 from sklearn.utils import shuffle
@@ -17,10 +17,11 @@ from sklearn.mixture import GMM
 
 class ClassificationBase(object):
 
-    def __init__(self, isTrain, isOutlierRemoval=0):
+    def __init__(self, isTrain, isOutlierRemoval=0, isNN=0):
         # indicate it is train data or not
         self.isTrain = isTrain
         self.isOutlierRemoval = isOutlierRemoval
+        self.isNN = isNN # indicate it is neural network
         # route prefix
         self.routes = ["BCN_BUD",  # route 1
                       "BUD_BCN",  # route 2
@@ -30,6 +31,66 @@ class ClassificationBase(object):
                       "OTP_CRL",  # route 6
                       "SKP_MLH",  # route 7
                       "SKP_MMX"]  # route 8
+
+        """
+        For the large data set, these datas are from the function in util
+        """
+        # self.randomPrices_train = [62.404880201765373,
+        #                           64.389689785624228,
+        #                           58.365558867362232,
+        #                           53.396562847608401,
+        #                           57.555263421976903,
+        #                           56.881071560993696,
+        #                           80.610587319243578,
+        #                           81.273256281407001]
+        #
+        # self.randomPrices_test = [76.867777777777732,
+        #                           79.859555555555559,
+        #                           48.753285024154536,
+        #                           74.848996051889415,
+        #                           60.510405405405386,
+        #                           46.05193236714976,
+        #                           78.827685279187833,
+        #                           61.32490540540541]
+        #
+        # self.minPrices_train = [38.291886792452836,
+        #                         34.322716981132082,
+        #                         40.323333333333174,
+        #                         32.409354838709689,
+        #                         34.680000000000007,
+        #                         30.694444444444443,
+        #                         45.243290322580577,
+        #                         46.73057142857138]
+        #
+        # self.minPrices_test = [38.073333333333309,
+        #                        38.261333333333333,
+        #                        24.047971014492759,
+        #                        44.908032786885208,
+        #                        33.905806451612911,
+        #                        20.945652173913043,
+        #                        50.942655737704911,
+        #                        35.778774193548394]
+        #
+        # self.maxPrices_train = [126.02773584905646,
+        #                         150.12649056603769,
+        #                         119.43444444444427,
+        #                         109.10290322580629,
+        #                         125.22857142857143,
+        #                         171.72222222222223,
+        #                         165.93038709677407,
+        #                         178.90200000000002]
+        #
+        # self.maxPrices_test = [149.48999999999984,
+        #                        155.91466666666665,
+        #                        146.22188405797084,
+        #                        144.08836065573755,
+        #                        134.68645161290314,
+        #                        156.27173913043478,
+        #                        151.77216393442615,
+        #                        154.14329032258058]
+        """
+        For the smalle data set - these datas are from the function in util
+        """
         # random price list
         self.randomPrices_train = [68.4391315136,
                              67.4260645161,
@@ -106,18 +167,18 @@ class ClassificationBase(object):
             self.y_train = np.load('inputClf_GMMOutlierRemoval/y_train.npy')
             self.y_train_price = np.load('inputClf_GMMOutlierRemoval/y_train_price.npy')
         else:
-            self.X_train = np.load('inputClf/X_train.npy')
-            self.y_train = np.load('inputClf/y_train.npy')
-            self.y_train_price = np.load('inputClf/y_train_price.npy')
+            self.X_train = np.load('inputClf_small/X_train.npy')
+            self.y_train = np.load('inputClf_small/y_train.npy')
+            self.y_train_price = np.load('inputClf_small/y_train_price.npy')
 
         # deal with unbalanced data
         #self.X_train, self.y_train = self.dealingUnbalancedData(self.X_train, self.y_train)
 
         # load test datasets
         if isTrain:
-            self.X_test = np.load('inputClf/X_train.npy')
-            self.y_test = np.load('inputClf/y_train.npy')
-            self.y_test_price = np.load('inputClf/y_train_price.npy')
+            self.X_test = np.load('inputClf_small/X_train.npy')
+            self.y_test = np.load('inputClf_small/y_train.npy')
+            self.y_test_price = np.load('inputClf_small/y_train_price.npy')
             self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
 
             # choose the dates whose departureDate-queryDate gaps is larger than 20
@@ -142,9 +203,10 @@ class ClassificationBase(object):
             self.y_pred = testMatrix[:, 13]
             """
         else:
-            self.X_test = np.load('inputClf/X_test.npy')
-            self.y_test = np.load('inputClf/y_test.npy')
-            self.y_test_price = np.load('inputClf/y_test_price.npy')
+            self.X_test = np.load('inputClf_small/X_test.npy')
+            self.y_test = np.load('inputClf_small/y_test.npy')
+            self.y_test_price = np.load('inputClf_small/y_test_price.npy')
+
             self.y_pred = np.empty(shape=(self.y_test.shape[0],1))
 
 
@@ -352,7 +414,7 @@ class ClassificationBase(object):
         len0 = np.count_nonzero(1-self.y_train)
         len1 = np.count_nonzero(self.y_train)
         dup = int(len0/len1)
-        dup = int(dup * 1.5)  # change this value
+        dup = int(dup * 1.5)  # change this value, make it more possible to predict buy.
 
         X1 = self.X_train[np.where(self.y_train==1)[0], :]
         y1 = self.y_train[np.where(self.y_train==1)[0], :]
@@ -475,7 +537,7 @@ class ClassificationBase(object):
         departureDates = np.unique(evalMatrix[:, 8])
 
         departureLen = len(departureDates)
-        latestBuyDate = 7 # define the latest buy date state
+        latestBuyDate = 11 # define the latest buy date state
         totalPrice = 0
         for departureDate in departureDates:
             state = latestBuyDate # update the state for every departure date evaluation
@@ -500,25 +562,13 @@ class ClassificationBase(object):
         print "One Time avg price: {}".format(avgPrice)
         return avgPrice
 
-    def getBestAndWorstAndRandomPrice(self, filePrefix):
+
+
+    def evaluateOneRouteForMultipleTimes(self, filePrefix="BCN_BUD", timesToRun=1):
         """
-        If you want to get the maximum and minimum price from the stored json file, use this function
+        Rune the evaluation for the given route and run it multiple times(e.g. 100), to get the avarage performance
         :param filePrefix: route prefix
-        :return: maximum and minimum price dictionary
-        """
-        with open('../results/data_NNlearing_minimumPrice_{:}.json'.format(filePrefix), 'r') as infile:
-            minimumPrice = json.load(infile)
-        with open('../results/data_NNlearing_maximumPrice_{:}.json'.format(filePrefix), 'r') as infile:
-            maximumPrice = json.load(infile)
-        with open('../random_train/randomPrice_{:}.json'.format(filePrefix), 'r') as infile:
-            randomPrice = json.load(infile)
-
-        return minimumPrice, maximumPrice, randomPrice
-
-    def evaluateOneRouteForMultipleTimes(self, filePrefix="BCN_BUD"):
-        """
-        Rune the evaluation multiple times(here 100), to get the avarage performance
-        :param filePrefix: route
+        :param timesToRun: the times to run the evaluation, and get the average.
         :return: average price
         """
 
@@ -529,20 +579,32 @@ class ClassificationBase(object):
         # route index
         flightNum = self.routes.index(filePrefix)
 
-        # get the maximum, minimum, and randomly picked prices
-        minimumPrice, maximumPrice, randomPrice = self.getBestAndWorstAndRandomPrice(filePrefix)
-        minimumPrice = sum(minimumPrice.values()) * 1.0 / len(minimumPrice) * self.currency[flightNum]
-        maximumPrice = sum(maximumPrice.values()) * 1.0 / len(maximumPrice) * self.currency[flightNum]
-        randomPrice = randomPrice * self.currency[flightNum]
+
 
         timesToRun = 1 # if it is neural network, please change this number to 20 or more
+        if self.isNN:
+            timesToRun = 20
         totalPrice = 0
         for i in range(timesToRun):
-            np.random.seed(i*i) # do not forget to set seed for the weight initialization
+            np.random.seed(i*i*i) # do not forget to set seed for the weight initialization
             price = self.evaluateOneRoute(filePrefix)
             totalPrice += price
 
         avgPrice = totalPrice * 1.0 / timesToRun
+
+        """
+        Just use it one time - in the small dataset, I get these datas from hard code.
+        If you need to use the large dataset, please use this version.
+        """
+        # self.minPrices_train = util.getMinPriceForSpecific_train()
+        # self.minPrices_test = util.getMinPriceForSpecific_test()
+        #
+        # self.randomPrices_train = util.getRandomPriceForSpecific_train()
+        # self.randomPrices_test = util.getRandomPriceForSpecific_test()
+        #
+        # self.maxPrices_train = util.getMaxPriceForSpecific_train()
+        # self.maxPrices_test = util.getMaxPriceForSpecific_test()
+
 
         if self.isTrain:
             #print "20 times avg price: {}".format(avgPrice)
@@ -578,16 +640,45 @@ class ClassificationBase(object):
 
         return (performance, normalizedPefor)
 
+    def evaluateAllRroutes(self):
+        """
+        Evaluate all the routes, print the performance for every route
+        and the average performance for all the routes.
+        """
+        performance = 0
+        normalizedPerformance = 0
 
+        for i in range(8):
+            print "Route: {}".format(i)
+            [perfor, normaPefor] = self.evaluateOneRouteForMultipleTimes(self.routes[i])
+            performance += perfor
+            normalizedPerformance += normaPefor
+
+        performance = round(performance/8, 2)
+        normalizedPerformance = round(normalizedPerformance/8, 2)
+
+        if self.isTrain:
+            print "\nTRAIN:"
+        else:
+            print "\nTEST:"
+        print "Average Performance: {}%".format(performance)
+        print "Average Normalized Performance: {}%".format(normalizedPerformance)
+
+
+
+"""
+Here, the two function is not in the class,
+use it separately to get the input for the outlier removal.
+"""
 def kmeansRemovingOutlierForClassifier():
     """
     use k-means to do outlier removal
     :return: NA
     """
     # load data
-    X_train = np.load('inputClf/X_train.npy')
-    y_train = np.load('inputClf/y_train.npy')
-    y_train_price = np.load('inputClf/y_train_price.npy')
+    X_train = np.load('inputClf_small/X_train.npy')
+    y_train = np.load('inputClf_small/y_train.npy')
+    y_train_price = np.load('inputClf_small/y_train_price.npy')
 
     # cluster initializing
     X_train1 = X_train[np.where(y_train==0)[0], :]
@@ -627,9 +718,9 @@ def gmmRemovingOutlierForClassifier():
     :return: NA
     """
     # load data
-    X_train = np.load('inputClf/X_train.npy')
-    y_train = np.load('inputClf/y_train.npy')
-    y_train_price = np.load('inputClf/y_train_price.npy')
+    X_train = np.load('inputClf_small/X_train.npy')
+    y_train = np.load('inputClf_small/y_train.npy')
+    y_train_price = np.load('inputClf_small/y_train_price.npy')
 
     # classifier initialize
     classifier = GMM(n_components=2,covariance_type='full', init_params='wmc', n_iter=20)
