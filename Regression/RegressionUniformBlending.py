@@ -17,6 +17,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.grid_search import GridSearchCV
 from sklearn.metrics import mean_squared_error
+from sklearn.ensemble import RandomForestRegressor
 
 
 
@@ -62,10 +63,10 @@ class RegressionUniformBlending(RegressionBase.RegressionBase):
         self.linRegr = linear_model.LinearRegression()
 
         # Create KNN regression object
-        self.knn = neighbors.KNeighborsRegressor(6, weights='uniform')
+        self.knn = neighbors.KNeighborsRegressor(86, weights='distance')
 
         # Create Decision Tree regression object
-        self.decisionTree = DecisionTreeRegressor(max_depth=5)
+        self.decisionTree = DecisionTreeRegressor(max_depth=7, max_features=None)
 
         # Create AdaBoost regression object
         decisionReg = DecisionTreeRegressor(max_depth=10)
@@ -74,6 +75,8 @@ class RegressionUniformBlending(RegressionBase.RegressionBase):
                           n_estimators=400,
                           random_state=rng)
 
+        # Create linear regression object
+        self.model = RandomForestRegressor(max_features='sqrt', n_estimators=32, max_depth=39)
 
 
     def dataPreprocessing(self):

@@ -25,6 +25,12 @@ class ClassificationAdaBoost(ClassficationBase.ClassificationBase):
             learning_rate=1,
             n_estimators=5,
             algorithm="SAMME.R")
+        # self.dt_stump = DecisionTreeClassifier(max_depth=14)
+        # self.ada = AdaBoostClassifier(
+        #     base_estimator=self.dt_stump,
+        #     learning_rate=1,
+        #     n_estimators=50,
+        #     algorithm="SAMME")
 
 
 

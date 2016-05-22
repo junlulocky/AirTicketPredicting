@@ -39,5 +39,5 @@ def main(isParameterTuning=0):
 
 
 if __name__ == "__main__":
-    isParameterTuning = 1 # 1 for parameter tuning, 0 for evaluate routes
+    isParameterTuning = 0 # 1 for parameter tuning, 0 for evaluate routes
     main(isParameterTuning)

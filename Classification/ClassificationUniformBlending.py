@@ -38,10 +38,10 @@ class ClassificationUniformBlending(ClassficationBase.ClassificationBase):
             algorithm="SAMME.R")
 
         # create knn object
-        self.knn = neighbors.KNeighborsClassifier(6, weights='uniform')
+        self.knn = neighbors.KNeighborsClassifier(2, weights='uniform')
 
         # create decision tree object
-        self.decisiontree = DecisionTreeClassifier(max_depth=50)
+        self.decisiontree = DecisionTreeClassifier(max_depth=45, max_features='log2')
 
         # create neural network object
         self.net1 = NeuralNet(
@@ -72,7 +72,7 @@ class ClassificationUniformBlending(ClassficationBase.ClassificationBase):
         self.pla = Perceptron()
 
         # create random forest object
-        self.rf = RandomForestClassifier(max_features='sqrt', n_estimators=32, max_depth=58)
+        self.rf = RandomForestClassifier(max_features='log2', n_estimators=20, max_depth=30)
 
 
 

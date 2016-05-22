@@ -37,6 +37,7 @@ class ClassificationUniformGeneralize(ClassficationBase.ClassificationBase):
         self.y_general = self.y_general.reshape((self.y_general.shape[0], 1))
         self.y_general_price = np.load('inputGeneralClf_small/y_train_price.npy')
         self.y_general_price = self.y_general_price.reshape((self.y_general_price.shape[0], 1))
+        print self.X_general.shape
 
         self.y_general_index = np.zeros(self.y_general.shape)
         for i in range(self.X_general.shape[0]):
@@ -107,6 +108,8 @@ class ClassificationUniformGeneralize(ClassficationBase.ClassificationBase):
             y_pred = self.ada.predict(self.X_generals[i])
             self.y_pred += y_pred
         self.y_pred = self.y_pred / 8.0
+        self.y_pred[self.y_pred >= 0.5] = 1
+        self.y_pred[self.y_pred < 0.5] = 0
 
         self.y_pred = self.y_pred.reshape((self.y_pred.shape[0], 1))
         self.y_general = self.y_general.reshape((self.y_general.shape[0], 1))
