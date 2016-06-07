@@ -36,8 +36,19 @@ def main(isParameterTuning=0):
     else:
         mainAdaBoostReg()
 
+def mainDrawValidationCurve():
+    """
+    Draw validation curve
+    """
+    reg = RegressionAdaBoost(1)
+    reg.drawValidationCurve()
+
 
 
 if __name__ == "__main__":
-    isParameterTuning = 0 # 1 for parameter tuning, 0 for evaluate routes
-    main(isParameterTuning)
+    isdrawValidation = 1 # 1 to draw the validation curve; 0 to do analysis
+    if isdrawValidation:
+        mainDrawValidationCurve()
+    else:
+        isParameterTuning = 0 # 1 for parameter tuning, 0 for evaluate routes
+        main(isParameterTuning)

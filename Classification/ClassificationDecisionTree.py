@@ -10,6 +10,8 @@ import ClassficationBase
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.grid_search import GridSearchCV
 from sklearn.metrics import classification_report
+from sklearn.learning_curve import validation_curve
+import matplotlib.pyplot as plt
 
 
 class ClassificationDecisionTree(ClassficationBase.ClassificationBase):
@@ -49,6 +51,44 @@ class ClassificationDecisionTree(ClassficationBase.ClassificationBase):
         print "Detailed classification report:\n"
         y_true, y_pred = self.y_test, clf.predict(self.X_test)
         print classification_report(y_true, y_pred)
+
+    def drawValidationCurve(self):
+        """
+        To draw the validation curve
+        :return:NA
+        """
+        X, y = self.X_train, self.y_train.ravel()
+        indices = np.arange(y.shape[0])
+        np.random.shuffle(indices)
+        X, y = X[indices], y[indices]
+
+        train_sizes = range(2,60)
+        train_scores, valid_scores = validation_curve(self.clf, X, y, "max_depth",
+                                              train_sizes, cv=5)
+
+        train_scores_mean = np.mean(train_scores, axis=1)
+        train_scores_std = np.std(train_scores, axis=1)
+        valid_scores_mean = np.mean(valid_scores, axis=1)
+        valid_scores_std = np.std(valid_scores, axis=1)
+
+        plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
+                     train_scores_mean + train_scores_std, alpha=0.1,
+                     color="r")
+        plt.fill_between(train_sizes, valid_scores_mean - valid_scores_std,
+                         valid_scores_mean + valid_scores_std, alpha=0.1, color="g")
+        plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
+                 label="Training Precision")
+        plt.plot(train_sizes, valid_scores_mean, '*-', color="g",
+                 label="Cross-validation Precision")
+
+        plt.legend(loc="best")
+
+        plt.xlabel('Max Depth(log2(all features) to be considered) ')
+        plt.ylabel('Precision')
+        plt.title('Validation Curve with Decision Tree on the parameter of Max Depth')
+        plt.grid(True)
+        plt.show()
+
 
 
 

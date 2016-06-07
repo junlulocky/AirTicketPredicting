@@ -27,7 +27,7 @@ routes_general = ["BGY_OTP", # route 1
                 "PRG_LTN", # route 10
                 "VKO_BUD", # route 11
                 "WAW_CRL"] # route 12
-
+"""
 def getFeaturesForGeneralRoutes_Regression():
     # feature 0~11: flight number dummy variables
     # feature 12: departure date; feature 13: observed date state;
@@ -38,9 +38,8 @@ def getFeaturesForGeneralRoutes_Regression():
     y_general = np.load('inputGeneralReg/y_train.npy')
     y_general_price = np.load('inputGeneralReg/y_train_price.npy')
 
-    """
-    remove the non-relevant datas
-    """
+
+    #remove the non-relevant datas
     latestDepartureDate = 102  # need to change
     y_general = y_general[np.where(X_general[:, 12]<=102)[0], :]
     y_general_price = y_general_price[np.where(X_general[:, 12]<=102)[0], :]
@@ -72,9 +71,8 @@ def getFeaturesForGeneralRoutes_Regression():
     y_specific = np.concatenate((y_specific, y_train2), axis=0)
     y_specific_price = np.concatenate((y_specific_price, y_train2_price), axis=0)
 
-    """
-    define the specific patterns
-    """
+
+    #define the specific patterns
     patterns = [[1,0,0,0,0,0,0,0],
                 [0,1,0,0,0,0,0,0],
                 [0,0,1,0,0,0,0,0],
@@ -111,9 +109,8 @@ def getFeaturesForGeneralRoutes_Regression():
             indexs = np.where(tmpGeneral[:, 0]==departureDate)[0]
             # get the datas of same departureDate
             datasByDate = tmpGeneral[indexs, :]
-            """
+
             # sort by the observed date state, from large to small(i.e. for time series)
-            """
             datasByDate = datasByDate[(10-datasByDate[:,1]).argsort()]
 
             # group by the feature: state
@@ -130,7 +127,7 @@ def getFeaturesForGeneralRoutes_Regression():
 
                     referenceSeq_i = referenceSeq_i[:,12]
 
-                    """ keep the seqeunce long enough"""
+                    #keep the seqeunce long enough
                     if referenceSeq_i.shape[0] < 31:
                         isNoUse = 1
                     else:
@@ -170,15 +167,15 @@ def getFeaturesForGeneralRoutes_Regression():
 
 
     return X_result, y_result, y_result_price
-
+"""
 def getFeaturesForGeneralRoutes_Classification():
     # feature 0~11: flight number dummy variables
     # feature 12: departure date; feature 13: observed date state;
     # feature 14: minimum price; feature 15: maximum price
     # feature 16: buy or wait; feature 17: current price
-    X_general = np.load('inputGeneralClf_small/X_train.npy')
-    y_general = np.load('inputGeneralClf_small/y_train.npy')
-    y_general_price = np.load('inputGeneralClf_small/y_train_price.npy')
+    X_general = np.load('../Classification/inputGeneralClf_small/X_train.npy')
+    y_general = np.load('../Classification/inputGeneralClf_small/y_train.npy')
+    y_general_price = np.load('../Classification/inputGeneralClf_small/y_train_price.npy')
 
     y_general = y_general.reshape((y_general.shape[0], 1))
     y_general_price = y_general_price.reshape((y_general_price.shape[0], 1))
@@ -204,9 +201,9 @@ def getFeaturesForGeneralRoutes_Classification():
     # feature 8: departure date; feature 9: observed date state;
     # feature 10: minimum price; feature 11: maximum price
     # feature 12: buy or wait; feature 13: current price
-    X_specific = np.load('inputClf_small/X_train.npy')
-    y_specific = np.load('inputClf_small/y_train.npy')
-    y_specific_price = np.load('inputClf_small/y_train_price.npy')
+    X_specific = np.load('../Classification/inputClf_small/X_train.npy')
+    y_specific = np.load('../Classification/inputClf_small/y_train.npy')
+    y_specific_price = np.load('../Classification/inputClf_small/y_train_price.npy')
     X_specific = np.concatenate((X_specific, y_specific, y_specific_price), axis=1)
 
     """
@@ -299,10 +296,10 @@ def getFeaturesForGeneralRoutes_Classification():
     y_index = X_result[:,14]
     X_result = X_result[:, 0:12]
 
-    np.save('inputGeneralClf_HmmParsed/X_train', X_result)
-    np.save('inputGeneralClf_HmmParsed/y_train', y_result)
-    np.save('inputGeneralClf_HmmParsed/y_train_price', y_result_price)
-    np.save('inputGeneralClf_HmmParsed/y_index', y_index)
+    np.save('../Classification/inputGeneralClf_HmmParsed/X_train', X_result)
+    np.save('../Classification/inputGeneralClf_HmmParsed/y_train', y_result)
+    np.save('../Classification/inputGeneralClf_HmmParsed/y_train_price', y_result_price)
+    np.save('../Classification/inputGeneralClf_HmmParsed/y_index', y_index)
 
     return X_result, y_result, y_result_price
 

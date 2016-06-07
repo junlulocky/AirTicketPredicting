@@ -28,8 +28,16 @@ def mainHyperparameter():
     """
     Parameter tuning
     """
-    clf = ClassificationDecisionTree(1)
+    clf = ClassificationDecisionTree(1, 0)
     clf.parameterChoosing()
+
+def mainDrawValidationCurve():
+    """
+    Draw validation curve
+    """
+    clf = ClassificationDecisionTree(1, 0)
+    clf.drawValidationCurve()
+
 
 
 def main(isParameterTuning=0):
@@ -41,5 +49,10 @@ def main(isParameterTuning=0):
 
 
 if __name__ == "__main__":
-    isParameterTuning=0 # 1 for parameter tuning, 0 for evaluate routes
-    main(isParameterTuning)
+    isdrawValidation = 0 # 1 to draw the validation curve; 0 to do analysis
+    if isdrawValidation:
+        mainDrawValidationCurve()
+    else:
+        isParameterTuning=0 # 1 for parameter tuning, 0 for evaluate routes
+        main(isParameterTuning)
+

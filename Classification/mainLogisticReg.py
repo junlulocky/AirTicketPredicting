@@ -23,8 +23,18 @@ def mainLogReg():
     [perfor, normaPefor] = clf.evaluateOneRouteForMultipleTimes(clf.routes[i])
     clf.visualizePrediction(clf.routes[i])
     """
+def mainDrawValidationCurve():
+    """
+    Draw validation curve
+    """
+    clf = ClassificationLogReg(1, 0)
+    clf.drawValidationCurve()
 
 
 if __name__ == "__main__":
-    mainLogReg()
-    #mainHyperParameter()
+    isdrawValidation = 1 # 1 to draw the validation curve; 0 to do analysis
+    if isdrawValidation:
+        mainDrawValidationCurve()
+    else:
+        mainLogReg()
+        #mainHyperParameter()

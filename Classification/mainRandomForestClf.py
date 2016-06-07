@@ -37,7 +37,19 @@ def main(isParameterTuning=0):
     else:
         mainRandomForestClf()
 
+def mainDrawValidationCurve():
+    """
+    Draw validation curve
+    """
+    clf = ClassificationRandomForest(1, 0)
+    clf.drawValidationCurve_maxdepth()
+    clf.drawValidationCurve_estimators()
+
 
 if __name__ == "__main__":
-    isParameterTuning=0 # 1 for parameter tuning, 0 for evaluate routes
-    main(isParameterTuning)
+    isdrawValidation = 1 # 1 to draw the validation curve; 0 to do analysis
+    if isdrawValidation:
+        mainDrawValidationCurve()
+    else:
+        isParameterTuning=0 # 1 for parameter tuning, 0 for evaluate routes
+        main(isParameterTuning)
