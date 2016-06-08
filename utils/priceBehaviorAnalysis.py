@@ -3,8 +3,6 @@ import numpy as np
 import pandas as pd
 from matplotlib.dates import MONDAY
 from matplotlib.dates import MonthLocator, WeekdayLocator, DateFormatter
-
-
 import matplotlib.pyplot as plt
 
 
@@ -22,8 +20,8 @@ routes = ["BCN_BUD",  # route 1
 # feature 8: departure date; feature 9: observed date state;
 # feature 10: minimum price; feature 11: maximum price
 # feature 12: current price
-train = np.load('Regression/inputReg/X_train.npy')
-test = np.load('Regression/inputReg/X_test.npy')
+train = np.load('../Regression/inputReg_small/X_train.npy')
+test = np.load('../Regression/inputReg_small/X_test.npy')
 datas = np.concatenate((train, test), axis=0)
 
 def getOneRouteData(X, route):
@@ -36,6 +34,11 @@ def getOneRouteData(X, route):
     return X
 
 def getMinAndMaxForOneRoute(route):
+    """
+    get the minimum and maximum price for one route
+    :param route: route name
+    :return:
+    """
     X = getOneRouteData(datas, route)
 
     min = np.amin(X[:,12])
@@ -51,9 +54,9 @@ def MinMaxComparison():
     for i in range(8):
         print routes[i]
         min, max = getMinAndMaxForOneRoute(routes[i])
-        print min
-        print max
-        print max-min
+        print(str(min) + " \euro")
+        print(str(max) + " \euro")
+        print(str(max-min) + " \euro")
         print "\n"
 
 def getDatasForOneRouteForOneDepartureDate(route, departureDate):
@@ -125,5 +128,6 @@ if __name__ == "__main__":
     # bcn-bud 48, 49
     # bud-bcn 30, 49
     # crl-otp 38, 42, 44!
+    MinMaxComparison()
     getDatasForOneRouteForOneDepartureDate(routes[2], 44)
 
