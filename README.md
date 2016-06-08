@@ -31,7 +31,7 @@ This project defines two problems, one is the **specific problem**, the other on
 
 <a name='classifier'></a>
 ### Classification
-Use Classification to predict
+- Use Classification to predict
 
 <a name='classifierspecific'></a>
 #### Specific Problem
@@ -70,7 +70,8 @@ Use Classification to predict
 ```
 # methods
 |-inputGeneralClf_small              # the input for uniformGneralize method
-|_inputGeneralClf_HmmParsed          # the input pattens are parsed from HMM Sequence Classification, used for HmmGeneralizeClf method
+# the input pattens are parsed from HMM Sequence Classification, used for HmmGeneralizeClf method
+|_inputGeneralClf_HmmParsed          
 |-ClassificationHmmGeneralize.py     # use hmm to do the generalized problem
 |-ClassificationUniformGeneralize.py # use uniform blending to do the generalized problem
 # test files
@@ -81,7 +82,7 @@ Use Classification to predict
 
 <a name='regressor'></a>
 ### Regression
-Use regression to predict.
+- Use regression to predict.
 
 <a name='regressorspecific'></a>
 #### Specific Problem
@@ -135,11 +136,14 @@ It is used to generalize the patterns for the new routes.
 ```
 # utils
 |-data_small   # input data crawled from an airplane company, json files. It is a 103 day period.
-|-inputGeneralRaw   # the generalized problem input matrices parsed from data_small, and it is not price normalized(i.e. not in Euro currency)
-|-inputSpecificRaw  # the specific problem input matrices parsed from data_small, and it is not price normalized(i.e. not in Euro currency)
+# the generalized problem input matrices parsed from data_small, and it is not price normalized(i.e. not in Euro currency)
+|-inputGeneralRaw
+# the specific problem input matrices parsed from data_small, and it is not price normalized(i.e. not in Euro currency)   
+|-inputSpecificRaw  
 |-util.py      # util functions
 |-load_data.py # load input from the raw json data
-|-log.py       # log function, if you do not want to see some log info, please change the DEBUG variable in this file to 'False'
+# log function, if you do not want to see some log info, please change the DEBUG variable in this file to 'False'
+|-log.py       
 |-priceBehaviorAnalysis.py # analyze the price behavior of several routes
 |-plotOutlierRemoval.py    # plot the figure to illustrate outlier removal
 
