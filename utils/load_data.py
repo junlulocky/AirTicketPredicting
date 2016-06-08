@@ -17,7 +17,7 @@ routes_specific = ["BCN_BUD",  # route 1
               "OTP_CRL",  # route 6
               "SKP_MLH",  # route 7
               "SKP_MMX"]  # route 8
-# for currency change
+# for currency change - change different currency to Euro
 currency_specific = [1,      # route 1 - Euro
                  0.0032, # route 2 - Hungarian Forint
                  1,      # route 3 - Euro
@@ -44,7 +44,7 @@ routes_general = ["BGY_OTP", # route 1
                 "VKO_BUD", # route 11
                 "WAW_CRL"] # route 12
 
-# for currency change
+# for currency change - change different currency to Euro
 currency_general = [1,      # route 1 - Euro
                  0.0032, # route 2 - Hungarian Forint
                  1,      # route 3 - Euro
@@ -90,7 +90,13 @@ def check_if_only_one_flightNum(datas):
 
 
 
-def load_data_with_prefix_and_dataset(filePrefix="BCN_BUD", dataset="large data set"):
+def load_data_with_prefix_and_dataset(filePrefix="BCN_BUD", dataset="Specific"):
+    """
+    load the data in the 'dataset' with 'filePrefix'
+    :param filePrefix: choose which route
+    :param dataset: dataset name('Specific' or 'General')
+    :return: decoded data
+    """
     currentDir = os.path.dirname(os.path.realpath(__file__))
     observeDatesDirs = os.listdir(currentDir + "/data/" + dataset) # path directory of each observed date in the dataset
 
@@ -128,14 +134,14 @@ def load_data_with_prefix_and_dataset(filePrefix="BCN_BUD", dataset="large data 
     return data_decoded
 
 
-def load_data_with_daysBeforeTakeoff_and_sameFlightNum(days, filePrefix="BCN_BUD", dataset="large data set"):
+def load_data_with_daysBeforeTakeoff_and_sameFlightNum(days, filePrefix="BCN_BUD", dataset="Specific"):
     """
     Load data with same flight number and the same days before takeoff.
     i.e. same equivalence class
     But in out dataset, one route means one flight number.
     :param days: the days before takeoff
     :param filePrefix: choose which route
-    :param dataset: choose from wchich dataset
+    :param dataset: dataset name('Specific' or 'General')
     :return: data with same flight number and the same days before takeoff
     """
     datas = load_data_with_prefix_and_dataset(filePrefix, dataset)
@@ -143,7 +149,7 @@ def load_data_with_daysBeforeTakeoff_and_sameFlightNum(days, filePrefix="BCN_BUD
 
     return output
 
-def get_departure_len(filePrefix="BCN_BUD", dataset="large data set"):
+def get_departure_len(filePrefix="BCN_BUD", dataset="Specific"):
     """
     So far, used in QLearning, return the total departure date length in the chosen dataset.
     """
@@ -158,7 +164,7 @@ def get_departure_len(filePrefix="BCN_BUD", dataset="large data set"):
     return len(departureDates)
 
 
-def load_data_with_departureIndex(departureIndex, filePrefix="BCN_BUD", dataset="large data set"):
+def load_data_with_departureIndex(departureIndex, filePrefix="BCN_BUD", dataset="Specific"):
     """
     Given the departureIndex, return the dataset with specific departure date in the chosen dataset.
     """
@@ -193,7 +199,7 @@ def load_data_with_departureIndex(departureIndex, filePrefix="BCN_BUD", dataset=
 
     return specificDatas
 
-def load_data_with_departureDate(departureDate, filePrefix="BCN_BUD", dataset="large data set"):
+def load_data_with_departureDate(departureDate, filePrefix="BCN_BUD", dataset="Specific"):
     """
     Given the departureIndex, return the dataset with specific departure date in the chosen dataset.
     """
@@ -313,7 +319,7 @@ def getMaximumPreviousPrice(departureDate, state, datas):
 def load_for_classification_for_Specific(dataset="Specific", routes=routes_specific):
     """
     Load the data for classification
-    :param dataset: dataset
+    :param dataset: dataset name('Specific' or 'General')
     :return: X_train, y_train, X_test, y_test
     """
     isOneOptimalState = False
@@ -445,7 +451,7 @@ def load_for_classification_for_Specific(dataset="Specific", routes=routes_speci
 def load_for_classification_for_General(dataset="General", routes=routes_general):
     """
     Load the data for classification
-    :param dataset: dataset
+    :param dataset: dataset name('Specific' or 'General')
     :return: X_train, y_train, X_test, y_test
     """
     isOneOptimalState = False
@@ -540,7 +546,7 @@ def priceNormalize_for_Specific(routes=routes_specific, currency=currency_specif
     """
     Different routes have different units for the price, normalize it as Euro.
     :return: NA
-    example: priceNormalize_for_General()
+    example: priceNormalize_for_Specific()
     """
     """
     Get the input specific clf data for the training data set
@@ -575,9 +581,9 @@ def priceNormalize_for_Specific(routes=routes_specific, currency=currency_specif
     y_train_price = y_train_price.reshape((y_train_price.shape[0], 1))
 
 
-    np.save('inputSpecificClf/X_train', X_train)
-    np.save('inputSpecificClf/y_train', y_train)
-    np.save('inputSpecificClf/y_train_price', y_train_price)
+    np.save('../Classification/inputClf_small/X_train', X_train)
+    np.save('../Classification/inputClf_small/y_train', y_train)
+    np.save('../Classification/inputClf_small/y_train_price', y_train_price)
 
     """
     Get the input specific clf data for the test data set
@@ -613,9 +619,9 @@ def priceNormalize_for_Specific(routes=routes_specific, currency=currency_specif
     y_test_price = y_test_price.reshape((y_test_price.shape[0], 1))
 
 
-    np.save('inputSpecificClf/X_test', X_test)
-    np.save('inputSpecificClf/y_test', y_test)
-    np.save('inputSpecificClf/y_test_price', y_test_price)
+    np.save('../Classification/inputClf_small/X_test', X_test)
+    np.save('../Classification/inputClf_small/y_test', y_test)
+    np.save('../Classification/inputClf_small/y_test_price', y_test_price)
 
 """
 # step 2. price normalize for the classification input - for general
@@ -658,9 +664,9 @@ def priceNormalize_for_General(routes=routes_general, currency=currency_general)
     #self.X_train = np.concatenate((self.X_train, self.y_train_price), axis=1)
     #self.X_test = np.concatenate((self.X_test, self.y_test_price), axis=1)
 
-    np.save('inputGeneralClf/X_train', X_train)
-    np.save('inputGeneralClf/y_train', y_train)
-    np.save('inputGeneralClf/y_train_price', y_train_price)
+    np.save('../Classification/inputGeneralClf_small/X_train', X_train)
+    np.save('../Classification/inputGeneralClf_small/y_train', y_train)
+    np.save('../Classification/inputGeneralClf_small/y_train_price', y_train_price)
 
 """
 # step 3. get the regression input and output from classification inputs - for specific
@@ -670,9 +676,9 @@ def getRegressionOutput_for_SpecificTrain(routes=routes_specific):
     Get the regression output formula from the classification datasets.
     :return: Save the regression datasets into inputGeneralReg
     """
-    X_train = np.load('inputSpecificClf2/X_train.npy')
-    y_train = np.load('inputSpecificClf2/y_train.npy')
-    y_train_price = np.load('inputSpecificClf2/y_train_price.npy')
+    X_train = np.load('../Classification/inputClf_small/X_train.npy')
+    y_train = np.load('../Classification/inputClf_small/y_train.npy')
+    y_train_price = np.load('../Classification/inputClf_small/y_train_price.npy')
 
     # concatenate the buy or wait info to get the total datas
     y_train = y_train.reshape((y_train.shape[0],1))
@@ -724,18 +730,18 @@ def getRegressionOutput_for_SpecificTrain(routes=routes_specific):
 
     # regression has one more feature than classification
     X_train = np.concatenate((X_train, y_train_price), axis=1)
-    np.save('inputSpecificReg2/X_train', X_train)
-    np.save('inputSpecificReg2/y_train', y_train)
-    np.save('inputSpecificReg2/y_train_price', y_train_price)
+    np.save('../Regression/inputReg_small/X_train', X_train)
+    np.save('../Regression/inputReg_small/y_train', y_train)
+    np.save('../Regression/inputReg_small/y_train_price', y_train_price)
 
 def getRegressionOutput_for_SpecificTest(routes=routes_specific):
     """
     Get the regression output formula from the classification datasets.
     :return: Save the regression datasets into inputGeneralReg
     """
-    X_test = np.load('inputSpecificClf2/X_test.npy')
-    y_test = np.load('inputSpecificClf2/y_test.npy')
-    y_test_price = np.load('inputSpecificClf2/y_test_price.npy')
+    X_test = np.load('../Classification/inputClf_small/X_test.npy')
+    y_test = np.load('../Classification/inputClf_small/y_test.npy')
+    y_test_price = np.load('../Classification/inputClf_small/y_test_price.npy')
 
     # concatenate the buy or wait info to get the total datas
     y_test = y_test.reshape((y_test.shape[0],1))
@@ -787,9 +793,9 @@ def getRegressionOutput_for_SpecificTest(routes=routes_specific):
 
     # regression has one more feature than classification
     X_test = np.concatenate((X_test, y_test_price), axis=1)
-    np.save('inputSpecificReg2/X_test', X_test)
-    np.save('inputSpecificReg2/y_test', y_test)
-    np.save('inputSpecificReg2/y_test_price', y_test_price)
+    np.save('../Regression/inputReg_small/X_test', X_test)
+    np.save('../Regression/inputReg_small/y_test', y_test)
+    np.save('../Regression/inputReg_small/y_test_price', y_test_price)
 
 
 """
@@ -800,9 +806,9 @@ def getRegressionOutput_for_General(routes=routes_general):
     Get the regression output formula from the classification datasets.
     :return: Save the regression datasets into inputGeneralReg
     """
-    X_train = np.load('inputGeneralClf/X_train.npy')
-    y_train = np.load('inputGeneralClf/y_train.npy')
-    y_train_price = np.load('inputGeneralClf/y_train_price.npy')
+    X_train = np.load('../Classification/inputGeneralClf_small/X_train.npy')
+    y_train = np.load('../Classification/inputGeneralClf_small/y_train.npy')
+    y_train_price = np.load('../Classification/inputGeneralClf_small/y_train_price.npy')
 
     # concatenate the buy or wait info to get the total datas
     y_train = y_train.reshape((y_train.shape[0],1))
@@ -854,9 +860,9 @@ def getRegressionOutput_for_General(routes=routes_general):
 
     # regression has one more feature than classification
     X_train = np.concatenate((X_train, y_train_price), axis=1)
-    np.save('inputGeneralReg/X_train', X_train)
-    np.save('inputGeneralReg/y_train', y_train)
-    np.save('inputGeneralReg/y_train_price', y_train_price)
+    np.save('../Regression/inputGeneralReg_small/X_train', X_train)
+    np.save('../Regression/inputGeneralReg_small/y_train', y_train)
+    np.save('../Regression/inputGeneralReg_small/y_train_price', y_train_price)
 
 """
 # step 4. visualize for classification - for specific
@@ -869,13 +875,13 @@ def visualizeData_for_SpecificClassification(filePrefix, isTrain=True, routes=ro
     example: visualizeData_for_SpecificClassification(routes_specific[1], routes_specific)
     """
     if isTrain:
-        X_train = np.load('inputClf_small/X_train.npy')
-        y_train = np.load('inputClf_small/y_train.npy')
-        y_train_price = np.load('inputClf_small/y_train_price.npy')
+        X_train = np.load('../Classification/inputClf_small/X_train.npy')
+        y_train = np.load('../Classification/inputClf_small/y_train.npy')
+        y_train_price = np.load('../Classification/inputClf_small/y_train_price.npy')
     else:
-        X_train = np.load('inputClf_small/X_test.npy')
-        y_train = np.load('inputClf_small/y_test.npy')
-        y_train_price = np.load('inputClf_small/y_test_price.npy')
+        X_train = np.load('../Classification/inputClf_small/X_test.npy')
+        y_train = np.load('../Classification/inputClf_small/y_test.npy')
+        y_train_price = np.load('../Classification/inputClf_small/y_test_price.npy')
 
     # route index
     flightNum = routes.index(filePrefix)
@@ -921,9 +927,9 @@ def visualizeTrainData_for_GeneralClassification(filePrefix, routes):
     :return: NA
     example: visualizeTrainData_for_General(routes_general[1], routes_general)
     """
-    X_train = np.load('inputGeneralClf_small/X_train.npy')
-    y_train = np.load('inputGeneralClf_small/y_train.npy')
-    y_train_price = np.load('inputGeneralClf_small/y_train_price.npy')
+    X_train = np.load('../Classification/inputGeneralClf_small/X_train.npy')
+    y_train = np.load('../Classification/inputGeneralClf_small/y_train.npy')
+    y_train_price = np.load('../Classification/inputGeneralClf_small/y_train_price.npy')
 
 
     # route index
@@ -971,9 +977,9 @@ def visualizeTrainData_for_GeneralRegression(filePrefix, routes):
     :return: NA
     example: visualizeTrainData_for_General(routes_general[1], routes_general)
     """
-    X_train = np.load('inputGeneralReg/X_train.npy')
-    y_train = np.load('inputGeneralReg/y_train.npy')
-    y_train_price = np.load('inputGeneralReg/y_train_price.npy')
+    X_train = np.load('../Regression/inputGeneralReg_small/X_train.npy')
+    y_train = np.load('../Regression/inputGeneralReg_small/y_train.npy')
+    y_train_price = np.load('../Regression/inputGeneralReg_small/y_train_price.npy')
 
     """
     define the variables to be changed
@@ -1028,13 +1034,13 @@ def visualizeTrainData_for_SpecificRegression(filePrefix, routes):
     :return: NA
     example: visualizeTrainData_for_SpecificRegression(routes_general[1], routes_general)
     """
-    X_train = np.load('Regression/inputReg/X_train.npy')
-    y_train = np.load('Regression/inputReg/y_train.npy')
-    y_train_price = np.load('Regression/inputReg/y_train_price.npy')
+    X_train = np.load('../Regression/inputReg_small/X_train.npy')
+    y_train = np.load('../Regression/inputReg_small/y_train.npy')
+    y_train_price = np.load('../Regression/inputReg_small/y_train_price.npy')
 
-    X_train2 = np.load('Regression/inputReg/X_test.npy')
-    y_train2 = np.load('Regression/inputReg/y_test.npy')
-    y_train2_price = np.load('Regression/inputReg/y_test_price.npy')
+    X_train2 = np.load('../Regression/inputReg_small/X_test.npy')
+    y_train2 = np.load('../Regression/inputReg_small/y_test.npy')
+    y_train2_price = np.load('../Regression/inputReg_small/y_test_price.npy')
 
     X_train = np.concatenate((X_train, X_train2), axis=0)
     y_train = np.concatenate((y_train, y_train2), axis=0)
@@ -1083,68 +1089,9 @@ def visualizeTrainData_for_SpecificRegression(filePrefix, routes):
         print departureDate
         print datas
 
-def testClf():
-    X_train = np.load('inputSpecificClf/X_train.npy')
-    y_train = np.load('inputSpecificClf/y_train.npy')
-    y_train_price = np.load('inputSpecificClf/y_train_price.npy')
-
-    X_test = np.load('inputSpecificClf/X_test.npy')
-    y_test = np.load('inputSpecificClf/y_test.npy')
-    y_test_price = np.load('inputSpecificClf/y_test_price.npy')
-
-    X = np.concatenate((X_train, X_test), axis=0)
-    y = np.concatenate((y_train, y_test), axis=0)
-    y_price = np.concatenate((y_train_price, y_test_price), axis=0)
-
-    y_train = y[np.where(X[:,8]<=112)[0], :]
-    y_test = y[np.where( (X[:,8]>112) & (X[:,8]<142))[0], :]
-
-    y_train_price = y_price[np.where(X[:,8]<=112)[0], :]
-    y_test_price = y_price[np.where((X[:,8]>112) & (X[:,8]<142))[0], :]
-
-    X_train = X[np.where(X[:,8]<=112)[0], :]
-    X_test = X[np.where((X[:,8]>112) & (X[:,8]<142))[0], :]
-
-    # save the result
-    np.save('inputSpecificClf2/X_train', X_train)
-    np.save('inputSpecificClf2/y_train', y_train)
-    np.save('inputSpecificClf2/y_train_price', y_train_price)
-    np.save('inputSpecificClf2/X_test', X_test)
-    np.save('inputSpecificClf2/y_test', y_test)
-    np.save('inputSpecificClf2/y_test_price', y_test_price)
-
-    print X_train.shape
-    print y_train.shape
-    print y_train_price.shape
-    print X_test.shape
-    print y_test.shape
-    print y_test_price.shape
-
-def getGeneralRoutesSmall():
-    """
-    get the general routes, make the departure date period the same as test data set
-    :return:
-    """
-    # normalize feature 14, feature 15, feature 17
-    # feature 0~11: flight number dummy variables
-    # feature 12: departure date; feature 13: observed date state;
-    # feature 14: minimum price; feature 15: maximum price
-    # fearure 16: prediction(buy or wait); feature 17: price
-    X_train = np.load('inputGeneralClf/X_train.npy')
-    y_train = np.load('inputGeneralClf/y_train.npy')
-    y_train_price = np.load('inputGeneralClf/y_train_price.npy')
-
-    y_train = y_train[np.where((X_train[:,12]>=67) & (X_train[:,12]<=102))[0], :]
-    y_train_price = y_train_price[np.where((X_train[:,12]>=67) & (X_train[:,12]<=102))[0], :]
-    X_train = X_train[np.where((X_train[:,12]>=67) & (X_train[:,12]<=102))[0], :]
-
-    np.save('inputGeneralClf_small/X_train', X_train)
-    np.save('inputGeneralClf_small/y_train', y_train)
-    np.save('inputGeneralClf_small/y_train_price', y_train_price)
 
 
 if __name__ == "__main__":
-    # load_for_classification('small data set', routes_general)
     # priceNormalize_for_General()
     #visualizeTrainData_for_GeneralClassification(routes_general[1], routes_general)
     #visualizeTrainData_for_GeneralRegression(routes_general[1], routes_general)
@@ -1154,33 +1101,32 @@ if __name__ == "__main__":
     """
     STEP 1: load raw data
     """
-    #load_for_classification_for_Specific()
-    #load_for_classification_for_General()
+    load_for_classification_for_Specific()
+    load_for_classification_for_General()
 
     """
     STEP 2: get the data for the classification problem
     """
-    #priceNormalize_for_Specific()
-    #priceNormalize_for_General()
+    priceNormalize_for_Specific()
+    priceNormalize_for_General()
 
     """
     STEP 3: get the data for the regression problem
     """
-    #getRegressionOutput_for_SpecificTrain()
-    #getRegressionOutput_for_SpecificTest()
+    getRegressionOutput_for_SpecificTrain()
+    getRegressionOutput_for_SpecificTest()
 
     """
     STEP 4: visualize the data set for classification problem
     """
     isTrain = 0
-    #visualizeData_for_SpecificClassification(routes_specific[1], isTrain, routes_specific)
+    visualizeData_for_SpecificClassification(routes_specific[1], isTrain, routes_specific)
     visualizeTrainData_for_GeneralClassification(routes_general[11], routes_general)
-    #testClf()
 
     """
     STEP 5: visualize the data set, but you can do this step at the classification object
     """
-    #visualizeTrainData_for_SpecificRegression(routes_general[1], routes_general)
+    visualizeTrainData_for_SpecificRegression(routes_general[1], routes_general)
 
 
 

@@ -133,6 +133,9 @@ It is used to generalize the patterns for the new routes.
 <a name='others'></a>
 ### Others
 ```
+|-data_small   # input data crawled from an airplane company, json files. It is a 103 day period.
+|-inputGeneralRaw   # the generalized problem input matrices parsed from data_small, and it is not price normalized(i.e. not in Euro currency)
+|-inputSpecificRaw  # the specific problem input matrices parsed from data_small, and it is not price normalized(i.e. not in Euro currency)
 |-util.py      # util functions
 |-load_data.py # load input from the raw json data
 |-log.py       # log function, if you do not want to see some log info, please change the DEBUG variable in this file to 'False'
