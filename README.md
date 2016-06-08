@@ -142,6 +142,7 @@ It is used to generalize the patterns for the new routes.
 |-log.py       # log function, if you do not want to see some log info, please change the DEBUG variable in this file to 'False'   
 |-priceBehaviorAnalysis.py # analyze the price behavior of several routes
 |-plotOutlierRemoval.py    # plot the figure to illustrate outlier removal
+|-plotNNUpdate.py          # plot the effect of different update method in NN
 
 # infos
 |-requirements.txt         # package requirements
