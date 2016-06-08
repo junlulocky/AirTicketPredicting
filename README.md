@@ -133,6 +133,7 @@ It is used to generalize the patterns for the new routes.
 <a name='others'></a>
 ### Others
 ```
+# utils
 |-data_small   # input data crawled from an airplane company, json files. It is a 103 day period.
 |-inputGeneralRaw   # the generalized problem input matrices parsed from data_small, and it is not price normalized(i.e. not in Euro currency)
 |-inputSpecificRaw  # the specific problem input matrices parsed from data_small, and it is not price normalized(i.e. not in Euro currency)
@@ -141,6 +142,8 @@ It is used to generalize the patterns for the new routes.
 |-log.py       # log function, if you do not want to see some log info, please change the DEBUG variable in this file to 'False'
 |-priceBehaviorAnalysis.py # analyze the price behavior of several routes
 |-plotOutlierRemoval.py    # plot the figure to illustrate outlier removal
+
+# infos
 |-requirements.txt         # package requirements
 |-Performance Record.xlsx  # record the performance of various parameters
 ```
