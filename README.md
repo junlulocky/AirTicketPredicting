@@ -1,6 +1,20 @@
 # Machine Learning for Air Ticket Predicting
 
-## Instructions on the codes#
+Table of Contents:
+- [Instructions on the codes](#instruction)
+- [Code Structure](#sturcture)
+	- [Classification](#classifier)
+		- [Specific Problem](#classifierspecific)
+		- [Generalized Problem](#classifiergeneral)
+	- [Regression](#regressor)
+		- [Specific Problem](#regressorspecific)
+		- [Generalized Problem](#regressorgeneral)
+	- [AI](#ai)
+	- [HMM generalized model](#hmmmodel)
+	- [Others](#others)
+
+<a name='instruction'></a>
+## Instructions on the codes
 Any theory about this project, please refer to my report. If you want to keep track of the result performance, please refer to the "Performance Record.xlsx" file.
 
 I implemented many kinds of classifiers and regressors on this project in python.
@@ -9,13 +23,17 @@ And the features I used in classification and regression is described in the rep
 
 The package I used during the project is described in requirements.txt.
 
-This project defines two problems, one is the specific problem, the other one is the generalized problem. You can find the definition in the report.
+This project defines two problems, one is the **specific problem**, the other one is the **generalized problem**. You can find the definition in the report.
 
 
+<a name='structure'></a>
 ## Code Structure
 
+<a name='classifier'></a>
 ### Classification
 Use Classification to predict
+
+<a name='classifierspecific'></a>
 #### Specific Problem
 ```
 |-inputClf_small                  # the input for classification method
@@ -25,7 +43,7 @@ Use Classification to predict
 # Classification methods
 |-ClassificationBase.py           # The base class of the classification objects
 	|-ClassificationAdaBoost.py     # AdaBoost class  
-	|-ClassificationDecisionTree.py  # Decision Tree class
+	|-ClassificationDecisionTree.py # Decision Tree class
 	|-ClassificationKNN.py          # K nearest neighbot class
 	|-ClassificationLinearBlend.py  # linear blending class
 	|-ClassificationLogReg.py       # logistic regression class
@@ -47,6 +65,7 @@ Use Classification to predict
 |-mainSVMClf.py
 |-mainUniformBlendClf.py
 ```
+<a name='classifiergeneral'></a>
 #### Generalized Problem
 ```
 # methods
@@ -60,9 +79,11 @@ Use Classification to predict
 ```
 
 
-
+<a name='regressor'></a>
 ### Regression
 Use regression to predict.
+
+<a name='regressorspecific'></a>
 #### Specific Problem
 ```  
 |-inputReg # input for regression methods
@@ -87,10 +108,11 @@ Use regression to predict.
 |-mainRidgeReg.py
 |-mainUniformBlendReg.py
 ```
-
+<a name='regressorgeneral'></a>
 #### Generalized Problem
 There is no generalized problem method in regression, because the final preferred algorithm is AdaBoost-DecisionTree Classification.
 
+<a name='ai'></a>
 ### AI(Aritificial Intelligence)
 Use Artificial Intelligence to predict, here mainly Q-Learning.
 ```
@@ -100,7 +122,7 @@ Use Artificial Intelligence to predict, here mainly Q-Learning.
 |-mainQLearning.py # test for qlearning
 
 ```
-
+<a name='hmmmodel'></a>
 ### HmmGeneralizeModel
 It is used to generalize the patterns for the new routes.
 ```
@@ -108,6 +130,7 @@ It is used to generalize the patterns for the new routes.
 |-mainHMM.py
 ```
 
+<a name='others'></a>
 ### Others
 ```
 |-util.py      # util functions
