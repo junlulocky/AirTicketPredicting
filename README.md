@@ -143,6 +143,7 @@ It is used to generalize the patterns for the new routes.
 |-priceBehaviorAnalysis.py # analyze the price behavior of several routes
 |-plotOutlierRemoval.py    # plot the figure to illustrate outlier removal
 |-plotNNUpdate.py          # plot the effect of different update method in NN
+|-computeMoneySave.py      # used to compute the money save for every client on the average
 
 # infos
 |-requirements.txt         # package requirements
