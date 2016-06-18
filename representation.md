@@ -1,7 +1,7 @@
 # Representation Draft
 Hello, my project title is "Machine Learning for predicting flight ticket prices". 
 
-In this project, I solved two problems, one is called the **specific problem**, in which the historical datas of these routes are given; the other one is called the **generalized problem**, in which the historical data of some routes are not given. And I need to predict whether to buy or wait for every ticket query.
+In this project, I solved two problems, one is called the **specific problem**, in which the historical datas of the flight routes are given; the other one is called the **generalized problem**, in which the historical data of some routes are not given. And I need to predict to buy or to wait for **every ticket query**.
 
 ## Work flow
 This is the overall work flow of my project. In the upper of the figure, it shows the specific problem, in which we learn the formula from the training dataset, and use the formula to predict the test dataset.
@@ -9,7 +9,7 @@ This is the overall work flow of my project. In the upper of the figure, it show
 In the bottom part of this figure, it shows the generalized problem, in which we extract the input feature from the samples itself and the test samples of the specific problem. And then used the learnt formula in specific problem to predict.
 
 ## Data collection
-We collected 8 routes data from a major airplane company betwen Nov. 9, 2015 and Feb. 20, 2016 for the specific problem, which will be split into training dataset and test dataset.
+We collected 8 routes data from a major airplane company betwen Nov. 9, 2015 and Feb. 20, 2016 for the specific problem, **which will be split into training dataset and testing dataset.**
 
 And we also collected 12 new routes data for generalized problem.
 
@@ -18,7 +18,7 @@ In our case, we split the datas between Nov. 9, 2015 and Jan. 15, 2016 as the tr
 And Generalized problem dataset has the same period as the test dataset of specific problem. 
 
 ## Feature extraction
-In this project, I extract 5 features, they are the flight number(encoded by dummy variables); the minimum price so far; the maximum price so far;
+In this project, I extract 6 features, they are the flight number(encoded by dummy variables); the minimum price so far; the maximum price so far;
 
 the  (number of days between the first query date(09.11.2015 in our case) and departure date), which is called query-to-departure;
 
@@ -26,7 +26,7 @@ the (number of days between the query date and departure date), which is called 
 
 the current price;
 
-There are many other features can be extracted, for example indicator whether it is holiday or not, whether it is weekend or not. This may be tried for furture work.
+**There are many other features can be extracted, for example indicator whether it is holiday or not, whether it is weekend or not. This may be tried for furture work.**
 
 ## Regression Methods
 Firstly I tried regression methods for this problem. 
@@ -53,14 +53,14 @@ For the output, I set the data of which the price is the the minimum price from 
 As our classification method is to predict to buy or to wait with the input features. As a result, if the prediction is to buy, we buy the ticket, and we only buy the earliest one.
 
 ### Solving imbalanced dataset
-Because the buy entry is very sparse, so the dataset is imbalanced. So we need to deal with the imbalanced dataset, otherwise the algorithm will tend to predict wait.
+Because the buy entry is very sparse, so the dataset is imbalanced. So I need to deal with the imbalanced dataset, otherwise the algorithm will tend to predict to wait.
 
 And we choose random over sampling to deal with the imbalanced dataset, 
 
 ### Identification of outliers
 I use K-means and mixture of gaussians to remove outliers.
 
-Our approach was based on the fact that each characteristic class should be restricted to a certain volume of the input space. Consequently, we consider a sample to be an outlier if it does not belong to its labeled class cluster. 
+**This approach was based on the fact that each characteristic class should be restricted to a certain volume of the input space. Consequently, we consider a sample to be an outlier if it does not belong to its labeled class cluster.**
 
 In the case of K-Means, 5896 samples were tagged as outliers. In the case of EM algorithm, 7318 samples were tagged as outliers. 
 
@@ -82,26 +82,26 @@ and I set the award for wait to be maximum future award. In this sense, there is
 
 And I also define an equivalence class, in which the data has same flight number and same days before takeoff.
 
-Finally, our Q value is the average of the equivalence class.
+Finally, our Q value is the average over the equivalence class.
 
 ### Result
 As we see, the Q-Learning method has an acceptable performance and the variance is not large as well. The performance of it is a little worse than AdaBoost-DecisionTree Classification and Uniform blending Classification algorithms. 
 
 
 ## Generalized problem
-In this project, I also considered such a situation that some routes do not have any historical datas, in which case we cannot perform the learning algorithms at all. This situation is very common, because there are always some new routes to be added by the airplane company or the company may conceal the historical datas for some reasons. And also, this model can reduce computation time when we want to predict to buy or wait quickly because we do not need to train a large amount of data. 
+**In this project, I also considered such a situation that some routes do not have any historical datas, in which case we cannot perform the learning algorithms at all. This situation is very common, because there are always some new routes to be added by the airplane company or the company may conceal the historical datas for some reasons. And also, this model can reduce computation time when we want to predict to buy or wait quickly because we do not need to train a large amount of training data.**
 
 ### HMM Sequence classification
 Firstly, we tried the **HMM sequence classification**, which is also called **Maximum Likelihood classification** in automatic speech processing. 
 
-I then defined a equivalcen sequence, which have same first query date, same departure date, and same days before takeoff, which is shown in this figure. 
+**I then defined a equivalcen sequence, which have same first query date, same departure date, and same number of days before takeoff, which is shown in this figure.** 
 
-As long as we have new entry to predict, we extract the 8 equivalence sequence from the 8 speicic routes, and train the 8 route by HMM model. Then we get 8 HMM models and compare the new sequence under these 8 HMM models to get the maximum likelihood of it. In other words, if the new sequnce get the maximum likelihood under HMM model 2, then we allocate the feature of the route 2 to the new entry. 
+As long as we have a new entry to predict, we extract the 8 equivalence sequences from the 8 speicic routes, and train the 8 routes by HMM model. Then we get 8 HMM models and compare the new sequence under these 8 HMM models to get the maximum likelihood of it. In other words, if the new sequnce get the maximum likelihood under HMM model 2, then we allocate the feature of the route 2 to the new entry. 
 
 Finally, we use the learnt formula from the specific problem to predict. In my case, I used Adaboost-DecisionTree Classification to predict.
 
 ### Uniform blending
-Then uniform blending algorithm is just allocate the 8 modelds to the new route respectively, and then average it.
+And I also tried the uniform blending algorithm for the generalized problem. The uniform blending algorithm is just to **allocate the 8 modelds**    to the new route respectively, and then average it.
 
 ### Result
 As we can see, the uniform blending does not get any improvement. 
