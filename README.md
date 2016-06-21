@@ -25,6 +25,8 @@ The package I used during the project is described in requirements.txt.
 
 This project defines two problems, one is the **specific problem**, the other one is the **generalized problem**. You can find the definition in the report.
 
+And also, I provide the representation draft and ppt to you, it is compressed version of my report, which does not focus on mathematical formulas, but gives you the intuition of my project.
+
 
 <a name='structure'></a>
 ## Code Structure
