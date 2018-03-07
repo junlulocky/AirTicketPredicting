@@ -151,3 +151,8 @@ It is used to generalize the patterns for the new routes.
 |-requirements.txt         # package requirements
 |-Performance Record.xlsx  # record the performance of various parameters
 ```
+
+## Citation
+The repo is based on the following research articles:
+
+- Lu, Jun. "Machine learning modeling for time series problem: Predicting flight ticket prices." arXiv preprint arXiv:1705.07205 (2017).
